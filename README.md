@@ -28,7 +28,7 @@ Open `http://localhost:5173`.
 ## Project structure
 
 - `index.html`, `styles.css`, and `app.js` are the source application.
-- `scripts/build.sh` copies the deployable source into `dist/`.
+- `scripts/build.sh` copies the deployable source into `dist/` and adds content hashes to asset URLs so each deployment bypasses stale caches.
 - `scripts/verify.mjs` verifies required product language and rejects misleading architecture language.
 - `.github/workflows/deploy.yml` validates and deploys `main` to Hetzner.
 - `deployment/` contains the Caddy site configuration and production runbook.
