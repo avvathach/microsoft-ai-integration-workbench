@@ -1,6 +1,6 @@
-# HCC ReconcileAI MVP
+# iAvva Higher-Ed AI Integration Workbench
 
-Static browser MVP for an AI-assisted data reconciliation workflow during a SIS transition.
+Static browser MVP for a white-label, Microsoft-ready AI applications integration workflow in higher education.
 
 ## Run
 
@@ -12,19 +12,20 @@ Then open `http://localhost:5173`.
 
 ## What is included
 
-- HCC-branded dashboard using the public HCC gold `#fdb515`
+- iAvva-branded dashboard and executive story flow
+- Problem, solution, and benefits summary for CIO/CTO conversations
 - Synthetic reviewer queue for identity, course, term, and transaction exceptions
 - Side-by-side source and target record comparison
 - Accept, reject, and escalate decision logging
 - Downloadable audit CSV
-- Microsoft enterprise integration map for Entra ID, Graph, SharePoint, Teams, Azure AI, and Power BI
+- Microsoft enterprise integration map for Entra ID, Graph, SharePoint/Dataverse, Teams, Azure AI, and Power BI/Fabric
 - CIO, technical, and recruiter explanation views
 
 ## Data and source notes
 
 The app uses fictional records only. Public datasets and references informed the schema and story, not the row values:
 
-- HCC public site: https://www.hccs.edu/
+- iAvva AI public positioning: https://www.iavva.ai/about
 - UCI Student Performance dataset: https://archive.ics.uci.edu/dataset/320/student+performance
 - Open University Learning Analytics Dataset article: https://www.nature.com/articles/sdata2017171
 - Microsoft Entra SSO: https://learn.microsoft.com/en-us/entra/identity/enterprise-apps/add-application-portal-setup-sso

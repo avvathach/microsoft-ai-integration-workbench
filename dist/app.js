@@ -9,7 +9,7 @@ const reviewerName = "A. Thach (demo)";
 
 const cases = [
   {
-    id: "HCC-ID-2041",
+    id: "EDU-ID-2041",
     domain: "Identity",
     owner: "Registrar",
     priority: "High",
@@ -46,7 +46,7 @@ const cases = [
     },
   },
   {
-    id: "HCC-CRS-1178",
+    id: "EDU-CRS-1178",
     domain: "Course",
     owner: "Academic Affairs",
     priority: "Medium",
@@ -83,7 +83,7 @@ const cases = [
     },
   },
   {
-    id: "HCC-ID-3199",
+    id: "EDU-ID-3199",
     domain: "Identity",
     owner: "Financial Aid",
     priority: "High",
@@ -120,7 +120,7 @@ const cases = [
     },
   },
   {
-    id: "HCC-TRM-5220",
+    id: "EDU-TRM-5220",
     domain: "Term",
     owner: "Registrar",
     priority: "Medium",
@@ -157,7 +157,7 @@ const cases = [
     },
   },
   {
-    id: "HCC-TXN-0836",
+    id: "EDU-TXN-0836",
     domain: "Transaction",
     owner: "Student Accounts",
     priority: "High",
@@ -194,7 +194,7 @@ const cases = [
     },
   },
   {
-    id: "HCC-ID-4427",
+    id: "EDU-ID-4427",
     domain: "Identity",
     owner: "Admissions",
     priority: "Low",
@@ -204,10 +204,10 @@ const cases = [
     aiNeeded: false,
     rationale:
       "Exact institutional ID and date of birth. Email changed after admission, which is expected when a student account is provisioned.",
-    evidence: ["Exact HCC ID", "Exact DOB", "Email lifecycle change", "Rule-cleared candidate"],
+    evidence: ["Exact institutional ID", "Exact DOB", "Email lifecycle change", "Rule-cleared candidate"],
     source: {
       system: "Legacy SIS",
-      studentId: "HCC-900318",
+      studentId: "EDU-900318",
       name: "Sofia Chen",
       dob: "2006-04-11",
       email: "sofia.chen.personal@example.com",
@@ -219,7 +219,7 @@ const cases = [
     },
     target: {
       system: "Target SIS",
-      studentId: "HCC-900318",
+      studentId: "EDU-900318",
       name: "Sofia Chen",
       dob: "2006-04-11",
       email: "sofia.chen@student.example.edu",
@@ -231,7 +231,7 @@ const cases = [
     },
   },
   {
-    id: "HCC-CRS-2084",
+    id: "EDU-CRS-2084",
     domain: "Course",
     owner: "Workforce Programs",
     priority: "Medium",
@@ -268,7 +268,7 @@ const cases = [
     },
   },
   {
-    id: "HCC-ID-1182",
+    id: "EDU-ID-1182",
     domain: "Identity",
     owner: "Registrar",
     priority: "Medium",
@@ -309,13 +309,13 @@ const cases = [
 const pipelineSteps = [
   {
     icon: "database",
-    title: "SIS extracts",
-    text: "Read through supported APIs such as Ethos, REST, or published web services.",
+    title: "Enterprise sources",
+    text: "Read SIS, LMS, advising, and workforce-program data through supported APIs.",
   },
   {
     icon: "cloud",
-    title: "Microsoft staging",
-    text: "Land governed extracts inside the institution tenant with review-scoped access.",
+    title: "Microsoft tenant",
+    text: "Stage normalized extracts in Azure or SharePoint/Dataverse with review-scoped access.",
   },
   {
     icon: "list-checks",
@@ -324,8 +324,8 @@ const pipelineSteps = [
   },
   {
     icon: "sparkles",
-    title: "AI residuals",
-    text: "Only unresolved cases receive a confidence score and written rationale.",
+    title: "Azure AI residuals",
+    text: "Only unresolved cases receive a recommendation, confidence score, and written rationale.",
   },
   {
     icon: "users",
@@ -334,8 +334,8 @@ const pipelineSteps = [
   },
   {
     icon: "bar-chart-3",
-    title: "Audit and BI",
-    text: "Decisions are written to SharePoint-style logs and surfaced in Power BI.",
+    title: "Audit and Power BI",
+    text: "Decisions are written to governed audit storage and surfaced in executive dashboards.",
   },
 ];
 
@@ -346,7 +346,7 @@ const controls = [
   },
   {
     title: "Tenant boundary",
-    text: "The target implementation would use approved Azure AI services with institutional controls.",
+    text: "The production version would use approved Azure AI services with retention, logging, and training controls.",
   },
   {
     title: "Segregation of duties",
@@ -362,23 +362,23 @@ const integrations = [
   {
     icon: "key-round",
     name: "Microsoft Entra ID",
-    state: "Ready to register",
-    text: "Single sign-on and reviewer roles map to enterprise groups.",
-    bullets: ["SAML or OIDC enterprise app", "Role claims for reviewer, auditor, admin", "Conditional Access compatible"],
+    state: "SSO and RBAC",
+    text: "Single sign-on and reviewer access map to enterprise app roles and groups.",
+    bullets: ["OIDC or SAML enterprise app", "Role claims for reviewer, auditor, admin", "Conditional Access compatible"],
   },
   {
     icon: "workflow",
     name: "Microsoft Graph",
-    state: "Workflow bridge",
-    text: "Routes exception queues and writes post-decision events.",
-    bullets: ["Create Teams notifications", "Create SharePoint list items", "Use v1.0 APIs for production"],
+    state: "Workflow API",
+    text: "Routes exceptions, reads profile context, and writes post-decision events.",
+    bullets: ["Create Teams notifications", "Write SharePoint list items", "Use least-privilege app permissions"],
   },
   {
     icon: "folder-check",
-    name: "SharePoint",
-    state: "Audit destination",
-    text: "Decision records can land in a governed list or library.",
-    bullets: ["Immutable export pattern", "Retention labels", "Functional owner columns"],
+    name: "SharePoint or Dataverse",
+    state: "Governed store",
+    text: "Decision records land in a governed list, library, or Dataverse table.",
+    bullets: ["Retention labels", "Functional owner columns", "Exportable audit record"],
   },
   {
     icon: "message-square",
@@ -389,14 +389,14 @@ const integrations = [
   },
   {
     icon: "bot",
-    name: "Azure AI",
+    name: "Azure AI Foundry",
     state: "Residual-only AI",
     text: "AI proposes matches only after deterministic logic cannot clear them.",
     bullets: ["Confidence and rationale", "No system-of-record writes", "Held-out validation before thresholds"],
   },
   {
     icon: "pie-chart",
-    name: "Power BI",
+    name: "Power BI or Fabric",
     state: "Executive dashboard",
     text: "Shows throughput, exception categories, queue age, and audit coverage.",
     bullets: ["Embedded report path", "CIO-ready measures", "Operational owner slices"],
@@ -406,39 +406,39 @@ const integrations = [
 const roleStories = {
   cio: [
     {
-      title: "Executive message",
+      title: "CIO message",
       body:
-        "This reduces cutover risk by making reconciliation measurable. The value is not that AI replaces staff; it makes repetitive comparison faster while preserving human authority.",
+        "This reduces integration risk by making reconciliation measurable. The value is not that AI replaces staff; it makes repetitive comparison faster while preserving human authority.",
       kicker: "What changes",
       kickerBody: "Manual spreadsheet judgment becomes a governed workflow with metrics and an audit trail.",
     },
     {
-      title: "Investment frame",
+      title: "Institutional value",
       body:
-        "A small internal team can pilot one record domain before any broad expansion. Stop conditions are explicit, so the institution can halt if AI does not outperform rules.",
+        "A small internal team can pilot one record domain before broad expansion. Stop conditions are explicit, so the institution can halt if AI does not outperform rules.",
       kicker: "Why now",
       kickerBody: "The same capability can be reused after the SIS transition for any two systems that must agree.",
     },
     {
-      title: "Risk posture",
+      title: "Governance posture",
       body:
-        "Systems of record remain authoritative. Student data stays inside the tenant boundary, and every recommendation is traceable to evidence.",
+        "Systems of record remain authoritative. Student data stays inside the institution's Microsoft boundary, and every recommendation is traceable to evidence.",
       kicker: "Governance point",
       kickerBody: "The app is designed for FERPA, auditability, accessibility, and segregation of duties from day one.",
     },
   ],
   technical: [
     {
-      title: "Technical message",
+      title: "Architecture message",
       body:
-        "Ingestion should use supported SIS integration layers, then stage normalized extracts in Microsoft-controlled storage. Deterministic matching runs before model calls.",
+        "Ingestion should use supported SIS/LMS integration layers, then stage normalized extracts in Microsoft-controlled storage. Deterministic matching runs before model calls.",
       kicker: "Core pattern",
       kickerBody: "Rules clear exact or near-exact cases; Azure AI is reserved for unresolved candidates.",
     },
     {
       title: "Integration surface",
       body:
-        "Entra handles identity and role claims. Microsoft Graph handles Teams routing and SharePoint audit writes. Power BI reads curated metrics.",
+        "Entra handles identity and role claims. Microsoft Graph handles Teams routing and SharePoint or Dataverse audit writes. Power BI reads curated metrics.",
       kicker: "Implementation guardrail",
       kickerBody: "Use Graph v1.0 where production support is required and keep write operations behind reviewer decisions.",
     },
@@ -452,25 +452,25 @@ const roleStories = {
   ],
   recruiter: [
     {
-      title: "Role story",
+      title: "Role fit",
       body:
-        "This demonstrates how a Manager of AI Applications Integration can translate a messy institutional workflow into a practical product that business owners can use.",
+        "This demonstrates how Avva can translate a messy institutional workflow into a practical AI integration product that academic, IT, and operations leaders can use.",
       kicker: "What it shows",
       kickerBody: "Product thinking, Microsoft integration fluency, data stewardship, and executive communication.",
     },
     {
-      title: "Human-centered design",
+      title: "Experience proof",
       body:
         "The interface is built for reviewers with full-time jobs: plain rationale, side-by-side evidence, and clear accept, reject, or escalate actions.",
       kicker: "Why it matters",
-      kickerBody: "Adoption depends on trust and speed, not novelty.",
+      kickerBody: "This connects directly to adoption, change management, data quality, testing, and cross-campus stakeholder work.",
     },
     {
       title: "Credibility",
       body:
-        "The proposal avoids invented savings and starts with baselines. It includes stopping conditions, so it reads as accountable leadership rather than hype.",
+        "The story avoids invented savings and starts with baselines. It includes stopping conditions, so it reads as accountable leadership rather than AI hype.",
       kicker: "Interview angle",
-      kickerBody: "It is easy to explain to CIOs, functional owners, technical teams, and HR stakeholders.",
+      kickerBody: "It is easy to explain to CIOs, CTOs, functional owners, technical teams, and HR stakeholders.",
     },
   ],
 };
@@ -497,7 +497,7 @@ const state = {
 };
 
 function loadState() {
-  const saved = localStorage.getItem("hcc-reconcile-mvp");
+  const saved = localStorage.getItem("iavva-highered-mvp");
   if (!saved) return;
 
   try {
@@ -514,7 +514,7 @@ function loadState() {
       });
     }
   } catch {
-    localStorage.removeItem("hcc-reconcile-mvp");
+    localStorage.removeItem("iavva-highered-mvp");
   }
 }
 
@@ -525,7 +525,7 @@ function saveState() {
   }, {});
 
   localStorage.setItem(
-    "hcc-reconcile-mvp",
+    "iavva-highered-mvp",
     JSON.stringify({
       audit: state.audit,
       decisions,
@@ -602,7 +602,7 @@ function renderMetrics() {
       icon: "clock-3",
       label: "Hours to validate",
       value: formatNumber(metrics.projectedHoursSaved),
-      detail: "Illustrative estimate until HCC baseline is measured",
+      detail: "Illustrative estimate until institutional baseline is measured",
     },
   ];
 
@@ -1020,7 +1020,7 @@ function exportCsv() {
   const url = URL.createObjectURL(blob);
   const anchor = document.createElement("a");
   anchor.href = url;
-  anchor.download = "hcc-reconcileai-audit-demo.csv";
+  anchor.download = "iavva-highered-audit-demo.csv";
   document.body.append(anchor);
   anchor.click();
   anchor.remove();
@@ -1085,7 +1085,7 @@ function resetDemo() {
   state.audit = [];
   state.graphEvents = 0;
   state.selectedId = cases[0].id;
-  localStorage.removeItem("hcc-reconcile-mvp");
+  localStorage.removeItem("iavva-highered-mvp");
   renderAll();
   showToast("Demo state reset");
 }
