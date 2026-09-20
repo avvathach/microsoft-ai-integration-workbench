@@ -78,4 +78,4 @@ jobs:
           PORT: ${{ secrets.HETZNER_SSH_PORT }}
           USER: ${{ secrets.HETZNER_SSH_USER }}
           RELEASE: ${{ github.sha }}
-        run: ssh -i ~/.ssh/hr1_deploy -p "$PORT" "$USER@$HOST" "ln -sfn /var/www/hr1.iavva.ai/releases/$RELEASE /var/www/hr1.iavva.ai/current.next && mv -Tf /var/www/hr1.iavva.ai/current.next /var/www/hr1.iavva.ai/current"
+        run: ssh -i ~/.ssh/hr1_deploy -p "$PORT" "$USER@$HOST" "cd /var/www/hr1.iavva.ai && ln -sfn releases/$RELEASE current.next && mv -Tf current.next current"

@@ -1,5 +1,6 @@
 hr1.iavva.ai {
-	root * /var/www/hr1.iavva.ai/current
+	# The host directory is mounted read-only into the active Caddy container.
+	root * /srv/hr1/current
 	encode zstd gzip
 
 	header {

@@ -1,6 +1,6 @@
 # Production deployment
 
-The production topology is Cloudflare → Caddy on the existing Hetzner server → static files in `/var/www/hr1.iavva.ai/current`.
+The production topology is Cloudflare → the existing Docker-based Caddy proxy on Hetzner → static files in `/var/www/hr1.iavva.ai/current`. That host directory is mounted read-only in the Caddy container at `/srv/hr1`.
 
 ## Access required
 
@@ -44,8 +44,9 @@ The repository also includes a manual **Configure Cloudflare DNS** GitHub workfl
 Each GitHub commit is stored as a separate release. To roll back, atomically repoint `current` to a verified earlier directory:
 
 ```bash
-ln -sfn /var/www/hr1.iavva.ai/releases/PREVIOUS_COMMIT /var/www/hr1.iavva.ai/current.next
-mv -Tf /var/www/hr1.iavva.ai/current.next /var/www/hr1.iavva.ai/current
+cd /var/www/hr1.iavva.ai
+ln -sfn releases/PREVIOUS_COMMIT current.next
+mv -Tf current.next current
 ```
 
 No Caddy reload is required for content-only deployments or rollbacks.
