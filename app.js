@@ -437,6 +437,20 @@ const sourceSystems = [
     initialAge: 11,
     health: "Healthy",
   },
+  {
+    id: "github-live",
+    icon: "github",
+    name: "GitHub delivery telemetry",
+    type: "Live public connector",
+    location: "github.com/avvathach/microsoft-ai-integration-workbench",
+    method: "GitHub REST API",
+    data: "Branch, commit, release and repository status",
+    records: 0,
+    initialAge: 0,
+    health: "Connecting",
+    live: true,
+    liveStatus: "Connecting",
+  },
 ];
 
 const sourceEventMessages = [
@@ -446,6 +460,7 @@ const sourceEventMessages = [
   "Review documents synchronized",
   "Contact records normalized",
   "Cross-system metrics updated",
+  "Deployment telemetry received",
 ];
 
 const sourceMonitor = {
@@ -652,16 +667,18 @@ function renderSourceDashboard() {
   if (!grid || !metrics || !feed) return;
 
   const totalRecords = sourceSystems.reduce((sum, source) => sum + source.records, 0);
-  const healthySources = sourceSystems.filter((source) => source.health === "Healthy").length;
+  const healthySources = sourceSystems.filter((source) => ["Healthy", "Live"].includes(source.health)).length;
+  const liveSources = sourceSystems.filter((source) => source.live && source.health === "Live").length;
+  const illustrativeSources = sourceSystems.length - liveSources;
   const averageAge = Math.round(
     sourceSystems.reduce((sum, source) => sum + (Date.now() - source.updatedAt) / 1000, 0) / sourceSystems.length
   );
 
   metrics.innerHTML = `
     <article><span>Sources monitored</span><strong>${sourceSystems.length}</strong><small>Across enterprise and Microsoft platforms</small></article>
-    <article><span>Connections healthy</span><strong>${healthySources}/${sourceSystems.length}</strong><small>One source flagged for review</small></article>
-    <article><span>Records observed</span><strong>${formatNumber(totalRecords)}</strong><small>Synthetic demonstration volume</small></article>
-    <article><span>Average freshness</span><strong>${averageAge}s</strong><small>Simulated near-real-time updates</small></article>
+    <article><span>Connections healthy</span><strong>${healthySources}/${sourceSystems.length}</strong><small>${liveSources} live connector, ${illustrativeSources} illustrative sources</small></article>
+    <article><span>Records observed</span><strong>${formatNumber(totalRecords)}</strong><small>Live telemetry plus illustrative volume</small></article>
+    <article><span>Average freshness</span><strong>${averageAge}s</strong><small>Live connector polls every 30 seconds</small></article>
   `;
 
   grid.innerHTML = sourceSystems
@@ -671,14 +688,14 @@ function renderSourceDashboard() {
           <div class="source-card-head">
             <span class="source-icon"><i data-lucide="${source.icon}"></i></span>
             <div><h4>${source.name}</h4><span>${source.type}</span></div>
-            <span class="source-health ${source.health === "Healthy" ? "healthy" : "review"}">${source.health}</span>
+            <span class="source-health ${["Healthy", "Live"].includes(source.health) ? "healthy" : "review"}">${source.health}</span>
           </div>
           <dl>
             <div><dt>Example location</dt><dd>${source.location}</dd></div>
             <div><dt>Connection</dt><dd>${source.method}</dd></div>
             <div><dt>Data</dt><dd>${source.data}</dd></div>
           </dl>
-          <div class="source-card-foot"><span>${formatNumber(source.records)} records</span><time>${sourceFreshness(source)}</time></div>
+          <div class="source-card-foot"><span>${formatNumber(source.records)} ${source.live ? "events observed" : "records"}</span><time>${sourceFreshness(source)}</time></div>
         </article>
       `
     )
@@ -698,6 +715,45 @@ function renderSourceDashboard() {
 
   document.querySelector("#activityCount").textContent = sourceMonitor.events.length;
   renderSourceClock();
+}
+
+async function pollLiveConnectors() {
+  const source = sourceSystems.find((item) => item.id === "github-live");
+  if (!source) return;
+
+  try {
+    const response = await fetch("https://api.github.com/repos/avvathach/microsoft-ai-integration-workbench", {
+      headers: { Accept: "application/vnd.github+json" },
+      cache: "no-store",
+    });
+    if (!response.ok) throw new Error(`GitHub returned ${response.status}`);
+    const repo = await response.json();
+    source.health = "Live";
+    source.liveStatus = "Live";
+    source.records = Number(repo.open_issues_count || 0) + Number(repo.watchers_count || 0);
+    source.updatedAt = Date.now();
+    source.location = `github.com/${repo.full_name}`;
+    source.data = `Default branch ${repo.default_branch}; pushed ${new Date(repo.pushed_at).toLocaleString()}`;
+    sourceMonitor.events.unshift({
+      source: source.name,
+      message: `Repository status received: ${repo.default_branch} is current`,
+      rows: source.records,
+      timestamp: Date.now(),
+    });
+    sourceMonitor.events = sourceMonitor.events.slice(0, 7);
+  } catch (error) {
+    source.health = "Review";
+    source.liveStatus = "Unavailable";
+    sourceMonitor.events.unshift({
+      source: source.name,
+      message: `Live check unavailable: ${error.message}`,
+      rows: 0,
+      timestamp: Date.now(),
+    });
+    sourceMonitor.events = sourceMonitor.events.slice(0, 7);
+  }
+  renderSourceDashboard();
+  refreshIcons();
 }
 
 function updateSourceMonitor(refreshAll = false) {
@@ -1203,8 +1259,10 @@ document.addEventListener("DOMContentLoaded", () => {
   initializeSourceMonitor();
   renderAll();
   bindEvents();
+  pollLiveConnectors();
   window.setInterval(() => {
     if (sourceMonitor.running) updateSourceMonitor();
     else renderSourceClock();
   }, 3000);
+  window.setInterval(pollLiveConnectors, 30000);
 });
