@@ -6,8 +6,9 @@ The included SIS Data Reconciliation scenario is illustrative. It does not asser
 
 ## What the prototype demonstrates
 
-- A CIO-first explanation of the operational value in plain language.
+- A business-first explanation of the operational value in plain language.
 - A CTO architecture covering enterprise APIs, Azure integration, deterministic rules, exception-only AI, human approval, supported SIS writeback, Microsoft 365 workflows, and analytics.
+- A simulated live multi-source dashboard showing example system location, connection method, freshness, volume, and recent data activity.
 - A fictional exception queue with source/target comparison, confidence, evidence, and accountable decisions.
 - A browser-local audit trail with reviewer, rationale, timestamp, and CSV export.
 - A clear control boundary: the system of record remains authoritative and AI never independently changes institutional records.

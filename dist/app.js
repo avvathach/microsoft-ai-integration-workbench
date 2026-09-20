@@ -331,7 +331,7 @@ const integrations = [
     icon: "workflow",
     name: "Microsoft Graph",
     state: "Workflow API",
-    text: "Supports Microsoft 365 context, routing and approved workflow events—not SIS writeback.",
+    text: "Supports Microsoft 365 context, routing and approved workflow events, not SIS writeback.",
     bullets: ["Create Teams notifications", "Write SharePoint audit items", "Use least-privilege app permissions"],
   },
   {
@@ -360,9 +360,99 @@ const integrations = [
     name: "Power BI or Fabric",
     state: "Executive dashboard",
     text: "Shows throughput, exception categories, queue age, and audit coverage.",
-    bullets: ["Embedded report path", "CIO-ready measures", "Operational owner slices"],
+    bullets: ["Embedded report path", "Business-ready measures", "Operational owner slices"],
   },
 ];
+
+const sourceSystems = [
+  {
+    id: "peoplesoft",
+    icon: "landmark",
+    name: "PeopleSoft",
+    type: "Student information system",
+    location: "Example on-premises data center",
+    method: "Supported REST / integration API",
+    data: "Student, program and term records",
+    records: 12840,
+    initialAge: 8,
+    health: "Healthy",
+  },
+  {
+    id: "banner",
+    icon: "graduation-cap",
+    name: "Banner",
+    type: "Student information system",
+    location: "Example vendor-hosted cloud",
+    method: "Supported integration API",
+    data: "Student, course and registration records",
+    records: 12612,
+    initialAge: 14,
+    health: "Healthy",
+  },
+  {
+    id: "lms",
+    icon: "book-open-check",
+    name: "Learning Management System",
+    type: "Learning platform",
+    location: "Example SaaS environment",
+    method: "REST API",
+    data: "Courses, sections and enrollment activity",
+    records: 3824,
+    initialAge: 21,
+    health: "Healthy",
+  },
+  {
+    id: "sharepoint",
+    icon: "files",
+    name: "SharePoint",
+    type: "Microsoft 365 content",
+    location: "Example Microsoft 365 tenant",
+    method: "Microsoft Graph",
+    data: "Review documents and decision records",
+    records: 486,
+    initialAge: 5,
+    health: "Healthy",
+  },
+  {
+    id: "crm",
+    icon: "contact-round",
+    name: "CRM",
+    type: "Relationship management",
+    location: "Example enterprise cloud",
+    method: "Dataverse / supported API",
+    data: "Contacts, cases and engagement history",
+    records: 7461,
+    initialAge: 34,
+    health: "Review",
+  },
+  {
+    id: "azure-sql",
+    icon: "database-zap",
+    name: "Azure SQL",
+    type: "Curated integration data",
+    location: "Example Azure subscription",
+    method: "Private endpoint / SQL connector",
+    data: "Crosswalks, normalized values and metrics",
+    records: 19210,
+    initialAge: 11,
+    health: "Healthy",
+  },
+];
+
+const sourceEventMessages = [
+  "Student records validated",
+  "Course mappings refreshed",
+  "Enrollment changes received",
+  "Review documents synchronized",
+  "Contact records normalized",
+  "Cross-system metrics updated",
+];
+
+const sourceMonitor = {
+  running: true,
+  tick: 0,
+  events: [],
+};
 
 const fieldLabels = {
   studentId: "ID",
@@ -527,6 +617,120 @@ function renderControls() {
       `
     )
     .join("");
+}
+
+function initializeSourceMonitor() {
+  const now = Date.now();
+  sourceSystems.forEach((source) => {
+    source.updatedAt = now - source.initialAge * 1000;
+  });
+
+  sourceMonitor.events = sourceSystems.slice(0, 5).map((source, index) => ({
+    source: source.name,
+    message: sourceEventMessages[index],
+    rows: 8 + index * 7,
+    timestamp: now - (index + 1) * 18000,
+  }));
+}
+
+function sourceFreshness(source) {
+  const seconds = Math.max(0, Math.floor((Date.now() - source.updatedAt) / 1000));
+  if (seconds < 60) return `${seconds}s ago`;
+  return `${Math.floor(seconds / 60)}m ago`;
+}
+
+function renderSourceClock() {
+  const clock = document.querySelector("#sourceClock");
+  if (!clock) return;
+  clock.textContent = `Demo clock ${new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" })}`;
+}
+
+function renderSourceDashboard() {
+  const grid = document.querySelector("#sourceGrid");
+  const metrics = document.querySelector("#sourceMetrics");
+  const feed = document.querySelector("#activityFeed");
+  if (!grid || !metrics || !feed) return;
+
+  const totalRecords = sourceSystems.reduce((sum, source) => sum + source.records, 0);
+  const healthySources = sourceSystems.filter((source) => source.health === "Healthy").length;
+  const averageAge = Math.round(
+    sourceSystems.reduce((sum, source) => sum + (Date.now() - source.updatedAt) / 1000, 0) / sourceSystems.length
+  );
+
+  metrics.innerHTML = `
+    <article><span>Sources monitored</span><strong>${sourceSystems.length}</strong><small>Across enterprise and Microsoft platforms</small></article>
+    <article><span>Connections healthy</span><strong>${healthySources}/${sourceSystems.length}</strong><small>One source flagged for review</small></article>
+    <article><span>Records observed</span><strong>${formatNumber(totalRecords)}</strong><small>Synthetic demonstration volume</small></article>
+    <article><span>Average freshness</span><strong>${averageAge}s</strong><small>Simulated near-real-time updates</small></article>
+  `;
+
+  grid.innerHTML = sourceSystems
+    .map(
+      (source) => `
+        <article class="source-card" data-source-id="${source.id}">
+          <div class="source-card-head">
+            <span class="source-icon"><i data-lucide="${source.icon}"></i></span>
+            <div><h4>${source.name}</h4><span>${source.type}</span></div>
+            <span class="source-health ${source.health === "Healthy" ? "healthy" : "review"}">${source.health}</span>
+          </div>
+          <dl>
+            <div><dt>Example location</dt><dd>${source.location}</dd></div>
+            <div><dt>Connection</dt><dd>${source.method}</dd></div>
+            <div><dt>Data</dt><dd>${source.data}</dd></div>
+          </dl>
+          <div class="source-card-foot"><span>${formatNumber(source.records)} records</span><time>${sourceFreshness(source)}</time></div>
+        </article>
+      `
+    )
+    .join("");
+
+  feed.innerHTML = sourceMonitor.events
+    .map(
+      (event) => `
+        <article class="activity-event">
+          <span class="activity-pulse" aria-hidden="true"></span>
+          <div><strong>${event.source}</strong><p>${event.message}</p></div>
+          <div class="activity-meta"><span>${event.rows} rows</span><time>${new Date(event.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" })}</time></div>
+        </article>
+      `
+    )
+    .join("");
+
+  document.querySelector("#activityCount").textContent = sourceMonitor.events.length;
+  renderSourceClock();
+}
+
+function updateSourceMonitor(refreshAll = false) {
+  const now = Date.now();
+  if (refreshAll) {
+    sourceSystems.forEach((source) => {
+      source.updatedAt = now;
+    });
+    sourceMonitor.events.unshift({ source: "All sources", message: "Manual source check completed", rows: sourceSystems.length, timestamp: now });
+  } else {
+    const index = sourceMonitor.tick % sourceSystems.length;
+    const source = sourceSystems[index];
+    const rows = 4 + ((sourceMonitor.tick * 7) % 31);
+    source.records += rows;
+    source.updatedAt = now;
+    sourceMonitor.events.unshift({ source: source.name, message: sourceEventMessages[index], rows, timestamp: now });
+    sourceMonitor.tick += 1;
+  }
+
+  sourceMonitor.events = sourceMonitor.events.slice(0, 7);
+  renderSourceDashboard();
+  refreshIcons();
+}
+
+function toggleSourceMonitor() {
+  sourceMonitor.running = !sourceMonitor.running;
+  const button = document.querySelector("#liveToggleButton");
+  button.setAttribute("aria-pressed", String(!sourceMonitor.running));
+  button.innerHTML = sourceMonitor.running
+    ? '<i data-lucide="pause"></i>Pause live demo'
+    : '<i data-lucide="play"></i>Resume live demo';
+  refreshIcons();
+  showToast(sourceMonitor.running ? "Simulated live updates resumed" : "Simulated live updates paused");
 }
 
 function domains() {
@@ -852,6 +1056,7 @@ function renderAll() {
   document.querySelector("#thresholdValue").value = `${state.threshold}%`;
   document.querySelector("#thresholdValue").textContent = `${state.threshold}%`;
   renderMetrics();
+  renderSourceDashboard();
   renderControls();
   renderDomainFilters();
   renderQueue();
@@ -969,6 +1174,11 @@ function bindEvents() {
   document.querySelector("#aiPassButton")?.addEventListener("click", simulateAiPass);
   document.querySelector("#graphButton").addEventListener("click", simulateGraphRouting);
   document.querySelector("#resetButton").addEventListener("click", resetDemo);
+  document.querySelector("#sourceRefreshButton")?.addEventListener("click", () => {
+    updateSourceMonitor(true);
+    showToast("All simulated sources refreshed");
+  });
+  document.querySelector("#liveToggleButton")?.addEventListener("click", toggleSourceMonitor);
   document.querySelector("#contrastButton").addEventListener("click", () => {
     document.body.classList.toggle("high-contrast");
   });
@@ -990,6 +1200,11 @@ function bindEvents() {
 
 loadState();
 document.addEventListener("DOMContentLoaded", () => {
+  initializeSourceMonitor();
   renderAll();
   bindEvents();
+  window.setInterval(() => {
+    if (sourceMonitor.running) updateSourceMonitor();
+    else renderSourceClock();
+  }, 3000);
 });

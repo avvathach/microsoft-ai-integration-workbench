@@ -14,7 +14,7 @@
     <a class="skip-link" href="#main">Skip to main content</a>
 
     <header class="topbar">
-      <a class="brand-group" href="#cio" aria-label="iAvva AI workbench home">
+      <a class="brand-group" href="#business" aria-label="iAvva AI workbench home">
         <div class="brand-mark" aria-hidden="true">IA</div>
         <div>
           <p class="brand-kicker">iAvva AI</p>
@@ -30,7 +30,8 @@
     <div class="app-shell">
       <aside class="side-nav" aria-label="Application navigation">
         <nav>
-          <a class="nav-link active" href="#cio" data-nav="cio"><i data-lucide="briefcase-business"></i>CIO view</a>
+          <a class="nav-link active" href="#business" data-nav="business"><i data-lucide="briefcase-business"></i>Business view</a>
+          <a class="nav-link" href="#sources" data-nav="sources"><i data-lucide="radio-tower"></i>Live sources</a>
           <a class="nav-link" href="#technical" data-nav="technical"><i data-lucide="network"></i>Technical view</a>
           <a class="nav-link" href="#review" data-nav="review"><i data-lucide="clipboard-check"></i>Live demo</a>
           <a class="nav-link" href="#microsoft" data-nav="microsoft"><i data-lucide="blocks"></i>Microsoft services</a>
@@ -43,7 +44,7 @@
       </aside>
 
       <main id="main" class="main">
-        <section id="cio" class="band hero-band" aria-labelledby="pageTitle">
+        <section id="business" class="band hero-band" aria-labelledby="pageTitle">
           <div class="intro-panel executive-hero">
             <div class="intro-copy">
               <p class="eyebrow">Microsoft AI Applications Integration Workbench</p>
@@ -57,7 +58,7 @@
             <aside class="use-case-callout" aria-labelledby="useCaseTitle">
               <span class="callout-label">Illustrative use case</span>
               <h2 id="useCaseTitle">SIS Data Reconciliation</h2>
-              <p>When two enterprise systems need to exchange or transition data—for example, during an SIS modernization—records often do not match perfectly. This prototype demonstrates how deterministic rules, AI-assisted exception review, human approval, and Microsoft enterprise controls can make that process safer and more efficient.</p>
+              <p>When two enterprise systems need to exchange or transition data, for example during an SIS modernization, records often do not match perfectly. This prototype demonstrates how deterministic rules, AI-assisted exception review, human approval, and Microsoft enterprise controls can make that process safer and more efficient.</p>
               <div class="authority-mini"><i data-lucide="lock-keyhole"></i><span>System-of-record authority is always preserved.</span></div>
             </aside>
           </div>
@@ -71,7 +72,11 @@
           </div>
 
           <div class="section-heading executive-heading">
-            <div><p class="eyebrow">CIO view — why it matters</p><h2>Turn reconciliation into a controlled business process.</h2></div>
+            <div><p class="eyebrow">Business view - why it matters</p><h2>Turn reconciliation into a controlled business process.</h2></div>
+          </div>
+          <div class="business-principle">
+            <i data-lucide="target"></i>
+            <div><strong>Start with the business problem.</strong><span>Understand the current workflow, identify where the data lives, and connect only what is needed to improve the outcome.</span></div>
           </div>
           <div class="outcomes-grid" aria-label="Business outcomes">
             <article class="outcome-card"><span class="outcome-number">01</span><h3>Reduce manual reconciliation</h3><p>Automate straightforward comparisons and send only ambiguous cases to people.</p></article>
@@ -90,6 +95,48 @@
               <li><i data-lucide="chart-no-axes-combined"></i><span>Audit + analytics</span></li>
             </ol>
           </section>
+        </section>
+
+        <section id="sources" class="band" aria-labelledby="sourcesHeading">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Multi-source dashboard</p>
+              <h2 id="sourcesHeading">See where the data comes from and what is happening now.</h2>
+              <p class="section-intro">This working demo brings several enterprise sources into one operational view. It shows ownership, location, connection method, freshness, volume, and recent activity.</p>
+            </div>
+            <div class="source-actions">
+              <button class="button secondary compact" id="sourceRefreshButton" type="button"><i data-lucide="refresh-cw"></i>Refresh now</button>
+              <button class="button primary compact" id="liveToggleButton" type="button" aria-pressed="false"><i data-lucide="pause"></i>Pause live demo</button>
+            </div>
+          </div>
+
+          <div class="demo-boundary" role="note">
+            <span class="live-dot" aria-hidden="true"></span>
+            <div><strong>Simulated live source monitor</strong><span>Synthetic data only. No institutional production systems are connected.</span></div>
+            <time id="sourceClock" aria-live="polite"></time>
+          </div>
+
+          <div class="source-metrics" id="sourceMetrics" aria-label="Source monitoring summary"></div>
+
+          <div class="source-dashboard-layout">
+            <section class="source-catalog" aria-labelledby="sourceCatalogHeading">
+              <div class="panel-heading tight"><div><p class="eyebrow">Source map</p><h3 id="sourceCatalogHeading">Connected system examples</h3></div><span class="status good">Monitoring</span></div>
+              <div class="source-grid" id="sourceGrid"></div>
+            </section>
+
+            <section class="activity-panel" aria-labelledby="activityHeading">
+              <div class="panel-heading tight"><div><p class="eyebrow">Live activity</p><h3 id="activityHeading">Recent data events</h3></div><span class="count-badge" id="activityCount">0</span></div>
+              <div class="activity-feed" id="activityFeed" aria-live="polite"></div>
+            </section>
+          </div>
+
+          <div class="source-to-decision" aria-label="Data movement from sources to business decisions">
+            <div><i data-lucide="database"></i><span>Source systems</span></div><i data-lucide="arrow-right"></i>
+            <div><i data-lucide="list-checks"></i><span>Validate and normalize</span></div><i data-lucide="arrow-right"></i>
+            <div><i data-lucide="sparkles"></i><span>Review exceptions</span></div><i data-lucide="arrow-right"></i>
+            <div><i data-lucide="user-check"></i><span>Human decision</span></div><i data-lucide="arrow-right"></i>
+            <div><i data-lucide="bar-chart-3"></i><span>Business dashboard</span></div>
+          </div>
         </section>
 
         <section id="technical" class="band technical-band" aria-labelledby="technicalHeading">
@@ -168,7 +215,7 @@
           <div class="dashboard-grid">
             <section class="panel" aria-labelledby="apiHeading">
               <div class="panel-heading"><div><p class="eyebrow">Microsoft 365 workflow example</p><h3 id="apiHeading">Graph records an approved decision in SharePoint</h3></div><span class="status review">Demo payload</span></div>
-              <p class="api-note">This is an audit/workflow action—not an SIS write. SIS writeback uses that system’s supported integration service.</p>
+              <p class="api-note">This is an audit/workflow action, not an SIS write. SIS writeback uses that system's supported integration service.</p>
               <pre class="code-panel"><code id="apiSnippet"></code></pre>
             </section>
             <section class="panel" aria-labelledby="powerHeading">

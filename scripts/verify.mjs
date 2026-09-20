@@ -13,7 +13,8 @@ const required = [
   "System of record remains authoritative",
   "AI never independently changes institutional records",
   "See how it works technically",
-  'id="cio"',
+  'id="business"',
+  'id="sources"',
   'id="technical"',
   'id="review"',
   'id="audit"',
@@ -23,6 +24,7 @@ const forbidden = [
   /Microsoft-ready MVP/i,
   /Graph write/i,
   /Houston City College.*(?:migrat|transition).*(?:PeopleSoft|Banner)/i,
+  new RegExp(`[${String.fromCodePoint(0x2013)}${String.fromCodePoint(0x2014)}]`),
 ];
 
 const missing = required.filter((value) => !combined.includes(value));
