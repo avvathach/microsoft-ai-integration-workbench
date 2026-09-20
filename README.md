@@ -1,34 +1,43 @@
-# iAvva Higher-Ed AI Integration Workbench
+# Microsoft AI Applications Integration Workbench
 
-Static browser MVP for a white-label, Microsoft-ready AI applications integration workflow in higher education.
+A working higher-education prototype demonstrating how governed AI can connect enterprise systems, assist human decisions, and create auditable workflows.
 
-## Run
+The included SIS Data Reconciliation scenario is illustrative. It does not assert that any institution is migrating between PeopleSoft, Banner, or another named platform.
+
+## What the prototype demonstrates
+
+- A CIO-first explanation of the operational value in plain language.
+- A CTO architecture covering enterprise APIs, Azure integration, deterministic rules, exception-only AI, human approval, supported SIS writeback, Microsoft 365 workflows, and analytics.
+- A fictional exception queue with source/target comparison, confidence, evidence, and accountable decisions.
+- A browser-local audit trail with reviewer, rationale, timestamp, and CSV export.
+- A clear control boundary: the system of record remains authoritative and AI never independently changes institutional records.
+
+## Run locally
+
+The project has no runtime dependencies.
 
 ```bash
+npm run check
+npm run build
 python3 -m http.server 5173
 ```
 
-Then open `http://localhost:5173`.
+Open `http://localhost:5173`.
 
-## What is included
+## Project structure
 
-- iAvva-branded dashboard and executive story flow
-- Problem, solution, and benefits summary for CIO/CTO conversations
-- Synthetic reviewer queue for identity, course, term, and transaction exceptions
-- Side-by-side source and target record comparison
-- Accept, reject, and escalate decision logging
-- Downloadable audit CSV
-- Microsoft enterprise integration map for Entra ID, Graph, SharePoint/Dataverse, Teams, Azure AI, and Power BI/Fabric
-- CIO, technical, and recruiter explanation views
+- `index.html`, `styles.css`, and `app.js` are the source application.
+- `scripts/build.sh` copies the deployable source into `dist/`.
+- `scripts/verify.mjs` verifies required product language and rejects misleading architecture language.
+- `.github/workflows/deploy.yml` validates and deploys `main` to Hetzner.
+- `deployment/` contains the Caddy site configuration and production runbook.
 
-## Data and source notes
+## Production target
 
-The app uses fictional records only. Public datasets and references informed the schema and story, not the row values:
+The intended public URL is `https://hr1.iavva.ai`, proxied through Cloudflare and served by Caddy on Hetzner. GitHub Actions publishes immutable commit-based releases and atomically changes the active release.
 
-- iAvva AI public positioning: https://www.iavva.ai/about
-- UCI Student Performance dataset: https://archive.ics.uci.edu/dataset/320/student+performance
-- Open University Learning Analytics Dataset article: https://www.nature.com/articles/sdata2017171
-- Microsoft Entra SSO: https://learn.microsoft.com/en-us/entra/identity/enterprise-apps/add-application-portal-setup-sso
-- Microsoft Graph API: https://learn.microsoft.com/en-us/graph/use-the-api
-- SharePoint list item creation via Graph: https://learn.microsoft.com/en-us/graph/api/listitem-create?view=graph-rest-1.0
-- Power BI embedded analytics: https://learn.microsoft.com/en-us/power-bi/developer/embedded/embedded-analytics-power-bi
+See [deployment/README.md](deployment/README.md) for required access, GitHub secrets, DNS/TLS setup, and rollback instructions. Use scoped tokens and deployment keys; never commit or send account passwords.
+
+## Data and technology notes
+
+All people and records in the demo are fictional. Microsoft Graph is used only for Microsoft 365 integration, workflow routing, Teams, SharePoint, and related M365 actions. Any writeback to an SIS must use that system’s supported API or integration service after authorized human approval.

@@ -1,0 +1,81 @@
+name: Validate and deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: hr1-production
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Validate source
+        run: npm run check
+      - name: Build deployable files
+        run: npm run build
+      - name: Validate deployable files
+        run: npm run check:dist
+      - name: Upload static artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: hr1-static-site
+          path: dist/
+          if-no-files-found: error
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: validate
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://hr1.iavva.ai
+    steps:
+      - name: Download static artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: hr1-static-site
+          path: dist
+      - name: Configure SSH
+        env:
+          DEPLOY_KEY: ${{ secrets.HETZNER_SSH_PRIVATE_KEY }}
+          KNOWN_HOSTS: ${{ secrets.HETZNER_SSH_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$DEPLOY_KEY" > ~/.ssh/hr1_deploy
+          chmod 600 ~/.ssh/hr1_deploy
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+      - name: Create release directory
+        env:
+          HOST: ${{ secrets.HETZNER_HOST }}
+          PORT: ${{ secrets.HETZNER_SSH_PORT }}
+          USER: ${{ secrets.HETZNER_SSH_USER }}
+          RELEASE: ${{ github.sha }}
+        run: ssh -i ~/.ssh/hr1_deploy -p "$PORT" "$USER@$HOST" "mkdir -p /var/www/hr1.iavva.ai/releases/$RELEASE"
+      - name: Upload release
+        env:
+          HOST: ${{ secrets.HETZNER_HOST }}
+          PORT: ${{ secrets.HETZNER_SSH_PORT }}
+          USER: ${{ secrets.HETZNER_SSH_USER }}
+          RELEASE: ${{ github.sha }}
+        run: rsync -az --delete -e "ssh -i ~/.ssh/hr1_deploy -p $PORT" dist/ "$USER@$HOST:/var/www/hr1.iavva.ai/releases/$RELEASE/"
+      - name: Activate release
+        env:
+          HOST: ${{ secrets.HETZNER_HOST }}
+          PORT: ${{ secrets.HETZNER_SSH_PORT }}
+          USER: ${{ secrets.HETZNER_SSH_USER }}
+          RELEASE: ${{ github.sha }}
+        run: ssh -i ~/.ssh/hr1_deploy -p "$PORT" "$USER@$HOST" "ln -sfn /var/www/hr1.iavva.ai/releases/$RELEASE /var/www/hr1.iavva.ai/current.next && mv -Tf /var/www/hr1.iavva.ai/current.next /var/www/hr1.iavva.ai/current"

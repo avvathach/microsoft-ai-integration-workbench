@@ -6,6 +6,8 @@ const baseMetrics = {
 };
 
 const reviewerName = "A. Thach (demo)";
+const storageKey = "iavva-ai-integration-prototype";
+const legacyStorageKey = "iavva-highered-mvp";
 
 const cases = [
   {
@@ -306,56 +308,15 @@ const cases = [
   },
 ];
 
-const pipelineSteps = [
-  {
-    icon: "database",
-    title: "Enterprise sources",
-    text: "Read SIS, LMS, advising, and workforce-program data through supported APIs.",
-  },
-  {
-    icon: "cloud",
-    title: "Microsoft tenant",
-    text: "Stage normalized extracts in Azure or SharePoint/Dataverse with review-scoped access.",
-  },
-  {
-    icon: "list-checks",
-    title: "Rules first",
-    text: "Exact IDs, normalized names, DOB, term keys, and code maps clear low-risk records.",
-  },
-  {
-    icon: "sparkles",
-    title: "Azure AI residuals",
-    text: "Only unresolved cases receive a recommendation, confidence score, and written rationale.",
-  },
-  {
-    icon: "users",
-    title: "Human decision",
-    text: "Functional owners accept, reject, or escalate. AI never writes to record systems.",
-  },
-  {
-    icon: "bar-chart-3",
-    title: "Audit and Power BI",
-    text: "Decisions are written to governed audit storage and surfaced in executive dashboards.",
-  },
-];
-
 const controls = [
-  {
-    title: "FERPA and least privilege",
-    text: "Reviewer visibility is role-scoped through Entra groups and functional ownership.",
-  },
-  {
-    title: "Tenant boundary",
-    text: "The production version would use approved Azure AI services with retention, logging, and training controls.",
-  },
-  {
-    title: "Segregation of duties",
-    text: "The app records recommendations and decisions but leaves commit authority with system owners.",
-  },
-  {
-    title: "Audit completeness",
-    text: "Each recommendation, rationale, human action, reviewer, and timestamp is captured.",
-  },
+  { title: "Microsoft Entra ID", text: "Identity and authenticated access" },
+  { title: "Role-Based Access Control", text: "Named reviewer, auditor and administrator roles" },
+  { title: "Least Privilege", text: "Only the access each role and integration requires" },
+  { title: "Azure Key Vault", text: "Protected secrets and integration credentials" },
+  { title: "FERPA + privacy controls", text: "Purpose, access, retention and disclosure safeguards" },
+  { title: "Audit logging", text: "Recommendation, reviewer, rationale and timestamp" },
+  { title: "Azure Monitor / Application Insights", text: "Health, performance and exception telemetry" },
+  { title: "Microsoft Sentinel", text: "Security monitoring where appropriate" },
 ];
 
 const integrations = [
@@ -370,8 +331,8 @@ const integrations = [
     icon: "workflow",
     name: "Microsoft Graph",
     state: "Workflow API",
-    text: "Routes exceptions, reads profile context, and writes post-decision events.",
-    bullets: ["Create Teams notifications", "Write SharePoint list items", "Use least-privilege app permissions"],
+    text: "Supports Microsoft 365 context, routing and approved workflow events—not SIS writeback.",
+    bullets: ["Create Teams notifications", "Write SharePoint audit items", "Use least-privilege app permissions"],
   },
   {
     icon: "folder-check",
@@ -389,10 +350,10 @@ const integrations = [
   },
   {
     icon: "bot",
-    name: "Azure AI Foundry",
-    state: "Residual-only AI",
+    name: "Azure AI",
+    state: "Exception assistance",
     text: "AI proposes matches only after deterministic logic cannot clear them.",
-    bullets: ["Confidence and rationale", "No system-of-record writes", "Held-out validation before thresholds"],
+    bullets: ["Confidence and rationale", "No independent record changes", "Evaluation before production thresholds"],
   },
   {
     icon: "pie-chart",
@@ -402,78 +363,6 @@ const integrations = [
     bullets: ["Embedded report path", "CIO-ready measures", "Operational owner slices"],
   },
 ];
-
-const roleStories = {
-  cio: [
-    {
-      title: "CIO message",
-      body:
-        "This reduces integration risk by making reconciliation measurable. The value is not that AI replaces staff; it makes repetitive comparison faster while preserving human authority.",
-      kicker: "What changes",
-      kickerBody: "Manual spreadsheet judgment becomes a governed workflow with metrics and an audit trail.",
-    },
-    {
-      title: "Institutional value",
-      body:
-        "A small internal team can pilot one record domain before broad expansion. Stop conditions are explicit, so the institution can halt if AI does not outperform rules.",
-      kicker: "Why now",
-      kickerBody: "The same capability can be reused after the SIS transition for any two systems that must agree.",
-    },
-    {
-      title: "Governance posture",
-      body:
-        "Systems of record remain authoritative. Student data stays inside the institution's Microsoft boundary, and every recommendation is traceable to evidence.",
-      kicker: "Governance point",
-      kickerBody: "The app is designed for FERPA, auditability, accessibility, and segregation of duties from day one.",
-    },
-  ],
-  technical: [
-    {
-      title: "Architecture message",
-      body:
-        "Ingestion should use supported SIS/LMS integration layers, then stage normalized extracts in Microsoft-controlled storage. Deterministic matching runs before model calls.",
-      kicker: "Core pattern",
-      kickerBody: "Rules clear exact or near-exact cases; Azure AI is reserved for unresolved candidates.",
-    },
-    {
-      title: "Integration surface",
-      body:
-        "Entra handles identity and role claims. Microsoft Graph handles Teams routing and SharePoint or Dataverse audit writes. Power BI reads curated metrics.",
-      kicker: "Implementation guardrail",
-      kickerBody: "Use Graph v1.0 where production support is required and keep write operations behind reviewer decisions.",
-    },
-    {
-      title: "Validation path",
-      body:
-        "Before auto-clear, compare AI recommendations against held-out human decisions and inspect false positives by domain.",
-      kicker: "Model control",
-      kickerBody: "Confidence thresholds are operational settings, not hard-coded promises.",
-    },
-  ],
-  recruiter: [
-    {
-      title: "Role fit",
-      body:
-        "This demonstrates how Avva can translate a messy institutional workflow into a practical AI integration product that academic, IT, and operations leaders can use.",
-      kicker: "What it shows",
-      kickerBody: "Product thinking, Microsoft integration fluency, data stewardship, and executive communication.",
-    },
-    {
-      title: "Experience proof",
-      body:
-        "The interface is built for reviewers with full-time jobs: plain rationale, side-by-side evidence, and clear accept, reject, or escalate actions.",
-      kicker: "Why it matters",
-      kickerBody: "This connects directly to adoption, change management, data quality, testing, and cross-campus stakeholder work.",
-    },
-    {
-      title: "Credibility",
-      body:
-        "The story avoids invented savings and starts with baselines. It includes stopping conditions, so it reads as accountable leadership rather than AI hype.",
-      kicker: "Interview angle",
-      kickerBody: "It is easy to explain to CIOs, CTOs, functional owners, technical teams, and HR stakeholders.",
-    },
-  ],
-};
 
 const fieldLabels = {
   studentId: "ID",
@@ -490,14 +379,13 @@ const fieldLabels = {
 const state = {
   selectedId: cases[0].id,
   domain: "All",
-  role: "cio",
   threshold: 92,
   audit: [],
   graphEvents: 0,
 };
 
 function loadState() {
-  const saved = localStorage.getItem("iavva-highered-mvp");
+  const saved = localStorage.getItem(storageKey) || localStorage.getItem(legacyStorageKey);
   if (!saved) return;
 
   try {
@@ -514,7 +402,8 @@ function loadState() {
       });
     }
   } catch {
-    localStorage.removeItem("iavva-highered-mvp");
+    localStorage.removeItem(storageKey);
+    localStorage.removeItem(legacyStorageKey);
   }
 }
 
@@ -525,7 +414,7 @@ function saveState() {
   }, {});
 
   localStorage.setItem(
-    "iavva-highered-mvp",
+    storageKey,
     JSON.stringify({
       audit: state.audit,
       decisions,
@@ -600,7 +489,7 @@ function renderMetrics() {
     },
     {
       icon: "clock-3",
-      label: "Hours to validate",
+      label: "Projected hours saved",
       value: formatNumber(metrics.projectedHoursSaved),
       detail: "Illustrative estimate until institutional baseline is measured",
     },
@@ -624,27 +513,16 @@ function renderMetrics() {
     .join("");
 }
 
-function renderPipeline() {
-  document.querySelector("#pipeline").innerHTML = pipelineSteps
-    .map(
-      (step) => `
-        <article class="pipeline-node">
-          <span class="node-icon"><i data-lucide="${step.icon}"></i></span>
-          <h3>${step.title}</h3>
-          <p>${step.text}</p>
-        </article>
-      `
-    )
-    .join("");
-}
-
 function renderControls() {
   document.querySelector("#controlList").innerHTML = controls
     .map(
       (control) => `
         <article class="control-item">
+          <i data-lucide="check"></i>
+          <div>
           <h3>${control.title}</h3>
           <p>${control.text}</p>
+          </div>
         </article>
       `
     )
@@ -941,26 +819,6 @@ function renderCharts() {
     .join("");
 }
 
-function renderStory() {
-  const cards = roleStories[state.role];
-  document.querySelectorAll("#roleTabs button").forEach((button) => {
-    button.setAttribute("aria-selected", String(button.dataset.role === state.role));
-  });
-
-  document.querySelector("#storyGrid").innerHTML = cards
-    .map(
-      (card) => `
-        <article class="story-card">
-          <h3>${card.title}</h3>
-          <p>${card.body}</p>
-          <strong>${card.kicker}</strong>
-          <p>${card.kickerBody}</p>
-        </article>
-      `
-    )
-    .join("");
-}
-
 function renderAudit() {
   const table = document.querySelector("#auditTable");
   if (!state.audit.length) {
@@ -994,7 +852,6 @@ function renderAll() {
   document.querySelector("#thresholdValue").value = `${state.threshold}%`;
   document.querySelector("#thresholdValue").textContent = `${state.threshold}%`;
   renderMetrics();
-  renderPipeline();
   renderControls();
   renderDomainFilters();
   renderQueue();
@@ -1002,7 +859,6 @@ function renderAll() {
   renderIntegrations();
   renderApiSnippet();
   renderCharts();
-  renderStory();
   renderAudit();
   refreshIcons();
 }
@@ -1035,29 +891,7 @@ function simulateAiPass() {
     showToast("No unresolved AI residuals exceed the current threshold");
     return;
   }
-
-  ready.forEach((item) => {
-    const action = item.proposal === "Reject match" ? "Reject match" : item.proposal === "Accept mapping" ? "Accept mapping" : "Accept match";
-    const timestamp = new Date().toISOString();
-    item.decision = {
-      action,
-      reviewer: "Auto-clear policy preview",
-      timestamp,
-      rationale: item.rationale,
-    };
-    state.audit.unshift({
-      id: item.id,
-      domain: item.domain,
-      action,
-      reviewer: "Auto-clear policy preview",
-      timestamp,
-      rationale: item.rationale,
-    });
-  });
-
-  saveState();
-  renderAll();
-  showToast(`${ready.length} high-confidence residual case${ready.length === 1 ? "" : "s"} cleared in preview`);
+  showToast(`${ready.length} recommendation${ready.length === 1 ? "" : "s"} ready for human review; no records changed`);
 }
 
 function simulateGraphRouting() {
@@ -1085,7 +919,8 @@ function resetDemo() {
   state.audit = [];
   state.graphEvents = 0;
   state.selectedId = cases[0].id;
-  localStorage.removeItem("iavva-highered-mvp");
+  localStorage.removeItem(storageKey);
+  localStorage.removeItem(legacyStorageKey);
   renderAll();
   showToast("Demo state reset");
 }
@@ -1112,13 +947,6 @@ function bindEvents() {
       return;
     }
 
-    const roleButton = event.target.closest("#roleTabs button");
-    if (roleButton) {
-      state.role = roleButton.dataset.role;
-      renderStory();
-      return;
-    }
-
     const decisionButton = event.target.closest("[data-decision]");
     if (decisionButton) {
       recordDecision(decisionButton.dataset.decision);
@@ -1138,7 +966,7 @@ function bindEvents() {
   });
 
   document.querySelector("#exportButton").addEventListener("click", exportCsv);
-  document.querySelector("#aiPassButton").addEventListener("click", simulateAiPass);
+  document.querySelector("#aiPassButton")?.addEventListener("click", simulateAiPass);
   document.querySelector("#graphButton").addEventListener("click", simulateGraphRouting);
   document.querySelector("#resetButton").addEventListener("click", resetDemo);
   document.querySelector("#contrastButton").addEventListener("click", () => {

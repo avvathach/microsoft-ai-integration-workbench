@@ -1,0 +1,11 @@
+{
+  "name": "microsoft-ai-integration-workbench",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Governed AI integration prototype for higher-education data reconciliation.",
+  "scripts": {
+    "build": "sh scripts/build.sh",
+    "check": "node --check app.js && node scripts/verify.mjs",
+    "check:dist": "node --check dist/app.js && node scripts/verify.mjs dist"
+  }
+}

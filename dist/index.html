@@ -3,11 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>iAvva Higher-Ed AI Integration Workbench</title>
-    <meta
-      name="description"
-      content="White-label higher-education AI applications integration MVP by Avva Thach."
-    >
+    <meta name="theme-color" content="#102033">
+    <title>Microsoft AI Applications Integration Workbench | iAvva AI</title>
+    <meta name="description" content="A working higher-education prototype demonstrating governed AI integration, accountable human decisions, and auditable enterprise workflows.">
     <link rel="stylesheet" href="./styles.css">
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
     <script src="./app.js" defer></script>
@@ -16,341 +14,190 @@
     <a class="skip-link" href="#main">Skip to main content</a>
 
     <header class="topbar">
-      <div class="brand-group">
-        <div class="brand-mark" aria-label="iAvva AI">IA</div>
+      <a class="brand-group" href="#cio" aria-label="iAvva AI workbench home">
+        <div class="brand-mark" aria-hidden="true">IA</div>
         <div>
           <p class="brand-kicker">iAvva AI</p>
-          <p class="brand-title">Higher-Ed Integration Workbench</p>
+          <p class="brand-title">AI Applications Integration Workbench</p>
         </div>
-      </div>
+      </a>
       <div class="topbar-actions">
-        <span class="tenant-pill">
-          <i data-lucide="shield-check"></i>
-          Microsoft-ready MVP
-        </span>
-        <button class="icon-button" id="contrastButton" type="button" aria-label="Toggle contrast">
-          <i data-lucide="contrast"></i>
-        </button>
+        <span class="tenant-pill"><i data-lucide="shield-check"></i>Microsoft AI Integration Prototype</span>
+        <button class="icon-button" id="contrastButton" type="button" aria-label="Toggle high contrast"><i data-lucide="contrast"></i></button>
       </div>
     </header>
 
     <div class="app-shell">
       <aside class="side-nav" aria-label="Application navigation">
         <nav>
-          <a class="nav-link active" href="#dashboard" data-nav="dashboard">
-            <i data-lucide="layout-dashboard"></i>
-            Overview
-          </a>
-          <a class="nav-link" href="#review" data-nav="review">
-            <i data-lucide="clipboard-check"></i>
-            Review queue
-          </a>
-          <a class="nav-link" href="#microsoft" data-nav="microsoft">
-            <i data-lucide="network"></i>
-            Microsoft build
-          </a>
-          <a class="nav-link" href="#story" data-nav="story">
-            <i data-lucide="message-square-text"></i>
-            Interview proof
-          </a>
-          <a class="nav-link" href="#audit" data-nav="audit">
-            <i data-lucide="file-check-2"></i>
-            Audit
-          </a>
+          <a class="nav-link active" href="#cio" data-nav="cio"><i data-lucide="briefcase-business"></i>CIO view</a>
+          <a class="nav-link" href="#technical" data-nav="technical"><i data-lucide="network"></i>Technical view</a>
+          <a class="nav-link" href="#review" data-nav="review"><i data-lucide="clipboard-check"></i>Live demo</a>
+          <a class="nav-link" href="#microsoft" data-nav="microsoft"><i data-lucide="blocks"></i>Microsoft services</a>
+          <a class="nav-link" href="#audit" data-nav="audit"><i data-lucide="file-check-2"></i>Audit</a>
         </nav>
-
         <div class="sidebar-note">
-          <p class="eyebrow">White-label boundary</p>
-          <p>
-            Fictional records only. The model recommends. Authorized owners decide.
-          </p>
+          <p class="eyebrow">Prototype boundary</p>
+          <p>Illustrative records only. AI recommends; authorized institutional owners decide.</p>
         </div>
       </aside>
 
       <main id="main" class="main">
-        <section id="dashboard" class="band">
-          <div class="intro-panel">
+        <section id="cio" class="band hero-band" aria-labelledby="pageTitle">
+          <div class="intro-panel executive-hero">
             <div class="intro-copy">
-              <p class="eyebrow">White-label AI applications integration demo</p>
-              <h1>A Microsoft-ready reconciliation workbench for higher education.</h1>
-              <p>
-                This showcase turns a common SIS and enterprise-platform problem into a usable
-                product: deterministic rules clear the easy cases, Azure AI-style recommendations
-                explain the residuals, and every human decision becomes an audit-ready record.
-              </p>
-              <div class="candidate-strip" aria-label="Prepared by">
-                <span>Prepared by Avva Thach, M.S., PCC</span>
-                <span>AI Applications Integration</span>
-                <span>Enterprise Platforms</span>
-              </div>
+              <p class="eyebrow">Microsoft AI Applications Integration Workbench</p>
+              <h1 id="pageTitle">Governed AI for decisions between enterprise systems.</h1>
+              <p class="hero-subtitle">A working higher-education prototype demonstrating how governed AI can connect enterprise systems, assist human decisions, and create auditable workflows.</p>
               <div class="intro-actions">
-                <a class="button primary" href="#review">
-                  <i data-lucide="play-circle"></i>
-                  Open workbench
-                </a>
-                <button class="button secondary" id="aiPassButton" type="button">
-                  <i data-lucide="sparkles"></i>
-                  Preview AI pass
-                </button>
+                <a class="button primary" href="#technical"><i data-lucide="workflow"></i>See how it works technically</a>
+                <a class="button ghost" href="#review"><i data-lucide="play-circle"></i>Try the working demo</a>
               </div>
             </div>
-            <figure class="solution-visual" aria-label="Microsoft higher education integration preview">
-              <div class="visual-header">
-                <span>iAvva AI</span>
-                <strong>Integration control room</strong>
-              </div>
-              <div class="visual-flow">
-                <span>SIS</span>
-                <span>LMS</span>
-                <span>Azure AI</span>
-                <span>Graph</span>
-                <span>Power BI</span>
-              </div>
-              <div class="visual-card">
-                <span class="status good">FERPA-aware</span>
-                <span class="status review">Human approval</span>
-                <span class="status warn">Exception queue</span>
-              </div>
-              <figcaption>White-label operational view for CIO, CTO, and functional-owner conversations.</figcaption>
-            </figure>
+            <aside class="use-case-callout" aria-labelledby="useCaseTitle">
+              <span class="callout-label">Illustrative use case</span>
+              <h2 id="useCaseTitle">SIS Data Reconciliation</h2>
+              <p>When two enterprise systems need to exchange or transition data—for example, during an SIS modernization—records often do not match perfectly. This prototype demonstrates how deterministic rules, AI-assisted exception review, human approval, and Microsoft enterprise controls can make that process safer and more efficient.</p>
+              <div class="authority-mini"><i data-lucide="lock-keyhole"></i><span>System-of-record authority is always preserved.</span></div>
+            </aside>
           </div>
 
-          <div class="metrics-grid" id="metricsGrid" aria-label="Reconciliation summary"></div>
-
-          <div class="narrative-grid" aria-label="Problem solution and benefits">
-            <article class="narrative-card problem">
-              <p class="eyebrow">Problem</p>
-              <h3>Reconciliation work hides in spreadsheets.</h3>
-              <p>
-                Identity, course, term, and transaction records drift across systems. Manual review
-                is slow, inconsistent, and difficult to defend during audit or cutover.
-              </p>
-            </article>
-            <article class="narrative-card solution">
-              <p class="eyebrow">Solution</p>
-              <h3>Rules first. AI only where judgment is still needed.</h3>
-              <p>
-                The workbench clears deterministic matches, routes residual exceptions, explains
-                recommendations, and captures every decision with reviewer identity and timestamp.
-              </p>
-            </article>
-            <article class="narrative-card benefit">
-              <p class="eyebrow">Benefit</p>
-              <h3>Cleaner data, faster decisions, stronger governance.</h3>
-              <p>
-                Leaders get throughput, exception categories, adoption metrics, and a reusable
-                Microsoft integration pattern for future AI-enabled workflows.
-              </p>
-            </article>
+          <div class="executive-answers" aria-label="Executive summary">
+            <article><span>What problem?</span><strong>Manual, inconsistent reconciliation across enterprise systems.</strong></article>
+            <article><span>What does AI do?</span><strong>Helps analyze only the difficult exceptions.</strong></article>
+            <article><span>What does the human do?</span><strong>Makes accountable decisions.</strong></article>
+            <article><span>What does Microsoft provide?</span><strong>Identity, security, integration, workflow, monitoring and analytics.</strong></article>
+            <article class="answer-wide"><span>Why does this matter?</span><strong>Cleaner data, lower operational effort, stronger governance and a reusable AI integration pattern.</strong></article>
           </div>
 
-          <div class="dashboard-grid">
-            <section class="panel pipeline-panel" aria-labelledby="pipelineHeading">
-              <div class="panel-heading">
-                <div>
-                  <p class="eyebrow">Architecture</p>
-                  <h2 id="pipelineHeading">Where the work happens</h2>
-                </div>
-                <span class="status good">Human write control</span>
-              </div>
-              <div class="pipeline" id="pipeline"></div>
-            </section>
+          <div class="section-heading executive-heading">
+            <div><p class="eyebrow">CIO view — why it matters</p><h2>Turn reconciliation into a controlled business process.</h2></div>
+          </div>
+          <div class="outcomes-grid" aria-label="Business outcomes">
+            <article class="outcome-card"><span class="outcome-number">01</span><h3>Reduce manual reconciliation</h3><p>Automate straightforward comparisons and send only ambiguous cases to people.</p></article>
+            <article class="outcome-card"><span class="outcome-number">02</span><h3>Improve data quality</h3><p>Identify mismatches before they become downstream problems.</p></article>
+            <article class="outcome-card"><span class="outcome-number">03</span><h3>Keep humans accountable</h3><p>AI recommends; authorized institutional owners decide.</p></article>
+            <article class="outcome-card"><span class="outcome-number">04</span><h3>Create an auditable process</h3><p>Capture the decision, reviewer, rationale and timestamp.</p></article>
+          </div>
 
-            <section class="panel" aria-labelledby="riskHeading">
-              <div class="panel-heading">
-                <div>
-                  <p class="eyebrow">Risk controls</p>
-                  <h2 id="riskHeading">Security by design</h2>
+          <section class="executive-flow-panel" aria-labelledby="executiveFlowHeading">
+            <div class="flow-heading"><p class="eyebrow">Executive flow</p><h2 id="executiveFlowHeading">One understandable path from data to accountability</h2></div>
+            <ol class="executive-flow">
+              <li><i data-lucide="database"></i><span>Enterprise systems</span></li>
+              <li><i data-lucide="badge-check"></i><span>Validate data</span></li>
+              <li><i data-lucide="sparkles"></i><span>AI assists with exceptions</span></li>
+              <li><i data-lucide="user-check"></i><span>Human decides</span></li>
+              <li><i data-lucide="chart-no-axes-combined"></i><span>Audit + analytics</span></li>
+            </ol>
+          </section>
+        </section>
+
+        <section id="technical" class="band technical-band" aria-labelledby="technicalHeading">
+          <div class="section-heading">
+            <div><p class="eyebrow">CTO / technical view</p><h2 id="technicalHeading">A governed integration pattern, not an autonomous agent.</h2></div>
+            <span class="status review">Illustrative architecture</span>
+          </div>
+          <div class="authority-banner" role="note"><i data-lucide="shield-check"></i><div><strong>System of record remains authoritative.</strong><span>AI never independently changes institutional records.</span></div></div>
+          <div class="architecture-shell" aria-label="Technical architecture">
+            <div class="architecture-layers">
+              <article class="architecture-layer source-layer">
+                <div class="layer-title"><span class="layer-icon"><i data-lucide="landmark"></i></span><div><small>Source landscape</small><h3>Enterprise Systems</h3></div></div>
+                <div class="system-chips" aria-label="Example enterprise systems"><span>PeopleSoft</span><span>Banner</span><span>LMS</span><span>CRM</span><span>Microsoft 365</span></div>
+              </article>
+              <div class="architecture-connector"><span>Supported REST / API integrations</span><i data-lucide="arrow-down"></i></div>
+              <article class="architecture-layer">
+                <div class="layer-title"><span class="layer-icon"><i data-lucide="waypoints"></i></span><div><small>Orchestration</small><h3>Integration Layer</h3></div></div>
+                <ul class="architecture-items"><li>Azure API Management</li><li>Azure Functions / Power Automate</li><li>Data validation and transformation</li><li>Retry and error handling</li></ul>
+              </article>
+              <div class="architecture-connector" aria-hidden="true"><i data-lucide="arrow-down"></i></div>
+              <article class="architecture-layer decision-layer">
+                <div class="layer-title"><span class="layer-icon"><i data-lucide="brain-circuit"></i></span><div><small>Controlled analysis</small><h3>Decision Layer</h3></div></div>
+                <ul class="architecture-items"><li>Deterministic matching rules</li><li>Azure AI for unresolved exceptions</li><li>Confidence thresholds</li><li>Human-in-the-loop approval</li></ul>
+              </article>
+              <div class="architecture-connector"><span>Only after authorized approval</span><i data-lucide="arrow-down"></i></div>
+              <article class="architecture-layer action-layer">
+                <div class="layer-title"><span class="layer-icon"><i data-lucide="circle-check-big"></i></span><div><small>Controlled outcomes</small><h3>Approved Actions</h3></div></div>
+                <div class="action-paths">
+                  <div><strong>SIS API / supported integration service</strong><span>Controlled system-of-record writeback</span></div>
+                  <div><strong>Microsoft Graph</strong><span>Teams, SharePoint and Microsoft 365 workflows</span></div>
+                  <div><strong>Power BI / Fabric</strong><span>Operational and adoption reporting</span></div>
                 </div>
-              </div>
-              <div class="control-list" id="controlList"></div>
-            </section>
+              </article>
+            </div>
+            <aside class="controls-rail" aria-labelledby="controlsHeading">
+              <p class="eyebrow">Across every layer</p><h3 id="controlsHeading">Enterprise controls</h3><div class="control-list" id="controlList"></div>
+            </aside>
           </div>
         </section>
 
-        <section id="review" class="band">
+        <section id="review" class="band" aria-labelledby="reviewHeading">
           <div class="section-heading">
-            <div>
-              <p class="eyebrow">Reviewer workspace</p>
-              <h2>Exception queue</h2>
-            </div>
-            <div class="queue-tools">
-              <label class="search-field">
-                <i data-lucide="search"></i>
-                <input id="searchInput" type="search" placeholder="Search name, ID, course, owner">
-              </label>
-              <button class="button secondary compact" id="resetButton" type="button">
-                <i data-lucide="rotate-ccw"></i>
-                Reset demo
-              </button>
-            </div>
+            <div><p class="eyebrow">Working prototype</p><h2 id="reviewHeading">See the governance model in action.</h2><p class="section-intro">Compare fictional records, review the recommendation, and make an accountable decision.</p></div>
+            <button class="button secondary compact" id="resetButton" type="button"><i data-lucide="rotate-ccw"></i>Reset demo</button>
           </div>
-
+          <div class="metrics-grid" id="metricsGrid" aria-label="Illustrative reconciliation summary"></div>
           <div class="review-controls">
             <div class="segmented" id="domainFilters" role="tablist" aria-label="Queue filters"></div>
-            <label class="threshold-control" for="thresholdInput">
-              <span>Auto-clear threshold</span>
-              <output id="thresholdValue" for="thresholdInput">92%</output>
-              <input id="thresholdInput" type="range" min="80" max="98" step="1" value="92">
-            </label>
+            <label class="search-field"><i data-lucide="search"></i><span class="sr-only">Search records</span><input id="searchInput" type="search" placeholder="Search name, ID, course, owner"></label>
+            <label class="threshold-control" for="thresholdInput"><span>Recommendation threshold</span><output id="thresholdValue" for="thresholdInput">92%</output><input id="thresholdInput" type="range" min="80" max="98" step="1" value="92"></label>
           </div>
-
           <div class="review-layout">
             <section class="queue-panel" aria-labelledby="queueHeading">
-              <div class="panel-heading tight">
-                <div>
-                  <p class="eyebrow">Pending residuals</p>
-                  <h3 id="queueHeading">Needs human decision</h3>
-                </div>
-                <span class="count-badge" id="queueCount">0</span>
-              </div>
+              <div class="panel-heading tight"><div><p class="eyebrow">Unresolved exceptions</p><h3 id="queueHeading">Needs human decision</h3></div><span class="count-badge" id="queueCount">0</span></div>
               <div id="queueList" class="queue-list"></div>
             </section>
-
             <section class="detail-panel" aria-live="polite" id="caseDetail"></section>
           </div>
         </section>
 
-        <section id="microsoft" class="band">
+        <section id="microsoft" class="band" aria-labelledby="microsoftHeading">
           <div class="section-heading">
-            <div>
-              <p class="eyebrow">Enterprise integration</p>
-              <h2>Microsoft build path</h2>
-            </div>
-            <button class="button primary" id="graphButton" type="button">
-              <i data-lucide="send"></i>
-              Simulate Graph routing
-            </button>
+            <div><p class="eyebrow">Microsoft enterprise services</p><h2 id="microsoftHeading">A practical path from prototype to governed implementation.</h2></div>
+            <button class="button primary" id="graphButton" type="button"><i data-lucide="send"></i>Simulate M365 routing</button>
           </div>
-
           <div class="integration-grid" id="integrationGrid"></div>
-
           <section class="panel connection-panel" aria-labelledby="connectionHeading">
-            <div class="panel-heading">
-              <div>
-                <p class="eyebrow">Production connection checklist</p>
-                <h3 id="connectionHeading">What turns this MVP into a Microsoft tenant build</h3>
-              </div>
-              <span class="status good">Implementation path</span>
-            </div>
+            <div class="panel-heading"><div><p class="eyebrow">Implementation sequence</p><h3 id="connectionHeading">What an institutional implementation would require</h3></div><span class="status warn">Not connected to a tenant</span></div>
             <div class="connection-grid">
-              <div>
-                <strong>1. Register app</strong>
-                <p>Configure Entra enterprise app, redirect URI, app roles, and Conditional Access.</p>
-              </div>
-              <div>
-                <strong>2. Scope data access</strong>
-                <p>Use least-privilege Graph permissions and SIS/LMS API credentials approved by system owners.</p>
-              </div>
-              <div>
-                <strong>3. Govern AI use</strong>
-                <p>Deploy Azure AI inside the approved tenant boundary with logging, retention, and evaluation controls.</p>
-              </div>
-              <div>
-                <strong>4. Report adoption</strong>
-                <p>Publish Power BI/Fabric measures for throughput, exception aging, usage, and audit coverage.</p>
-              </div>
+              <div><strong>1. Establish identity</strong><p>Configure Entra ID, application roles, Conditional Access and named owners.</p></div>
+              <div><strong>2. Approve integrations</strong><p>Use supported SIS, LMS and Microsoft APIs with least-privilege credentials.</p></div>
+              <div><strong>3. Validate controls</strong><p>Evaluate rules, model behavior, privacy, retention and human approval gates.</p></div>
+              <div><strong>4. Measure operations</strong><p>Publish throughput, exception aging, adoption and audit-coverage measures.</p></div>
             </div>
           </section>
-
           <div class="dashboard-grid">
             <section class="panel" aria-labelledby="apiHeading">
-              <div class="panel-heading">
-                <div>
-                  <p class="eyebrow">API sketch</p>
-                  <h3 id="apiHeading">Graph write after human decision</h3>
-                </div>
-                <span class="status review">Demo only</span>
-              </div>
+              <div class="panel-heading"><div><p class="eyebrow">Microsoft 365 workflow example</p><h3 id="apiHeading">Graph records an approved decision in SharePoint</h3></div><span class="status review">Demo payload</span></div>
+              <p class="api-note">This is an audit/workflow action—not an SIS write. SIS writeback uses that system’s supported integration service.</p>
               <pre class="code-panel"><code id="apiSnippet"></code></pre>
             </section>
-
             <section class="panel" aria-labelledby="powerHeading">
-              <div class="panel-heading">
-                <div>
-                  <p class="eyebrow">Power BI view</p>
-                  <h3 id="powerHeading">Operational health</h3>
-                </div>
-              </div>
-              <div class="chart-row">
-                <div class="donut" id="donutChart" aria-label="Decision coverage"></div>
-                <div class="chart-copy" id="chartCopy"></div>
-              </div>
+              <div class="panel-heading"><div><p class="eyebrow">Power BI / Fabric concept</p><h3 id="powerHeading">Operational health</h3></div></div>
+              <div class="chart-row"><div class="donut" id="donutChart" aria-label="Decision coverage"></div><div class="chart-copy" id="chartCopy"></div></div>
               <div class="bar-stack" id="barStack"></div>
             </section>
           </div>
         </section>
 
-        <section id="story" class="band">
+        <section id="audit" class="band" aria-labelledby="auditHeading">
           <div class="section-heading">
-            <div>
-              <p class="eyebrow">Audience-ready explanation</p>
-              <h2>Tell the story like the hiring panel is in the room</h2>
-            </div>
-            <div class="segmented small" id="roleTabs" role="tablist" aria-label="Audience view">
-              <button type="button" role="tab" aria-selected="true" data-role="cio">CIO</button>
-              <button type="button" role="tab" aria-selected="false" data-role="technical">Technical</button>
-              <button type="button" role="tab" aria-selected="false" data-role="recruiter">Recruiter</button>
-            </div>
+            <div><p class="eyebrow">Accountability</p><h2 id="auditHeading">Every human decision leaves a record.</h2></div>
+            <button class="button secondary" id="exportButton" type="button"><i data-lucide="download"></i>Export audit CSV</button>
           </div>
-          <div class="story-grid" id="storyGrid"></div>
-        </section>
-
-        <section id="audit" class="band">
-          <div class="section-heading">
-            <div>
-              <p class="eyebrow">Audit trail</p>
-              <h2>Decision record</h2>
-            </div>
-            <button class="button secondary" id="exportButton" type="button">
-              <i data-lucide="download"></i>
-              Export CSV
-            </button>
-          </div>
-
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Time</th>
-                  <th>Record</th>
-                  <th>Decision</th>
-                  <th>Reviewer</th>
-                  <th>Rationale</th>
-                </tr>
-              </thead>
-              <tbody id="auditTable"></tbody>
-            </table>
-          </div>
-
+          <div class="table-wrap"><table><thead><tr><th>Time</th><th>Record</th><th>Decision</th><th>Reviewer</th><th>Rationale</th></tr></thead><tbody id="auditTable"></tbody></table></div>
           <section class="source-panel" aria-labelledby="sourceHeading">
-              <p class="eyebrow">Research inputs</p>
-            <h3 id="sourceHeading">Public sources used to ground the MVP</h3>
+            <p class="eyebrow">Prototype notes</p><h3 id="sourceHeading">Demonstration boundaries and reference material</h3>
+            <p>All people and records shown here are fictional. The architecture is illustrative and does not claim that any institution is migrating between named student information systems.</p>
             <ul>
-              <li>
-                <a href="https://www.iavva.ai/about" target="_blank" rel="noreferrer">iAvva AI public positioning</a>
-                for white-label service language and founder-led AI transformation framing.
-              </li>
-              <li>
-                <a href="https://archive.ics.uci.edu/dataset/320/student+performance" target="_blank" rel="noreferrer">UCI Student Performance</a>
-                and
-                <a href="https://www.nature.com/articles/sdata2017171" target="_blank" rel="noreferrer">OULAD</a>
-                for public higher-education-style table patterns. The app uses fictional records only.
-              </li>
-              <li>
-                Microsoft Learn references for
-                <a href="https://learn.microsoft.com/en-us/entra/identity/enterprise-apps/add-application-portal-setup-sso" target="_blank" rel="noreferrer">Entra SSO</a>,
-                <a href="https://learn.microsoft.com/en-us/graph/use-the-api" target="_blank" rel="noreferrer">Microsoft Graph</a>,
-                <a href="https://learn.microsoft.com/en-us/graph/api/listitem-create?view=graph-rest-1.0" target="_blank" rel="noreferrer">SharePoint list writes</a>,
-                and
-                <a href="https://learn.microsoft.com/en-us/power-bi/developer/embedded/embedded-analytics-power-bi" target="_blank" rel="noreferrer">Power BI embedded analytics</a>.
-              </li>
+              <li><a href="https://learn.microsoft.com/en-us/entra/identity/enterprise-apps/add-application-portal-setup-sso" target="_blank" rel="noreferrer">Microsoft Entra enterprise application guidance</a></li>
+              <li><a href="https://learn.microsoft.com/en-us/graph/use-the-api" target="_blank" rel="noreferrer">Microsoft Graph API guidance</a></li>
+              <li><a href="https://learn.microsoft.com/en-us/azure/api-management/" target="_blank" rel="noreferrer">Azure API Management documentation</a></li>
+              <li><a href="https://learn.microsoft.com/en-us/power-bi/developer/embedded/embedded-analytics-power-bi" target="_blank" rel="noreferrer">Power BI embedded analytics guidance</a></li>
             </ul>
           </section>
         </section>
       </main>
     </div>
-
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
   </body>
 </html>
