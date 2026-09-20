@@ -37,6 +37,8 @@ Create one proxied record in the `iavva.ai` zone:
 
 Enable **Always Use HTTPS**. Do not use Flexible SSL.
 
+The repository also includes a manual **Configure Cloudflare DNS** GitHub workflow. Add a production-environment secret named `CLOUDFLARE_API_TOKEN`, then run the workflow with the Hetzner public IPv4 address. The token should have `Zone / DNS / Edit` and `Zone / Zone / Read` permissions for only the `iavva.ai` zone.
+
 ## Rollback
 
 Each GitHub commit is stored as a separate release. To roll back, atomically repoint `current` to a verified earlier directory:
