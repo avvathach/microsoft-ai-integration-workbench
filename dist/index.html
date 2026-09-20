@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HCC ReconcileAI MVP</title>
+    <meta
+      name="description"
+      content="AI-assisted SIS data reconciliation MVP for Houston City College."
+    >
+    <link rel="stylesheet" href="./styles.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header class="topbar">
+      <div class="brand-group">
+        <div class="brand-mark" aria-label="Houston City College">HCC</div>
+        <div>
+          <p class="brand-kicker">Houston City College</p>
+          <p class="brand-title">ReconcileAI</p>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <span class="tenant-pill">
+          <i data-lucide="shield-check"></i>
+          Tenant-bound MVP
+        </span>
+        <button class="icon-button" id="contrastButton" type="button" aria-label="Toggle contrast">
+          <i data-lucide="contrast"></i>
+        </button>
+      </div>
+    </header>
+
+    <div class="app-shell">
+      <aside class="side-nav" aria-label="Application navigation">
+        <nav>
+          <a class="nav-link active" href="#dashboard" data-nav="dashboard">
+            <i data-lucide="layout-dashboard"></i>
+            Dashboard
+          </a>
+          <a class="nav-link" href="#review" data-nav="review">
+            <i data-lucide="clipboard-check"></i>
+            Review queue
+          </a>
+          <a class="nav-link" href="#microsoft" data-nav="microsoft">
+            <i data-lucide="network"></i>
+            Microsoft fit
+          </a>
+          <a class="nav-link" href="#story" data-nav="story">
+            <i data-lucide="message-square-text"></i>
+            Explain it
+          </a>
+          <a class="nav-link" href="#audit" data-nav="audit">
+            <i data-lucide="file-check-2"></i>
+            Audit
+          </a>
+        </nav>
+
+        <div class="sidebar-note">
+          <p class="eyebrow">MVP boundary</p>
+          <p>
+            The model recommends. Functional owners decide. Systems of record stay authoritative.
+          </p>
+        </div>
+      </aside>
+
+      <main id="main" class="main">
+        <section id="dashboard" class="band">
+          <div class="intro-panel">
+            <div class="intro-copy">
+              <p class="eyebrow">AI-assisted data reconciliation for the SIS transition</p>
+              <h1>Resolve record matches with evidence, not spreadsheet memory.</h1>
+              <p>
+                This MVP turns the PRD into a usable reviewer workspace: deterministic rules
+                clear the easy cases, Azure AI-style recommendations explain the residuals,
+                and every human decision becomes an exportable audit trail.
+              </p>
+              <div class="intro-actions">
+                <a class="button primary" href="#review">
+                  <i data-lucide="play-circle"></i>
+                  Start review
+                </a>
+                <button class="button secondary" id="aiPassButton" type="button">
+                  <i data-lucide="sparkles"></i>
+                  Run residual AI pass
+                </button>
+              </div>
+            </div>
+            <figure class="campus-figure">
+              <img
+                src="https://pxl-hccsedu.terminalfour.net/fit-in/700x500/filters:quality(95)/271x0:7921x5464/prod01/channel_4/media/hccsedu/content-assets/images/homepage/TYYG3248.jpg"
+                alt="The United States, Texas, and HCC flags on campus"
+              >
+              <figcaption>HCC-branded operational view with synthetic student records.</figcaption>
+            </figure>
+          </div>
+
+          <div class="metrics-grid" id="metricsGrid" aria-label="Reconciliation summary"></div>
+
+          <div class="dashboard-grid">
+            <section class="panel pipeline-panel" aria-labelledby="pipelineHeading">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Architecture</p>
+                  <h2 id="pipelineHeading">Where the work happens</h2>
+                </div>
+                <span class="status good">Human write control</span>
+              </div>
+              <div class="pipeline" id="pipeline"></div>
+            </section>
+
+            <section class="panel" aria-labelledby="riskHeading">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Risk controls</p>
+                  <h2 id="riskHeading">Security by design</h2>
+                </div>
+              </div>
+              <div class="control-list" id="controlList"></div>
+            </section>
+          </div>
+        </section>
+
+        <section id="review" class="band">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Reviewer workspace</p>
+              <h2>Exception queue</h2>
+            </div>
+            <div class="queue-tools">
+              <label class="search-field">
+                <i data-lucide="search"></i>
+                <input id="searchInput" type="search" placeholder="Search name, ID, course, owner">
+              </label>
+              <button class="button secondary compact" id="resetButton" type="button">
+                <i data-lucide="rotate-ccw"></i>
+                Reset demo
+              </button>
+            </div>
+          </div>
+
+          <div class="review-controls">
+            <div class="segmented" id="domainFilters" role="tablist" aria-label="Queue filters"></div>
+            <label class="threshold-control" for="thresholdInput">
+              <span>Auto-clear threshold</span>
+              <output id="thresholdValue" for="thresholdInput">92%</output>
+              <input id="thresholdInput" type="range" min="80" max="98" step="1" value="92">
+            </label>
+          </div>
+
+          <div class="review-layout">
+            <section class="queue-panel" aria-labelledby="queueHeading">
+              <div class="panel-heading tight">
+                <div>
+                  <p class="eyebrow">Pending residuals</p>
+                  <h3 id="queueHeading">Needs human decision</h3>
+                </div>
+                <span class="count-badge" id="queueCount">0</span>
+              </div>
+              <div id="queueList" class="queue-list"></div>
+            </section>
+
+            <section class="detail-panel" aria-live="polite" id="caseDetail"></section>
+          </div>
+        </section>
+
+        <section id="microsoft" class="band">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Enterprise integration</p>
+              <h2>Microsoft application map</h2>
+            </div>
+            <button class="button primary" id="graphButton" type="button">
+              <i data-lucide="send"></i>
+              Simulate Graph routing
+            </button>
+          </div>
+
+          <div class="integration-grid" id="integrationGrid"></div>
+
+          <div class="dashboard-grid">
+            <section class="panel" aria-labelledby="apiHeading">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">API sketch</p>
+                  <h3 id="apiHeading">Graph write after human decision</h3>
+                </div>
+                <span class="status review">Demo only</span>
+              </div>
+              <pre class="code-panel"><code id="apiSnippet"></code></pre>
+            </section>
+
+            <section class="panel" aria-labelledby="powerHeading">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Power BI view</p>
+                  <h3 id="powerHeading">Operational health</h3>
+                </div>
+              </div>
+              <div class="chart-row">
+                <div class="donut" id="donutChart" aria-label="Decision coverage"></div>
+                <div class="chart-copy" id="chartCopy"></div>
+              </div>
+              <div class="bar-stack" id="barStack"></div>
+            </section>
+          </div>
+        </section>
+
+        <section id="story" class="band">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Audience-ready explanation</p>
+              <h2>Tell the same story three ways</h2>
+            </div>
+            <div class="segmented small" id="roleTabs" role="tablist" aria-label="Audience view">
+              <button type="button" role="tab" aria-selected="true" data-role="cio">CIO</button>
+              <button type="button" role="tab" aria-selected="false" data-role="technical">Technical</button>
+              <button type="button" role="tab" aria-selected="false" data-role="recruiter">Recruiter</button>
+            </div>
+          </div>
+          <div class="story-grid" id="storyGrid"></div>
+        </section>
+
+        <section id="audit" class="band">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Audit trail</p>
+              <h2>Decision record</h2>
+            </div>
+            <button class="button secondary" id="exportButton" type="button">
+              <i data-lucide="download"></i>
+              Export CSV
+            </button>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Record</th>
+                  <th>Decision</th>
+                  <th>Reviewer</th>
+                  <th>Rationale</th>
+                </tr>
+              </thead>
+              <tbody id="auditTable"></tbody>
+            </table>
+          </div>
+
+          <section class="source-panel" aria-labelledby="sourceHeading">
+            <p class="eyebrow">Research inputs</p>
+            <h3 id="sourceHeading">Public sources used to ground the MVP</h3>
+            <ul>
+              <li>
+                <a href="https://www.hccs.edu/" target="_blank" rel="noreferrer">HCC public site</a>
+                for current institutional color and imagery cues.
+              </li>
+              <li>
+                <a href="https://archive.ics.uci.edu/dataset/320/student+performance" target="_blank" rel="noreferrer">UCI Student Performance</a>
+                and
+                <a href="https://www.nature.com/articles/sdata2017171" target="_blank" rel="noreferrer">OULAD</a>
+                for public higher-education-style table patterns. The app uses fictional records only.
+              </li>
+              <li>
+                Microsoft Learn references for
+                <a href="https://learn.microsoft.com/en-us/entra/identity/enterprise-apps/add-application-portal-setup-sso" target="_blank" rel="noreferrer">Entra SSO</a>,
+                <a href="https://learn.microsoft.com/en-us/graph/use-the-api" target="_blank" rel="noreferrer">Microsoft Graph</a>,
+                <a href="https://learn.microsoft.com/en-us/graph/api/listitem-create?view=graph-rest-1.0" target="_blank" rel="noreferrer">SharePoint list writes</a>,
+                and
+                <a href="https://learn.microsoft.com/en-us/power-bi/developer/embedded/embedded-analytics-power-bi" target="_blank" rel="noreferrer">Power BI embedded analytics</a>.
+              </li>
+            </ul>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
