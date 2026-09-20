@@ -1,6 +1,5 @@
 {
   "project_id": "appgprj_6ab034f3be408191849af3c6d51091a2",
-  "expected_url": "https://hr1-reconcileai.minty-bee-2130.chatgpt.site",
   "static": {
     "directory": "dist"
   }
