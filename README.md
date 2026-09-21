@@ -11,6 +11,7 @@ The included SIS Data Reconciliation scenario is illustrative. It does not asser
 - A simulated live multi-source dashboard showing example system location, connection method, freshness, volume, and recent data activity.
 - A fictional exception queue with source/target comparison, confidence, evidence, and accountable decisions.
 - A browser-local audit trail with reviewer, rationale, timestamp, and CSV export.
+- An optional live Microsoft 365 connector using Entra delegated sign-in and Microsoft Graph read-only access to the signed-in profile and OneDrive metadata.
 - A clear control boundary: the system of record remains authoritative and AI never independently changes institutional records.
 
 ## Run locally
@@ -42,3 +43,5 @@ See [deployment/README.md](deployment/README.md) for required access, GitHub sec
 ## Data and technology notes
 
 All people and records in the demo are fictional. Microsoft Graph is used only for Microsoft 365 integration, workflow routing, Teams, SharePoint, and related M365 actions. Any writeback to an SIS must use that system’s supported API or integration service after authorized human approval.
+
+The live Microsoft 365 panel is a browser-based delegated connector. Register the SPA redirect URI `https://hr1.iavva.ai/`, then use only the tenant ID and client ID in the panel. Never place a client secret or password in the browser.
