@@ -8,6 +8,7 @@
     <meta name="description" content="A working higher-education prototype demonstrating governed AI integration, accountable human decisions, and auditable enterprise workflows.">
     <link rel="stylesheet" href="./styles.css">
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+    <script src="https://alcdn.msauth.net/browser/2.38.3/js/msal-browser.min.js" defer></script>
     <script src="./app.js" defer></script>
   </head>
   <body>
@@ -203,6 +204,21 @@
             <button class="button primary" id="graphButton" type="button"><i data-lucide="send"></i>Simulate M365 routing</button>
           </div>
           <div class="integration-grid" id="integrationGrid"></div>
+          <section class="panel tenant-connection-panel" aria-labelledby="tenantConnectionHeading">
+            <div class="panel-heading">
+              <div><p class="eyebrow">Live Microsoft 365 connector</p><h3 id="tenantConnectionHeading">Connect your own business tenant</h3></div>
+              <span class="status warn" id="m365Status">Not connected</span>
+            </div>
+            <p class="api-note">This uses Microsoft sign-in and delegated Graph permissions. No password or client secret is stored in this application. Live data stays in your tenant and is read only.</p>
+            <div class="tenant-connection-form">
+              <label><span>Directory (tenant) ID</span><input id="tenantInput" type="text" autocomplete="off" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"></label>
+              <label><span>Application (client) ID</span><input id="clientInput" type="text" autocomplete="off" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"></label>
+              <button class="button primary" id="connectMicrosoftButton" type="button"><i data-lucide="log-in"></i>Sign in with Microsoft</button>
+              <button class="button secondary" id="refreshMicrosoftButton" type="button" disabled><i data-lucide="refresh-cw"></i>Refresh live data</button>
+            </div>
+            <div class="tenant-live-grid" id="m365LiveData" aria-live="polite"><div class="tenant-empty"><i data-lucide="plug-zap"></i><span>Enter your tenant and application IDs to connect.</span></div></div>
+            <small class="tenant-note">Required delegated permissions: User.Read and Files.Read. Add the site permissions only after your administrator approves the use case.</small>
+          </section>
           <section class="panel connection-panel" aria-labelledby="connectionHeading">
             <div class="panel-heading"><div><p class="eyebrow">Implementation sequence</p><h3 id="connectionHeading">What an institutional implementation would require</h3></div><span class="status warn">Not connected to a tenant</span></div>
             <div class="connection-grid">

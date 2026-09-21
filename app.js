@@ -469,6 +469,15 @@ const sourceMonitor = {
   events: [],
 };
 
+const m365State = {
+  tenantId: sessionStorage.getItem("iavva-m365-tenant") || "",
+  clientId: sessionStorage.getItem("iavva-m365-client") || "",
+  account: null,
+  token: null,
+  pca: null,
+  connected: false,
+};
+
 const fieldLabels = {
   studentId: "ID",
   name: "Name",
@@ -715,6 +724,98 @@ function renderSourceDashboard() {
 
   document.querySelector("#activityCount").textContent = sourceMonitor.events.length;
   renderSourceClock();
+}
+
+function renderM365Status(message = "Not connected", connected = false) {
+  const status = document.querySelector("#m365Status");
+  const button = document.querySelector("#refreshMicrosoftButton");
+  if (!status) return;
+  status.textContent = message;
+  status.className = `status ${connected ? "good" : "warn"}`;
+  if (button) button.disabled = !connected;
+}
+
+function renderM365Data(cards = []) {
+  const target = document.querySelector("#m365LiveData");
+  if (!target) return;
+  target.innerHTML = cards.length
+    ? cards.map((card) => `<article class="tenant-live-card"><span>${card.label}</span><strong>${card.value}</strong></article>`).join("")
+    : '<div class="tenant-empty"><i data-lucide="plug-zap"></i><span>Enter your tenant and application IDs to connect.</span></div>';
+  refreshIcons();
+}
+
+function getM365Config() {
+  const tenantId = document.querySelector("#tenantInput")?.value.trim() || m365State.tenantId;
+  const clientId = document.querySelector("#clientInput")?.value.trim() || m365State.clientId;
+  if (!tenantId || !clientId) throw new Error("Enter the tenant ID and client ID first");
+  m365State.tenantId = tenantId;
+  m365State.clientId = clientId;
+  sessionStorage.setItem("iavva-m365-tenant", tenantId);
+  sessionStorage.setItem("iavva-m365-client", clientId);
+  return { tenantId, clientId };
+}
+
+async function createMsalClient() {
+  if (!window.msal) throw new Error("Microsoft sign-in library is still loading. Try again in a moment.");
+  const { tenantId, clientId } = getM365Config();
+  m365State.pca = new window.msal.PublicClientApplication({
+    auth: {
+      clientId,
+      authority: `https://login.microsoftonline.com/${tenantId}`,
+      redirectUri: window.location.origin + "/",
+    },
+    cache: { cacheLocation: "sessionStorage", storeAuthStateInCookie: false },
+  });
+  if (typeof m365State.pca.initialize === "function") await m365State.pca.initialize();
+  return m365State.pca;
+}
+
+async function graphGet(path) {
+  const response = await fetch(`https://graph.microsoft.com/v1.0${path}`, {
+    headers: { Authorization: `Bearer ${m365State.token}` },
+    cache: "no-store",
+  });
+  if (!response.ok) throw new Error(`Microsoft Graph returned ${response.status}`);
+  return response.json();
+}
+
+async function refreshMicrosoftData() {
+  if (!m365State.pca || !m365State.account) throw new Error("Sign in to Microsoft first");
+  const result = await m365State.pca.acquireTokenSilent({
+    account: m365State.account,
+    scopes: ["User.Read", "Files.Read"],
+  });
+  m365State.token = result.accessToken;
+  const [profile, drive] = await Promise.all([
+    graphGet("/me?$select=displayName,userPrincipalName,jobTitle"),
+    graphGet("/me/drive/root/children?$top=8&$select=name,lastModifiedDateTime,size,file,folder"),
+  ]);
+  const files = Array.isArray(drive.value) ? drive.value : [];
+  renderM365Status("Live tenant data", true);
+  renderM365Data([
+    { label: "Signed-in account", value: profile.userPrincipalName || profile.displayName || "Microsoft user" },
+    { label: "Microsoft Graph profile", value: profile.jobTitle || "Authenticated" },
+    { label: "OneDrive items observed", value: `${files.length} recent items` },
+    { label: "Last Graph refresh", value: new Date().toLocaleTimeString() },
+    { label: "Access model", value: "Delegated, read only" },
+    { label: "SIS writeback", value: "Disabled" },
+  ]);
+  showToast("Microsoft Graph data refreshed");
+}
+
+async function connectMicrosoft() {
+  try {
+    renderM365Status("Signing in", false);
+    const pca = await createMsalClient();
+    const login = await pca.loginPopup({ scopes: ["User.Read", "Files.Read"] });
+    m365State.account = login.account;
+    m365State.connected = true;
+    await refreshMicrosoftData();
+  } catch (error) {
+    m365State.connected = false;
+    renderM365Status("Connection needs attention", false);
+    showToast(error.message || "Microsoft sign-in failed");
+  }
 }
 
 async function pollLiveConnectors() {
@@ -1230,6 +1331,14 @@ function bindEvents() {
   document.querySelector("#aiPassButton")?.addEventListener("click", simulateAiPass);
   document.querySelector("#graphButton").addEventListener("click", simulateGraphRouting);
   document.querySelector("#resetButton").addEventListener("click", resetDemo);
+  document.querySelector("#connectMicrosoftButton")?.addEventListener("click", connectMicrosoft);
+  document.querySelector("#refreshMicrosoftButton")?.addEventListener("click", async () => {
+    try {
+      await refreshMicrosoftData();
+    } catch (error) {
+      showToast(error.message || "Microsoft Graph refresh failed");
+    }
+  });
   document.querySelector("#sourceRefreshButton")?.addEventListener("click", () => {
     updateSourceMonitor(true);
     showToast("All simulated sources refreshed");
@@ -1259,6 +1368,12 @@ document.addEventListener("DOMContentLoaded", () => {
   initializeSourceMonitor();
   renderAll();
   bindEvents();
+  const tenantInput = document.querySelector("#tenantInput");
+  const clientInput = document.querySelector("#clientInput");
+  if (tenantInput) tenantInput.value = m365State.tenantId;
+  if (clientInput) clientInput.value = m365State.clientId;
+  renderM365Status("Not connected", false);
+  renderM365Data();
   pollLiveConnectors();
   window.setInterval(() => {
     if (sourceMonitor.running) updateSourceMonitor();
