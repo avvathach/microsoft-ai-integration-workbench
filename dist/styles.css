@@ -1044,26 +1044,26 @@ button {
 }
 
 .brand-mark {
-  width: 54px;
-  height: 44px;
+  width: 58px;
+  height: 58px;
   display: grid;
   place-items: center;
   flex: 0 0 auto;
-  background: linear-gradient(135deg, var(--brand-accent), var(--microsoft-blue));
-  color: #ffffff;
-  font-weight: 900;
-  letter-spacing: 0;
-  border-radius: 4px;
+  background: #ffffff;
+  border: 1px solid rgba(16, 185, 129, 0.22);
+  border-radius: 10px;
   overflow: hidden;
 }
 
 .brand-mark img {
   display: block;
-  width: 44px;
-  height: 44px;
+  width: 58px;
+  height: 58px;
+  object-fit: contain;
 }
 
 .brand-kicker,
+.brand-byline,
 .brand-title,
 .eyebrow,
 .sidebar-note p,
@@ -1073,6 +1073,14 @@ h1,
 h2,
 h3 {
   margin: 0;
+}
+
+.brand-byline {
+  margin: 1px 0 0;
+  color: var(--teal);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
 }
 
 .brand-kicker {
