@@ -501,6 +501,130 @@
   background: #f8fbff;
 }
 
+.routing-panel {
+  margin: 18px 0;
+  border-color: rgba(16, 185, 129, 0.28);
+  background: linear-gradient(135deg, #f5fffb 0%, #ffffff 58%, #f5f8ff 100%);
+}
+
+.routing-visual {
+  display: grid;
+  gap: 16px;
+}
+
+.routing-case {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.routing-case-label {
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.routing-case strong {
+  color: var(--teal);
+}
+
+.routing-case span:last-child {
+  color: var(--ink-2);
+  font-size: 0.86rem;
+}
+
+.routing-step-list {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.routing-step {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 9px;
+  min-height: 145px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.78);
+  opacity: 0.58;
+  transition: 180ms ease;
+}
+
+.routing-step.active {
+  border-color: var(--brand-accent);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+.routing-step.done {
+  border-color: rgba(16, 185, 129, 0.42);
+  background: #f0fdf4;
+  opacity: 1;
+}
+
+.routing-step-number,
+.routing-step-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+}
+
+.routing-step-number {
+  color: #fff;
+  background: var(--teal);
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+
+.routing-step-icon {
+  color: var(--teal);
+  background: var(--brand-soft);
+}
+
+.routing-step strong {
+  display: block;
+  font-size: 0.9rem;
+}
+
+.routing-step p {
+  margin: 5px 0 0;
+  color: var(--ink-2);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+@media (max-width: 900px) {
+  .routing-step-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .routing-step-list {
+    grid-template-columns: 1fr;
+  }
+
+  .routing-step {
+    min-height: 0;
+  }
+}
+
 .case-demo-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

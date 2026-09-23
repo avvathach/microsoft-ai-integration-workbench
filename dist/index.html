@@ -6,10 +6,10 @@
     <meta name="theme-color" content="#102033">
     <title>Microsoft AI Applications Integration Workbench | iAvva AI</title>
     <meta name="description" content="A working higher-education prototype demonstrating governed AI integration, accountable human decisions, and auditable enterprise workflows.">
-    <link rel="stylesheet" href="./styles.css?v=497264d38ec8">
+    <link rel="stylesheet" href="./styles.css?v=02c9f2578df8">
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
     <script src="https://alcdn.msauth.net/browser/2.38.3/js/msal-browser.min.js" defer></script>
-    <script src="./app.js?v=f1b11c09b03a" defer></script>
+    <script src="./app.js?v=4e04a7f2afe8" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to main content</a>
@@ -295,6 +295,14 @@
             <div><p class="eyebrow">Microsoft enterprise services</p><h2 id="microsoftHeading">A practical path from prototype to governed implementation.</h2></div>
             <button class="button primary" id="graphButton" type="button"><i data-lucide="send"></i>Simulate M365 routing</button>
           </div>
+          <section class="panel routing-panel" aria-labelledby="routingHeading">
+            <div class="panel-heading">
+              <div><p class="eyebrow">Microsoft 365 workflow simulation</p><h3 id="routingHeading">Route the selected exception without changing the SIS</h3></div>
+              <span class="status warn" id="routingStatus">Ready</span>
+            </div>
+            <p class="api-note">This shows the Teams and SharePoint workflow boundary. It is a browser simulation, so it does not call Graph or write to an institutional system of record.</p>
+            <div class="routing-visual" id="routingSteps" aria-live="polite"></div>
+          </section>
           <div class="integration-grid" id="integrationGrid"></div>
           <section class="panel tenant-connection-panel" aria-labelledby="tenantConnectionHeading">
             <div class="panel-heading">

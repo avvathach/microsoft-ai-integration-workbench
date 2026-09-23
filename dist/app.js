@@ -538,6 +538,15 @@ const storyScenes = [
 
 const storyState = { index: 0, playing: false, timer: null };
 
+const graphRoutingState = { running: false, step: -1, itemId: null, timer: null };
+const graphRoutingSteps = [
+  { icon: "user-check", title: "Select owner", copy: "The exception is assigned to the named functional owner." },
+  { icon: "message-square", title: "Prepare Teams task", copy: "A review task is routed to the owner’s Microsoft 365 workflow." },
+  { icon: "file-check-2", title: "Prepare SharePoint audit item", copy: "The record, recommendation, rationale, and timestamp are staged." },
+  { icon: "shield-check", title: "Hold for human approval", copy: "No institutional record changes occur until an authorized person decides." },
+  { icon: "database", title: "System of record stays authoritative", copy: "SIS writeback remains outside Graph and remains blocked in this demo." },
+];
+
 const fieldLabels = {
   studentId: "ID",
   name: "Name",
@@ -1396,6 +1405,26 @@ function renderAudit() {
     .join("");
 }
 
+function renderGraphRouting() {
+  const target = document.querySelector("#routingSteps");
+  const status = document.querySelector("#routingStatus");
+  if (!target || !status) return;
+  const item = cases.find((candidate) => candidate.id === graphRoutingState.itemId) || selectedCase();
+  const currentStep = graphRoutingState.step;
+  status.className = `status ${graphRoutingState.running ? "review" : currentStep >= graphRoutingSteps.length ? "good" : "warn"}`;
+  status.textContent = graphRoutingState.running ? `Running ${Math.min(currentStep + 1, graphRoutingSteps.length)} of ${graphRoutingSteps.length}` : currentStep >= graphRoutingSteps.length ? "Complete" : "Ready";
+  target.innerHTML = `
+    <div class="routing-case"><span class="routing-case-label">Selected exception</span><strong>${item ? item.id : "Select an exception"}</strong><span>${item ? `${item.owner} queue` : "Choose a record above"}</span></div>
+    <ol class="routing-step-list">
+      ${graphRoutingSteps.map((step, index) => {
+        const stateClass = index < currentStep ? "done" : index === currentStep ? "active" : "";
+        return `<li class="routing-step ${stateClass}"><span class="routing-step-number">${index < currentStep ? "✓" : index + 1}</span><span class="routing-step-icon"><i data-lucide="${step.icon}"></i></span><div><strong>${step.title}</strong><p>${step.copy}</p></div></li>`;
+      }).join("")}
+    </ol>
+  `;
+  refreshIcons();
+}
+
 function renderAll() {
   document.querySelector("#thresholdInput").value = state.threshold;
   document.querySelector("#thresholdValue").value = `${state.threshold}%`;
@@ -1411,6 +1440,7 @@ function renderAll() {
   renderIntegrations();
   renderApiSnippet();
   renderCharts();
+  renderGraphRouting();
   renderAudit();
   refreshIcons();
 }
@@ -1447,24 +1477,50 @@ function simulateAiPass() {
 }
 
 function simulateGraphRouting() {
-  state.graphEvents += 1;
   const item = selectedCase();
+  if (!item) {
+    showToast("Select an exception before routing it");
+    return;
+  }
+  window.clearInterval(graphRoutingState.timer);
+  graphRoutingState.running = true;
+  graphRoutingState.step = 0;
+  graphRoutingState.itemId = item.id;
   const timestamp = new Date().toISOString();
   state.audit.unshift({
     id: item.id,
     domain: item.domain,
-    action: "Teams task routed",
+    action: "Microsoft 365 review workflow prepared",
     reviewer: "Microsoft Graph preview",
     timestamp,
-    rationale: `Exception routed to ${item.owner} queue with SharePoint audit payload prepared.`,
+    rationale: `Teams review task and SharePoint audit payload staged for ${item.owner}; SIS writeback remains blocked pending human approval.`,
   });
 
   saveState();
   renderAll();
-  showToast(`Graph routing simulated for ${item.owner}`);
+  showToast(`M365 workflow started for ${item.owner}`);
+  graphRoutingState.timer = window.setInterval(() => {
+    graphRoutingState.step += 1;
+    if (graphRoutingState.step >= graphRoutingSteps.length) {
+      window.clearInterval(graphRoutingState.timer);
+      graphRoutingState.timer = null;
+      graphRoutingState.running = false;
+      state.graphEvents += 1;
+      saveState();
+      renderAll();
+      showToast(`M365 workflow complete. Human approval is still required.`);
+      return;
+    }
+    renderGraphRouting();
+  }, 700);
 }
 
 function resetDemo() {
+  window.clearInterval(graphRoutingState.timer);
+  graphRoutingState.timer = null;
+  graphRoutingState.running = false;
+  graphRoutingState.step = -1;
+  graphRoutingState.itemId = null;
   cases.forEach((item) => {
     delete item.decision;
   });

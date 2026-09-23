@@ -295,6 +295,14 @@
             <div><p class="eyebrow">Microsoft enterprise services</p><h2 id="microsoftHeading">A practical path from prototype to governed implementation.</h2></div>
             <button class="button primary" id="graphButton" type="button"><i data-lucide="send"></i>Simulate M365 routing</button>
           </div>
+          <section class="panel routing-panel" aria-labelledby="routingHeading">
+            <div class="panel-heading">
+              <div><p class="eyebrow">Microsoft 365 workflow simulation</p><h3 id="routingHeading">Route the selected exception without changing the SIS</h3></div>
+              <span class="status warn" id="routingStatus">Ready</span>
+            </div>
+            <p class="api-note">This shows the Teams and SharePoint workflow boundary. It is a browser simulation, so it does not call Graph or write to an institutional system of record.</p>
+            <div class="routing-visual" id="routingSteps" aria-live="polite"></div>
+          </section>
           <div class="integration-grid" id="integrationGrid"></div>
           <section class="panel tenant-connection-panel" aria-labelledby="tenantConnectionHeading">
             <div class="panel-heading">
