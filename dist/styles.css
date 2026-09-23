@@ -134,6 +134,11 @@
   font-size: 0.78rem;
 }
 
+.use-case-link {
+  align-self: flex-start;
+  margin-top: 2px;
+}
+
 .use-case-architecture {
   margin-top: 20px;
   padding: 22px;

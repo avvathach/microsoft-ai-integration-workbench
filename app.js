@@ -847,7 +847,6 @@ function runUseCaseDemo(id) {
   run.events = [`Workflow started: ${run.input || demo.inputOptions[0]}`];
   renderUseCaseDemos();
   renderUseCasePages();
-  renderUseCasePages();
   run.timer = window.setInterval(() => {
     if (run.step >= demo.steps.length) {
       window.clearInterval(run.timer);
@@ -1355,6 +1354,7 @@ function renderAll() {
   renderMetrics();
   renderSourceDashboard();
   renderUseCaseDemos();
+  renderUseCasePages();
   renderControls();
   renderDomainFilters();
   renderQueue();
