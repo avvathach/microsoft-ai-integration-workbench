@@ -26,6 +26,8 @@ const required = [
   'id="useCaseDemoGrid"',
   'id="useCasePages"',
   'id="use-case-${index + 1}"',
+  'id="walkthrough"',
+  'id="storyPlayButton"',
   "Run live demo",
 ];
 

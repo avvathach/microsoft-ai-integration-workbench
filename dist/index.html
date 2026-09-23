@@ -6,10 +6,10 @@
     <meta name="theme-color" content="#102033">
     <title>Microsoft AI Applications Integration Workbench | iAvva AI</title>
     <meta name="description" content="A working higher-education prototype demonstrating governed AI integration, accountable human decisions, and auditable enterprise workflows.">
-    <link rel="stylesheet" href="./styles.css?v=c775c3464b61">
+    <link rel="stylesheet" href="./styles.css?v=c63419e7317d">
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
     <script src="https://alcdn.msauth.net/browser/2.38.3/js/msal-browser.min.js" defer></script>
-    <script src="./app.js?v=42919066da9e" defer></script>
+    <script src="./app.js?v=f1b11c09b03a" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to main content</a>
@@ -32,6 +32,7 @@
       <aside class="side-nav" aria-label="Application navigation">
         <nav>
           <a class="nav-link active" href="#business" data-nav="business"><i data-lucide="briefcase-business"></i>Business view</a>
+          <a class="nav-link" href="#walkthrough" data-nav="walkthrough"><i data-lucide="play-circle"></i>60-second story</a>
           <a class="nav-link" href="#use-cases" data-nav="use-cases"><i data-lucide="layers-3"></i>Use case summary</a>
           <a class="nav-link" href="#use-case-1" data-nav="use-case-1"><i data-lucide="graduation-cap"></i>Use case 1</a>
           <a class="nav-link" href="#use-case-2" data-nav="use-case-2"><i data-lucide="book-open-check"></i>Use case 2</a>
@@ -75,6 +76,13 @@
             <article><span>What does Microsoft provide?</span><strong>Identity, security, integration, workflow, monitoring and analytics.</strong></article>
             <article class="answer-wide"><span>Why does this matter?</span><strong>Cleaner data, lower operational effort, stronger governance and a reusable AI integration pattern.</strong></article>
           </div>
+
+          <section id="walkthrough" class="story-walkthrough" aria-labelledby="walkthroughHeading">
+            <div class="story-heading"><div><p class="eyebrow">60-second visual story</p><h2 id="walkthroughHeading">See the idea before you read the architecture.</h2><p>Press play. The story moves from the business problem to a governed outcome in five simple scenes.</p></div><button class="button primary" id="storyPlayButton" type="button"><i data-lucide="play"></i>Play walkthrough</button></div>
+            <div class="story-stage" aria-live="polite"><div class="story-stage-icon" id="storyStageIcon"><i data-lucide="circle-help"></i></div><div><span id="storyStageLabel">Scene 1 of 5</span><h3 id="storyStageTitle">The problem is fragmented data.</h3><p id="storyStageCopy">A student, staff member, or applicant needs an answer, but the evidence lives in multiple systems.</p></div></div>
+            <div class="story-progress" aria-hidden="true"><span id="storyProgressBar"></span></div>
+            <ol class="story-scenes" id="storyScenes"><li class="active"><span>1</span><strong>Problem</strong></li><li><span>2</span><strong>Validate</strong></li><li><span>3</span><strong>AI assists</strong></li><li><span>4</span><strong>Human decides</strong></li><li><span>5</span><strong>Outcome</strong></li></ol>
+          </section>
 
           <div class="section-heading executive-heading">
             <div><p class="eyebrow">Business view - why it matters</p><h2>Turn reconciliation into a controlled business process.</h2></div>

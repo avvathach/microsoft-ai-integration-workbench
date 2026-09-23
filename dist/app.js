@@ -528,6 +528,16 @@ const useCaseDemoState = useCaseDemos.reduce((acc, item) => {
   return acc;
 }, {});
 
+const storyScenes = [
+  { icon: "circle-help", label: "Scene 1 of 5", title: "The problem is fragmented data.", copy: "A student, staff member, or applicant needs an answer, but the evidence lives in multiple systems." },
+  { icon: "list-checks", label: "Scene 2 of 5", title: "Routine records are validated first.", copy: "Deterministic rules compare IDs, dates, enrollment, access, payments, and documented requirements." },
+  { icon: "sparkles", label: "Scene 3 of 5", title: "AI helps only with the difficult exception.", copy: "AI summarizes contradictions and explains what needs attention. It does not change the record." },
+  { icon: "user-check", label: "Scene 4 of 5", title: "An accountable person decides.", copy: "The case goes to the registrar, chair, Student Accounts owner, recruiter, or hiring manager." },
+  { icon: "shield-check", label: "Scene 5 of 5", title: "The organization gets a defensible outcome.", copy: "The decision, reviewer, rationale, timestamp, and next action are captured for audit and analytics." },
+];
+
+const storyState = { index: 0, playing: false, timer: null };
+
 const fieldLabels = {
   studentId: "ID",
   name: "Name",
@@ -801,6 +811,44 @@ function renderUseCaseDemos() {
   refreshIcons();
 }
 
+function renderStory() {
+  const scene = storyScenes[storyState.index];
+  const icon = document.querySelector("#storyStageIcon");
+  const label = document.querySelector("#storyStageLabel");
+  const title = document.querySelector("#storyStageTitle");
+  const copy = document.querySelector("#storyStageCopy");
+  const bar = document.querySelector("#storyProgressBar");
+  const button = document.querySelector("#storyPlayButton");
+  const scenes = document.querySelectorAll("#storyScenes li");
+  if (!scene || !icon || !label || !title || !copy || !bar || !button) return;
+  icon.innerHTML = `<i data-lucide="${scene.icon}"></i>`;
+  label.textContent = scene.label;
+  title.textContent = scene.title;
+  copy.textContent = scene.copy;
+  bar.style.width = `${((storyState.index + 1) / storyScenes.length) * 100}%`;
+  scenes.forEach((item, index) => item.classList.toggle("active", index === storyState.index));
+  button.innerHTML = storyState.playing ? '<i data-lucide="pause"></i>Pause walkthrough' : '<i data-lucide="play"></i>Play walkthrough';
+  refreshIcons();
+}
+
+function advanceStory() {
+  storyState.index = storyState.index === storyScenes.length - 1 ? 0 : storyState.index + 1;
+  renderStory();
+}
+
+function toggleStory() {
+  storyState.playing = !storyState.playing;
+  if (storyState.playing) {
+    storyState.timer = window.setInterval(advanceStory, 2600);
+    showToast("Walkthrough playing");
+  } else {
+    window.clearInterval(storyState.timer);
+    storyState.timer = null;
+    showToast("Walkthrough paused");
+  }
+  renderStory();
+}
+
 function renderUseCasePages() {
   const target = document.querySelector("#useCasePages");
   if (!target) return;
@@ -847,6 +895,7 @@ function runUseCaseDemo(id) {
   run.events = [`Workflow started: ${run.input || demo.inputOptions[0]}`];
   renderUseCaseDemos();
   renderUseCasePages();
+  renderStory();
   run.timer = window.setInterval(() => {
     if (run.step >= demo.steps.length) {
       window.clearInterval(run.timer);
@@ -1494,6 +1543,16 @@ function bindEvents() {
     useCaseDemoState[select.dataset.useCaseInput].input = select.value;
     renderUseCaseDemos();
     renderUseCasePages();
+  });
+  document.querySelector("#storyPlayButton")?.addEventListener("click", toggleStory);
+  document.querySelector("#storyScenes")?.addEventListener("click", (event) => {
+    const scene = event.target.closest("li");
+    if (!scene) return;
+    storyState.index = Array.from(document.querySelectorAll("#storyScenes li")).indexOf(scene);
+    storyState.playing = false;
+    window.clearInterval(storyState.timer);
+    storyState.timer = null;
+    renderStory();
   });
   document.querySelector("#useCaseDemoGrid")?.addEventListener("change", (event) => {
     const select = event.target.closest("[data-use-case-input]");
