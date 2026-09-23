@@ -23,6 +23,8 @@ const required = [
   "Online course access, attendance, and refund review",
   "Recruiter candidate triage and secure routing",
   "The source system remains authoritative; the decision and rationale are audited.",
+  'id="useCaseDemoGrid"',
+  "Run live demo",
 ];
 
 const forbidden = [
