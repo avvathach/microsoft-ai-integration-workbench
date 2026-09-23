@@ -487,6 +487,8 @@ const useCaseDemos = [
     sources: "SIS, LMS, bookstore, payment, support history",
     owner: "Student Accounts administrator",
     decision: "Evidence packet ready for authorized review",
+    inputLabel: "Evidence condition",
+    inputOptions: ["Complete payment and enrollment trail", "Conflicting student IDs", "Missing historical bookstore record"],
     steps: ["Collect linked records", "Normalize student and transaction IDs", "Flag missing or conflicting evidence", "Route case to Student Accounts", "Write audit record"],
   },
   {
@@ -497,6 +499,8 @@ const useCaseDemos = [
     sources: "SIS enrollment, LMS access, payment, bookstore, help desk",
     owner: "Department chair",
     decision: "Chair review required before any remedy",
+    inputLabel: "Reported access condition",
+    inputOptions: ["LMS access confirmed", "No LMS access found", "Access disputed by student"],
     steps: ["Build dated access timeline", "Compare enrollment and payment rules", "Summarize login and support gaps", "Route case to the chair", "Record rationale and appeal path"],
   },
   {
@@ -507,6 +511,8 @@ const useCaseDemos = [
     sources: "Applicant system, resume, transcript, job requirements",
     owner: "Internal recruiter and hiring manager",
     decision: "Recruiter decides who advances",
+    inputLabel: "Candidate evidence",
+    inputOptions: ["Requirements clearly met", "Relevant experience partially documented", "Insufficient evidence to advance"],
     steps: ["Extract role requirements", "Check deterministic evidence", "Summarize relevant experience", "Hold unclear cases for human review", "Record routing and review reason"],
   },
 ];
@@ -771,15 +777,17 @@ function renderUseCaseDemos() {
     const run = useCaseDemoState[demo.id];
     const current = run.events.length ? run.events[run.events.length - 1] : "Ready to run";
     const progress = run.running ? Math.min(100, Math.round((run.step / demo.steps.length) * 100)) : run.step >= demo.steps.length ? 100 : 0;
+    const selectedInput = run.input || demo.inputOptions[0];
     return `
       <article class="case-demo-card" data-demo-id="${demo.id}">
         <div class="case-demo-head"><span class="use-case-icon"><i data-lucide="${demo.icon}"></i></span><div><p class="eyebrow">Live scenario</p><h4>${demo.title}</h4></div><span class="status ${run.running ? "review" : run.step >= demo.steps.length ? "good" : "warn"}">${run.running ? "Running" : run.step >= demo.steps.length ? "Complete" : "Ready"}</span></div>
         <p class="case-demo-trigger"><strong>Trigger:</strong> ${demo.trigger}</p>
         <dl class="case-demo-details"><div><dt>Evidence</dt><dd>${demo.sources}</dd></div><div><dt>Decision owner</dt><dd>${demo.owner}</dd></div></dl>
+        <label class="case-demo-input"><span>${demo.inputLabel}</span><select data-use-case-input="${demo.id}">${demo.inputOptions.map((option) => `<option ${option === selectedInput ? "selected" : ""}>${option}</option>`).join("")}</select></label>
         <div class="case-demo-progress" aria-label="${progress}% complete"><span style="width: ${progress}%"></span></div>
         <div class="case-demo-current" aria-live="polite"><i data-lucide="activity"></i><span>${current}</span></div>
         <ol class="case-demo-events">${demo.steps.map((step, index) => `<li class="${index < run.step ? "done" : index === run.step && run.running ? "active" : ""}"><span>${index + 1}</span><div>${step}</div></li>`).join("")}</ol>
-        <div class="case-demo-result"><strong>Expected outcome</strong><span>${demo.decision}</span></div>
+        <div class="case-demo-result"><strong>Expected outcome</strong><span>${demo.decision}</span><small>Selected condition: ${selectedInput}</small></div>
         <button class="button primary compact" type="button" data-run-use-case="${demo.id}" ${run.running ? "disabled" : ""}><i data-lucide="${run.step >= demo.steps.length ? "rotate-ccw" : "play"}"></i>${run.step >= demo.steps.length ? "Run again" : "Run live demo"}</button>
       </article>
     `;
@@ -794,7 +802,7 @@ function runUseCaseDemo(id) {
   if (run.timer) window.clearInterval(run.timer);
   run.running = true;
   run.step = 0;
-  run.events = ["Workflow started: consent and scope checked"];
+  run.events = [`Workflow started: ${run.input || demo.inputOptions[0]}`];
   renderUseCaseDemos();
   run.timer = window.setInterval(() => {
     if (run.step >= demo.steps.length) {
@@ -1429,6 +1437,11 @@ function bindEvents() {
   document.querySelector("#useCaseDemoGrid")?.addEventListener("click", (event) => {
     const button = event.target.closest("[data-run-use-case]");
     if (button) runUseCaseDemo(button.dataset.runUseCase);
+  });
+  document.querySelector("#useCaseDemoGrid")?.addEventListener("change", (event) => {
+    const select = event.target.closest("[data-use-case-input]");
+    if (!select) return;
+    useCaseDemoState[select.dataset.useCaseInput].input = select.value;
   });
   document.querySelector("#sourceRefreshButton")?.addEventListener("click", () => {
     updateSourceMonitor(true);

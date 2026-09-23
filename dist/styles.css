@@ -266,6 +266,29 @@
   font-size: 0.82rem;
 }
 
+.case-demo-input {
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.case-demo-input select {
+  width: 100%;
+  min-height: 40px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--ink-2);
+  background: var(--paper);
+  font-size: 0.82rem;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
 .case-demo-progress {
   height: 7px;
   overflow: hidden;
@@ -352,6 +375,11 @@
 
 .case-demo-result strong {
   color: var(--ink);
+}
+
+.case-demo-result small {
+  color: var(--muted);
+  font-size: 0.72rem;
 }
 
 @media (max-width: 1100px) {
