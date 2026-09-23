@@ -24,6 +24,8 @@ const required = [
   "Recruiter candidate triage and secure routing",
   "The source system remains authoritative; the decision and rationale are audited.",
   'id="useCaseDemoGrid"',
+  'id="useCasePages"',
+  'id="use-case-${index + 1}"',
   "Run live demo",
 ];
 

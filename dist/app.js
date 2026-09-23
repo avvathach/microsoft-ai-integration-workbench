@@ -487,6 +487,8 @@ const useCaseDemos = [
     sources: "SIS, LMS, bookstore, payment, support history",
     owner: "Student Accounts administrator",
     decision: "Evidence packet ready for authorized review",
+    benefit: "Faster, defensible answers for students and fewer unresolved historical disputes for staff.",
+    controls: "FERPA purpose limitation, role-based access, retention rules, refund policy approval, complete audit trail",
     inputLabel: "Evidence condition",
     inputOptions: ["Complete payment and enrollment trail", "Conflicting student IDs", "Missing historical bookstore record"],
     steps: ["Collect linked records", "Normalize student and transaction IDs", "Flag missing or conflicting evidence", "Route case to Student Accounts", "Write audit record"],
@@ -499,6 +501,8 @@ const useCaseDemos = [
     sources: "SIS enrollment, LMS access, payment, bookstore, help desk",
     owner: "Department chair",
     decision: "Chair review required before any remedy",
+    benefit: "A chair can make a fair, evidence-based decision without reconstructing the case across six systems.",
+    controls: "FERPA, accessibility, policy deadline checks, least privilege, appeal path, and human approval",
     inputLabel: "Reported access condition",
     inputOptions: ["LMS access confirmed", "No LMS access found", "Access disputed by student"],
     steps: ["Build dated access timeline", "Compare enrollment and payment rules", "Summarize login and support gaps", "Route case to the chair", "Record rationale and appeal path"],
@@ -511,6 +515,8 @@ const useCaseDemos = [
     sources: "Applicant system, resume, transcript, job requirements",
     owner: "Internal recruiter and hiring manager",
     decision: "Recruiter decides who advances",
+    benefit: "Shorter time to qualified review while preserving recruiter judgment and candidate fairness.",
+    controls: "EEOC and ADA review, no protected-class scoring, explainable evidence, retention limits, recruiter approval",
     inputLabel: "Candidate evidence",
     inputOptions: ["Requirements clearly met", "Relevant experience partially documented", "Insufficient evidence to advance"],
     steps: ["Extract role requirements", "Check deterministic evidence", "Summarize relevant experience", "Hold unclear cases for human review", "Record routing and review reason"],
@@ -795,6 +801,42 @@ function renderUseCaseDemos() {
   refreshIcons();
 }
 
+function renderUseCasePages() {
+  const target = document.querySelector("#useCasePages");
+  if (!target) return;
+  target.innerHTML = useCaseDemos.map((demo, index) => {
+    const run = useCaseDemoState[demo.id];
+    const selectedInput = run.input || demo.inputOptions[0];
+    const current = run.events.length ? run.events[run.events.length - 1] : "Ready to run";
+    const progress = run.running ? Math.min(100, Math.round((run.step / demo.steps.length) * 100)) : run.step >= demo.steps.length ? 100 : 0;
+    return `
+      <article class="use-case-page" id="use-case-${index + 1}" aria-labelledby="useCasePageTitle${index + 1}">
+        <div class="use-case-page-heading"><div><p class="eyebrow">Dedicated use case page ${index + 1}</p><h3 id="useCasePageTitle${index + 1}">${demo.title}</h3></div><span class="status ${run.running ? "review" : run.step >= demo.steps.length ? "good" : "warn"}">${run.running ? "Running" : run.step >= demo.steps.length ? "Complete" : "Ready"}</span></div>
+        <div class="use-case-page-grid">
+          <div class="use-case-page-copy">
+            <div class="page-fact"><strong>Pain point</strong><p>${demo.trigger} The organization must make a defensible decision even when records are incomplete, inconsistent, or spread across systems.</p></div>
+            <div class="page-fact"><strong>Persona</strong><p>${demo.owner}. This person owns the decision and remains accountable for the outcome.</p></div>
+            <div class="page-fact"><strong>Systems and evidence</strong><p>${demo.sources}. The source systems remain authoritative.</p></div>
+            <div class="page-fact"><strong>Solution</strong><p>Apply deterministic validation first, use AI only to summarize unresolved ambiguity, route the case to the named owner, and record the rationale.</p></div>
+            <div class="page-fact benefit-fact"><strong>Business benefit</strong><p>${demo.benefit}</p></div>
+            <div class="page-fact"><strong>Controls</strong><p>${demo.controls}.</p></div>
+          </div>
+          <div class="use-case-page-demo">
+            <div class="page-demo-label"><i data-lucide="radio"></i><span>Touch-and-run demo</span></div>
+            <label class="case-demo-input"><span>${demo.inputLabel}</span><select data-use-case-input="${demo.id}">${demo.inputOptions.map((option) => `<option ${option === selectedInput ? "selected" : ""}>${option}</option>`).join("")}</select></label>
+            <div class="case-demo-progress" aria-label="${progress}% complete"><span style="width: ${progress}%"></span></div>
+            <div class="case-demo-current" aria-live="polite"><i data-lucide="activity"></i><span>${current}</span></div>
+            <ol class="case-demo-events">${demo.steps.map((step, stepIndex) => `<li class="${stepIndex < run.step ? "done" : stepIndex === run.step && run.running ? "active" : ""}"><span>${stepIndex + 1}</span><div>${step}</div></li>`).join("")}</ol>
+            <div class="case-demo-result"><strong>Decision boundary</strong><span>${demo.decision}</span><small>Selected condition: ${selectedInput}</small></div>
+            <button class="button primary" type="button" data-run-use-case="${demo.id}" ${run.running ? "disabled" : ""}><i data-lucide="${run.step >= demo.steps.length ? "rotate-ccw" : "play"}"></i>${run.step >= demo.steps.length ? "Run again" : "Run live demo"}</button>
+          </div>
+        </div>
+      </article>
+    `;
+  }).join("");
+  refreshIcons();
+}
+
 function runUseCaseDemo(id) {
   const demo = useCaseDemos.find((item) => item.id === id);
   const run = useCaseDemoState[id];
@@ -804,6 +846,8 @@ function runUseCaseDemo(id) {
   run.step = 0;
   run.events = [`Workflow started: ${run.input || demo.inputOptions[0]}`];
   renderUseCaseDemos();
+  renderUseCasePages();
+  renderUseCasePages();
   run.timer = window.setInterval(() => {
     if (run.step >= demo.steps.length) {
       window.clearInterval(run.timer);
@@ -811,12 +855,14 @@ function runUseCaseDemo(id) {
       run.running = false;
       run.events.push(`Complete: ${demo.decision}`);
       renderUseCaseDemos();
+      renderUseCasePages();
       showToast(`${demo.title} demo complete`);
       return;
     }
     run.events.push(demo.steps[run.step]);
     run.step += 1;
     renderUseCaseDemos();
+    renderUseCasePages();
   }, 850);
 }
 
@@ -1437,6 +1483,17 @@ function bindEvents() {
   document.querySelector("#useCaseDemoGrid")?.addEventListener("click", (event) => {
     const button = event.target.closest("[data-run-use-case]");
     if (button) runUseCaseDemo(button.dataset.runUseCase);
+  });
+  document.querySelector("#useCasePages")?.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-run-use-case]");
+    if (button) runUseCaseDemo(button.dataset.runUseCase);
+  });
+  document.querySelector("#useCasePages")?.addEventListener("change", (event) => {
+    const select = event.target.closest("[data-use-case-input]");
+    if (!select) return;
+    useCaseDemoState[select.dataset.useCaseInput].input = select.value;
+    renderUseCaseDemos();
+    renderUseCasePages();
   });
   document.querySelector("#useCaseDemoGrid")?.addEventListener("change", (event) => {
     const select = event.target.closest("[data-use-case-input]");
