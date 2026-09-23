@@ -7,6 +7,7 @@ The included SIS Data Reconciliation scenario is illustrative. It does not asser
 ## What the prototype demonstrates
 
 - A business-first explanation of the operational value in plain language.
+- Three concrete use cases with explicit pain points, personas, triggers, evidence sources, accountable decision owners, controls, and success measures: student record disputes, online course/refund review, and recruiter candidate triage.
 - A CTO architecture covering enterprise APIs, Azure integration, deterministic rules, exception-only AI, human approval, supported SIS writeback, Microsoft 365 workflows, and analytics.
 - A simulated live multi-source dashboard showing example system location, connection method, freshness, volume, and recent data activity.
 - A fictional exception queue with source/target comparison, confidence, evidence, and accountable decisions.

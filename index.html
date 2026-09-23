@@ -32,6 +32,7 @@
       <aside class="side-nav" aria-label="Application navigation">
         <nav>
           <a class="nav-link active" href="#business" data-nav="business"><i data-lucide="briefcase-business"></i>Business view</a>
+          <a class="nav-link" href="#use-cases" data-nav="use-cases"><i data-lucide="layers-3"></i>Use cases</a>
           <a class="nav-link" href="#sources" data-nav="sources"><i data-lucide="radio-tower"></i>Live sources</a>
           <a class="nav-link" href="#technical" data-nav="technical"><i data-lucide="network"></i>Technical view</a>
           <a class="nav-link" href="#review" data-nav="review"><i data-lucide="clipboard-check"></i>Live demo</a>
@@ -95,6 +96,76 @@
               <li><i data-lucide="user-check"></i><span>Human decides</span></li>
               <li><i data-lucide="chart-no-axes-combined"></i><span>Audit + analytics</span></li>
             </ol>
+          </section>
+        </section>
+
+        <section id="use-cases" class="band use-case-band" aria-labelledby="useCasesHeading">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Business problem portfolio</p>
+              <h2 id="useCasesHeading">Three situations where fragmented records create real operational harm.</h2>
+              <p class="section-intro">Each scenario starts with a person, a measurable pain point, and an accountable decision. The architecture then shows how Microsoft services can coordinate the work without replacing the authoritative system.</p>
+            </div>
+            <span class="status review">Illustrative scenarios</span>
+          </div>
+
+          <div class="use-case-grid">
+            <article class="use-case-card featured">
+              <div class="use-case-card-head"><span class="use-case-icon"><i data-lucide="graduation-cap"></i></span><span class="status high">Student impact</span></div>
+              <p class="eyebrow">Use case 01</p>
+              <h3>Student record reconciliation and post-completion disputes</h3>
+              <p class="use-case-summary">A student returns years after a course and asks why a textbook charge, tuition charge, enrollment status, or completion record is wrong. Staff cannot answer quickly because the evidence is split across systems.</p>
+              <dl class="use-case-facts">
+                <div><dt>Primary persona</dt><dd>Registrar or Student Accounts administrator</dd></div>
+                <div><dt>Student harm</dt><dd>Incorrect balance, blocked transcript, lost refund confidence, or transfer to another institution</dd></div>
+                <div><dt>Operational pain</dt><dd>Staff reconstruct a case manually after turnover, inconsistent IDs, or incomplete historical records</dd></div>
+                <div><dt>Trigger</dt><dd>Refund request, records inquiry, transfer evaluation, audit request, or complaint</dd></div>
+              </dl>
+              <div class="use-case-solution"><strong>Solution</strong><span>Match SIS enrollment and charges with LMS attendance, bookstore orders, payment records, support history, and approved policy rules. Produce an evidence timeline for an authorized reviewer. Never issue a refund or alter the SIS automatically.</span></div>
+              <div class="use-case-footer"><span>Success measure: time to answer a historical dispute</span><span>Decision owner: named institutional reviewer</span></div>
+            </article>
+
+            <article class="use-case-card">
+              <div class="use-case-card-head"><span class="use-case-icon"><i data-lucide="book-open-check"></i></span><span class="status warn">Chair decision</span></div>
+              <p class="eyebrow">Use case 02</p>
+              <h3>Online course access, attendance, and refund review</h3>
+              <p class="use-case-summary">A student says they paid for a class but could not get into the online course. Years later they request a tuition or textbook refund. The chair must decide fairly using evidence, not memory.</p>
+              <dl class="use-case-facts">
+                <div><dt>Primary persona</dt><dd>Department chair or academic program owner</dd></div>
+                <div><dt>Student harm</dt><dd>Paying for an inaccessible course, losing time, delayed completion, or an unresolved financial claim</dd></div>
+                <div><dt>Operational pain</dt><dd>Chair searches separate LMS, SIS, bookstore, payment, help desk, and email records</dd></div>
+                <div><dt>Trigger</dt><dd>Access complaint, grade dispute, refund request, accreditation review, or recurring course failure pattern</dd></div>
+              </dl>
+              <div class="use-case-solution"><strong>Solution</strong><span>Build a dated case timeline: enrollment, payment, textbook fulfillment, account activation, login attempts, course access, support contacts, and policy deadlines. AI summarizes gaps and contradictions; the chair decides the remedy.</span></div>
+              <div class="use-case-footer"><span>Success measure: complete evidence packet in minutes</span><span>Decision owner: chair with Student Accounts policy check</span></div>
+            </article>
+
+            <article class="use-case-card">
+              <div class="use-case-card-head"><span class="use-case-icon"><i data-lucide="user-search"></i></span><span class="status good">Recruiting workflow</span></div>
+              <p class="eyebrow">Use case 03</p>
+              <h3>Recruiter candidate triage and secure routing</h3>
+              <p class="use-case-summary">Recruiters manually read every application, transcript, resume, and attachment. Strong candidates wait too long, while incomplete or unrelated applications consume the same review time.</p>
+              <dl class="use-case-facts">
+                <div><dt>Primary persona</dt><dd>Internal recruiter or HR talent acquisition partner</dd></div>
+                <div><dt>Candidate harm</dt><dd>Qualified applicants disengage, accept another offer, or never receive a timely response</dd></div>
+                <div><dt>Operational pain</dt><dd>Hours are spent extracting the same requirements and rechecking evidence before a hiring manager sees it</dd></div>
+                <div><dt>Trigger</dt><dd>New application, referral, urgent vacancy, or a candidate approaching a response-time SLA</dd></div>
+              </dl>
+              <div class="use-case-solution"><strong>Solution</strong><span>Use deterministic requirements first, then AI to summarize relevant experience and identify missing evidence. Route qualified candidates to the recruiter queue, hold unclear cases for review, and never auto-reject based on protected characteristics or opaque scoring.</span></div>
+              <div class="use-case-footer"><span>Success measure: time from application to qualified review</span><span>Decision owner: recruiter and hiring manager</span></div>
+            </article>
+          </div>
+
+          <section class="use-case-architecture" aria-labelledby="useCaseArchitectureHeading">
+            <div class="panel-heading"><div><p class="eyebrow">Shared enterprise pattern</p><h3 id="useCaseArchitectureHeading">One governed workflow, different business owners</h3></div><span class="status good">Reusable</span></div>
+            <div class="use-case-path">
+              <div><strong>1. Identify the harm</strong><span>What can go wrong for a student, employee, candidate, or institution?</span></div>
+              <div><strong>2. Map the evidence</strong><span>SIS, LMS, HR, bookstore, payment, email, files, and support systems.</span></div>
+              <div><strong>3. Apply safe automation</strong><span>Rules clear routine cases. AI summarizes only unresolved ambiguity.</span></div>
+              <div><strong>4. Route the decision</strong><span>Microsoft Graph sends a task to the accountable owner in Teams or SharePoint.</span></div>
+              <div><strong>5. Preserve authority</strong><span>The source system remains authoritative; the decision and rationale are audited.</span></div>
+            </div>
+            <div class="stakeholder-routing"><strong>Who to involve</strong><span>CIO for outcomes and risk</span><span>IT integration team for APIs and operations</span><span>Registrar, chair, HR, or Student Accounts for policy decisions</span><span>Privacy, security, accessibility, and legal reviewers for controls</span></div>
           </section>
         </section>
 

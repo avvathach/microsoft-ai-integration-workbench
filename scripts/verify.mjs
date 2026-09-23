@@ -14,10 +14,15 @@ const required = [
   "AI never independently changes institutional records",
   "See how it works technically",
   'id="business"',
+  'id="use-cases"',
   'id="sources"',
   'id="technical"',
   'id="review"',
   'id="audit"',
+  "Student record reconciliation and post-completion disputes",
+  "Online course access, attendance, and refund review",
+  "Recruiter candidate triage and secure routing",
+  "The source system remains authoritative; the decision and rationale are audited.",
 ];
 
 const forbidden = [

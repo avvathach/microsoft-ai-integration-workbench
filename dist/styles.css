@@ -23,6 +23,193 @@
   margin-top: 20px;
 }
 
+.use-case-band {
+  background: linear-gradient(180deg, #ffffff 0%, #f7fbfc 100%);
+}
+
+.use-case-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.use-case-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--paper);
+  box-shadow: 0 10px 24px rgba(16, 32, 51, 0.06);
+}
+
+.use-case-card.featured {
+  border-color: rgba(24, 167, 167, 0.55);
+  box-shadow: 0 14px 32px rgba(24, 167, 167, 0.12);
+}
+
+.use-case-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.use-case-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  color: var(--teal);
+  background: var(--brand-soft);
+}
+
+.use-case-card h3 {
+  margin: 0;
+  font-size: 1.12rem;
+  line-height: 1.25;
+}
+
+.use-case-summary {
+  margin: 0;
+  color: var(--ink-2);
+}
+
+.use-case-facts {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+
+.use-case-facts div {
+  display: grid;
+  gap: 2px;
+  padding-top: 9px;
+  border-top: 1px solid var(--line);
+}
+
+.use-case-facts dt {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.use-case-facts dd {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: 0.88rem;
+}
+
+.use-case-solution {
+  display: grid;
+  gap: 3px;
+  margin-top: auto;
+  padding: 14px;
+  border-radius: var(--radius);
+  background: #eef8f7;
+}
+
+.use-case-solution strong {
+  color: var(--teal);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.use-case-solution span {
+  color: var(--ink-2);
+  font-size: 0.88rem;
+}
+
+.use-case-footer {
+  display: grid;
+  gap: 3px;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.use-case-architecture {
+  margin-top: 20px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--paper);
+}
+
+.use-case-path {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.use-case-path > div {
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  padding: 14px;
+  border-left: 3px solid var(--brand-accent);
+  background: var(--surface);
+}
+
+.use-case-path strong {
+  font-size: 0.88rem;
+}
+
+.use-case-path span {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.stakeholder-routing {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.stakeholder-routing strong {
+  color: var(--ink);
+}
+
+@media (max-width: 1100px) {
+  .use-case-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .use-case-card:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .use-case-path {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .use-case-grid,
+  .use-case-path {
+    grid-template-columns: 1fr;
+  }
+
+  .use-case-card:last-child {
+    grid-column: auto;
+  }
+
+  .use-case-architecture {
+    padding: 16px;
+  }
+}
+
 .tenant-connection-form {
   display: grid;
   grid-template-columns: minmax(220px, 1fr) minmax(220px, 1fr) auto auto;
