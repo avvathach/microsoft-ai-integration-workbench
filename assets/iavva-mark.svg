@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">iAvva AI mark</title>
+  <desc id="desc">Emerald iAvva AI initials mark</desc>
+  <defs>
+    <linearGradient id="g" x1="12" y1="8" x2="116" y2="120" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#34d399"/>
+      <stop offset="1" stop-color="#047857"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="32" fill="#071b2f"/>
+  <path d="M38 86 55 35h11l-17 51H38Zm31 0 17-51h11L80 86H69Z" fill="url(#g)"/>
+  <path d="M50 72h42" stroke="#f4b24a" stroke-width="7" stroke-linecap="round"/>
+</svg>

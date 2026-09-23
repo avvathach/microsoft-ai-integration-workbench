@@ -930,6 +930,13 @@ button {
   font-weight: 900;
   letter-spacing: 0;
   border-radius: 4px;
+  overflow: hidden;
+}
+
+.brand-mark img {
+  display: block;
+  width: 44px;
+  height: 44px;
 }
 
 .brand-kicker,
