@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="./styles.css?v=0f6351b35677">
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
     <script src="https://alcdn.msauth.net/browser/2.38.3/js/msal-browser.min.js" defer></script>
-    <script src="./app.js?v=4e04a7f2afe8" defer></script>
+    <script src="./app.js?v=d8fa7cbef658" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to main content</a>
@@ -317,6 +317,7 @@
               <button class="button primary" id="connectMicrosoftButton" type="button"><i data-lucide="log-in"></i>Sign in with Microsoft</button>
               <button class="button secondary" id="refreshMicrosoftButton" type="button" disabled><i data-lucide="refresh-cw"></i>Refresh live data</button>
             </div>
+            <small class="tenant-note">Use the GUID values from your app Overview. Tenant ID: <code>336cd8f8-94b0-42c4-9d2f-16050b2c0a68</code>. Client ID: <code>1f6493f4-a929-46a3-8a65-3ecb368e54ce</code>. Do not enter an <code>.onmicrosoft.com</code> domain in either field.</small>
             <div class="tenant-live-grid" id="m365LiveData" aria-live="polite"><div class="tenant-empty"><i data-lucide="plug-zap"></i><span>Enter your tenant and application IDs to connect.</span></div></div>
             <small class="tenant-note">Register this exact SPA redirect URI: <code>https://hr1.iavva.ai/</code>. Required delegated permissions: User.Read and Files.Read. Add site permissions only after your administrator approves the use case.</small>
           </section>

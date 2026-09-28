@@ -945,6 +945,9 @@ function getM365Config() {
   const tenantId = document.querySelector("#tenantInput")?.value.trim() || m365State.tenantId;
   const clientId = document.querySelector("#clientInput")?.value.trim() || m365State.clientId;
   if (!tenantId || !clientId) throw new Error("Enter the tenant ID and client ID first");
+  const guid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+  if (!guid.test(tenantId)) throw new Error("Tenant ID must be the Directory (tenant) ID GUID, not an onmicrosoft.com domain");
+  if (!guid.test(clientId)) throw new Error("Client ID must be the Application (client) ID GUID, not an onmicrosoft.com domain");
   m365State.tenantId = tenantId;
   m365State.clientId = clientId;
   sessionStorage.setItem("iavva-m365-tenant", tenantId);
@@ -952,8 +955,25 @@ function getM365Config() {
   return { tenantId, clientId };
 }
 
+function loadMsalFallback() {
+  const sources = [
+    "https://alcdn.msauth.net/browser/2.38.3/js/msal-browser.min.js",
+    "https://unpkg.com/@azure/msal-browser@2.38.3/lib/msal-browser.min.js",
+  ];
+  return sources.reduce((promise, source) => promise.catch(() => new Promise((resolve, reject) => {
+    if (window.msal) return resolve(window.msal);
+    const script = document.createElement("script");
+    script.src = source;
+    script.async = true;
+    script.onload = () => window.msal ? resolve(window.msal) : reject(new Error("Microsoft sign-in library loaded without MSAL"));
+    script.onerror = () => reject(new Error(`Unable to load ${source}`));
+    document.head.appendChild(script);
+  })), Promise.reject());
+}
+
 async function createMsalClient() {
-  if (!window.msal) throw new Error("Microsoft sign-in library is still loading. Try again in a moment.");
+  if (!window.msal) await loadMsalFallback();
+  if (!window.msal) throw new Error("Microsoft sign-in library could not load. Disable a browser script blocker or try another network.");
   const { tenantId, clientId } = getM365Config();
   m365State.pca = new window.msal.PublicClientApplication({
     auth: {
