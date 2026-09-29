@@ -955,25 +955,8 @@ function getM365Config() {
   return { tenantId, clientId };
 }
 
-function loadMsalFallback() {
-  const sources = [
-    "https://alcdn.msauth.net/browser/2.38.3/js/msal-browser.min.js",
-    "https://unpkg.com/@azure/msal-browser@2.38.3/lib/msal-browser.min.js",
-  ];
-  return sources.reduce((promise, source) => promise.catch(() => new Promise((resolve, reject) => {
-    if (window.msal) return resolve(window.msal);
-    const script = document.createElement("script");
-    script.src = source;
-    script.async = true;
-    script.onload = () => window.msal ? resolve(window.msal) : reject(new Error("Microsoft sign-in library loaded without MSAL"));
-    script.onerror = () => reject(new Error(`Unable to load ${source}`));
-    document.head.appendChild(script);
-  })), Promise.reject());
-}
-
 async function createMsalClient() {
-  if (!window.msal) await loadMsalFallback();
-  if (!window.msal) throw new Error("Microsoft sign-in library could not load. Disable a browser script blocker or try another network.");
+  if (!window.msal) throw new Error("Microsoft sign-in library could not load. Refresh the page or disable a browser script blocker.");
   const { tenantId, clientId } = getM365Config();
   m365State.pca = new window.msal.PublicClientApplication({
     auth: {
