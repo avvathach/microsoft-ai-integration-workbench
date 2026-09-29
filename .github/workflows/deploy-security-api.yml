@@ -13,7 +13,8 @@ permissions:
 
 jobs:
   deploy:
-    if: vars.AZURE_SECURITY_API_DEPLOY_ENABLED == 'true'
+    # Pushes require an explicit enable flag; a deliberate manual run is also allowed.
+    if: github.event_name == 'workflow_dispatch' || vars.AZURE_SECURITY_API_DEPLOY_ENABLED == 'true'
     runs-on: ubuntu-latest
     environment: production
     steps:
@@ -32,4 +33,3 @@ jobs:
         with:
           app-name: ${{ vars.AZURE_FUNCTIONAPP_NAME }}
           package: api
-
