@@ -478,7 +478,7 @@ const m365State = {
   connected: false,
 };
 
-const SECURITY_API_BASE = "/api/security";
+const SECURITY_API_BASE = "https://hr1-security-api-avvathach-cvaxdxexeca4cagv.westus3-01.azurewebsites.net/api/security";
 const SECURITY_API_SCOPE = "api://hr1-security-api/SecurityAssurance.Read";
 const securityAssuranceState = { state: "loading", data: null, error: "", scanRunning: false };
 
