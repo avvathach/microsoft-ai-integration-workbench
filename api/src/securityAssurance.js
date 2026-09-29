@@ -102,12 +102,11 @@ function objectAt(...values) {
 
 function sanitizeStatus(payload, config) {
   const root = objectAt(payload?.data, payload?.result, payload);
-  const site = objectAt(root.site, payload?.site);
   const scan = objectAt(root.latest_run, root.latestRun, root.latestScan, root.latest_scan, root.scan, root.latest);
   const counts = objectAt(root.security, root.findingCounts, root.finding_counts, root.counts, scan.findingCounts, scan.finding_counts, scan.counts);
   const status = valueAt(scan.status, scan.scanStatus, root.latestScanStatus, root.latest_scan_status, root.status, root.scan_status);
   return {
-    domain: valueAt(site.registrable_domain, site.domain, config.domain),
+    domain: config.domain,
     latestScanStatus: typeof status === "string" ? status : null,
     progressPercent: numberAt(scan.progress_percent, scan.progressPercent, scan.progress_percentage, root.progressPercent, root.progress_percentage),
     scanStartedAt: valueAt(scan.started_at, scan.startedAt, root.scanStartedAt, root.scan_started_at) || null,
