@@ -73,7 +73,7 @@ async function rafterRequest(config, path, method, body, fetchImpl) {
       signal: controller.signal,
       headers: {
         Accept: "application/json",
-        Authorization: `Bearer ${config.apiKey}`,
+        "x-api-key": config.apiKey,
         ...(body ? { "Content-Type": "application/json" } : {}),
       },
       ...(body ? { body: JSON.stringify(body) } : {}),
@@ -101,19 +101,20 @@ function objectAt(...values) {
 }
 
 function sanitizeStatus(payload, config) {
-  const root = objectAt(payload?.data, payload?.result, payload?.site, payload);
-  const scan = objectAt(root.latestScan, root.latest_scan, root.scan, root.latest);
-  const counts = objectAt(root.findingCounts, root.finding_counts, root.counts, scan.findingCounts, scan.finding_counts, scan.counts);
+  const root = objectAt(payload?.data, payload?.result, payload);
+  const site = objectAt(root.site, payload?.site);
+  const scan = objectAt(root.latest_run, root.latestRun, root.latestScan, root.latest_scan, root.scan, root.latest);
+  const counts = objectAt(root.security, root.findingCounts, root.finding_counts, root.counts, scan.findingCounts, scan.finding_counts, scan.counts);
   const status = valueAt(scan.status, scan.scanStatus, root.latestScanStatus, root.latest_scan_status, root.status, root.scan_status);
   return {
-    domain: config.domain,
+    domain: valueAt(site.registrable_domain, site.domain, config.domain),
     latestScanStatus: typeof status === "string" ? status : null,
-    progressPercent: numberAt(scan.progressPercent, scan.progress_percentage, root.progressPercent, root.progress_percentage),
-    scanStartedAt: valueAt(scan.startedAt, scan.started_at, root.scanStartedAt, root.scan_started_at) || null,
-    scanCompletedAt: valueAt(scan.completedAt, scan.completed_at, root.scanCompletedAt, root.scan_completed_at) || null,
+    progressPercent: numberAt(scan.progress_percent, scan.progressPercent, scan.progress_percentage, root.progressPercent, root.progress_percentage),
+    scanStartedAt: valueAt(scan.started_at, scan.startedAt, root.scanStartedAt, root.scan_started_at) || null,
+    scanCompletedAt: valueAt(scan.finished_at, scan.completed_at, scan.completedAt, root.scanCompletedAt, root.scan_completed_at) || null,
     criticalCount: numberAt(counts.critical, counts.criticalCount, root.criticalCount),
-    warningCount: numberAt(counts.warning, counts.warnings, counts.warningCount, root.warningCount),
-    informationalCount: numberAt(counts.informational, counts.info, counts.informationalCount, root.informationalCount),
+    warningCount: numberAt(counts.warn, counts.warning, counts.warnings, counts.warningCount, root.warningCount),
+    informationalCount: numberAt(counts.info, counts.informational, counts.informationalCount, root.informationalCount),
     totalFindings: numberAt(counts.total, counts.totalFindings, root.totalFindings),
     remediationVerificationStatus: valueAt(root.remediationVerificationStatus, root.remediation_status, scan.remediationVerificationStatus) || null,
   };

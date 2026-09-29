@@ -41,6 +41,35 @@ test("status uses the fixed site endpoint and returns sanitized fields only", as
   assert.equal(JSON.stringify(result.jsonBody).includes(config.apiKey), false);
 });
 
+test("status maps the documented Rafter site response shape", async () => {
+  const { handlers } = harness({
+    fetchImpl: async () => ({
+      ok: true,
+      status: 200,
+      async json() {
+        return {
+          site: { registrable_domain: "hr1.iavva.ai" },
+          latest_run: {
+            status: "succeeded",
+            progress_percent: 100,
+            started_at: "2026-09-29T00:00:00Z",
+            finished_at: "2026-09-29T00:01:00Z",
+          },
+          security: { critical: 0, warn: 2, info: 3, total: 5 },
+          raw_findings: [{ message: "must not be returned" }],
+        };
+      },
+    }),
+  });
+  const result = await handlers.status(request("GET"));
+  assert.equal(result.status, 200);
+  assert.equal(result.jsonBody.latestScanStatus, "succeeded");
+  assert.equal(result.jsonBody.warningCount, 2);
+  assert.equal(result.jsonBody.informationalCount, 3);
+  assert.equal(result.jsonBody.totalFindings, 5);
+  assert.equal("raw_findings" in result.jsonBody, false);
+});
+
 test("scan requires authentication and administrator authorization", async () => {
   const unauthenticated = harness({ verifyToken: async () => null });
   const noAuth = await unauthenticated.handlers.scan(request("POST", { origin: "https://hr1.iavva.ai" }));
@@ -59,7 +88,8 @@ test("scan requires same-origin CSRF protection and calls only fixed scan payloa
   assert.equal(result.status, 202);
   assert.equal(calls.at(-1).url, "https://rafter.example.test/api/static/sites/scan");
   assert.deepEqual(JSON.parse(calls.at(-1).init.body), { projectId: "fixed-hr1-project", sections: ["security", "dns"] });
-  assert.equal(calls.at(-1).init.headers.Authorization, "Bearer server-only-test-key");
+  assert.equal(calls.at(-1).init.headers["x-api-key"], "server-only-test-key");
+  assert.equal("Authorization" in calls.at(-1).init.headers, false);
 });
 
 test("scan is rate limited", async () => {
