@@ -980,7 +980,7 @@ function renderSecurityAssurance() {
     banner.className = "security-assurance-banner unavailable";
     banner.innerHTML = '<i data-lucide="triangle-alert"></i><div><strong>Latest automated scan summary is unavailable</strong><span>The server did not return a usable status response.</span></div>';
   } else {
-    const noCritical = current.latestScanStatus === "completed" && current.criticalCount === 0;
+    const noCritical = ["completed", "succeeded"].includes(current.latestScanStatus) && current.criticalCount === 0;
     banner.className = `security-assurance-banner ${securityAssuranceState.scanRunning ? "loading" : "available"}`;
     banner.innerHTML = `<i data-lucide="${securityAssuranceState.scanRunning ? "loader-circle" : "shield-check"}"></i><div><strong>${noCritical ? "No critical findings detected in the latest automated scan." : escapeHtml(current.latestScanStatus || "Latest scan status reported")}</strong><span>${securityAssuranceState.scanRunning ? "An administrator scan request is in progress." : "Public summary only. Detailed findings require administrator access."}</span></div>`;
   }
