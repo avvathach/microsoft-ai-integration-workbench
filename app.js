@@ -996,7 +996,10 @@ function renderSecurityAssurance() {
     ["Remediation verification", escapeHtml(data.remediationVerificationStatus || "Not reported"), "Administrator view may provide more detail"],
   ];
   grid.innerHTML = cards.map(([label, value, note]) => `<article class="security-assurance-card"><span>${escapeHtml(label)}</span><strong>${value}</strong><small>${escapeHtml(note)}</small></article>`).join("");
-  if (button) button.disabled = securityAssuranceState.scanRunning;
+  if (button) {
+    button.hidden = !m365State.account;
+    button.disabled = securityAssuranceState.scanRunning;
+  }
   refreshIcons();
 }
 
