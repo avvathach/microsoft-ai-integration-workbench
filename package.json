@@ -6,6 +6,7 @@
   "scripts": {
     "build": "sh scripts/build.sh",
     "check": "node --check app.js && node scripts/verify.mjs",
-    "check:dist": "node --check dist/app.js && node scripts/verify.mjs dist"
+    "check:dist": "node --check dist/app.js && node scripts/verify.mjs dist",
+    "test:security": "node --test api/test/*.test.js"
   }
 }

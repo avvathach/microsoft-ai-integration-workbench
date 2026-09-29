@@ -1,0 +1,13 @@
+{
+  "name": "hr1-security-api",
+  "private": true,
+  "version": "1.0.0",
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "@azure/functions": "^4.7.2",
+    "jose": "^5.10.0"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  }
+}

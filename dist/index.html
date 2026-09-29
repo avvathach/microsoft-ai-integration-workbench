@@ -6,10 +6,10 @@
     <meta name="theme-color" content="#102033">
     <title>Microsoft AI Applications Integration Workbench | iAvva AI</title>
     <meta name="description" content="A working higher-education prototype demonstrating governed AI integration, accountable human decisions, and auditable enterprise workflows.">
-    <link rel="stylesheet" href="./styles.css?v=0f6351b35677">
+    <link rel="stylesheet" href="./styles.css?v=58270778d751">
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
     <script src="./assets/msal-browser.min.js" defer></script>
-    <script src="./app.js?v=cdc2132735cb" defer></script>
+    <script src="./app.js?v=94c83a0a4886" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to main content</a>
@@ -42,6 +42,7 @@
           <a class="nav-link" href="#technical" data-nav="technical"><i data-lucide="network"></i>Technical view</a>
           <a class="nav-link" href="#review" data-nav="review"><i data-lucide="clipboard-check"></i>Live demo</a>
           <a class="nav-link" href="#microsoft" data-nav="microsoft"><i data-lucide="blocks"></i>Microsoft services</a>
+          <a class="nav-link" href="#security-assurance" data-nav="security-assurance"><i data-lucide="shield-check"></i>Security Assurance</a>
           <a class="nav-link" href="#audit" data-nav="audit"><i data-lucide="file-check-2"></i>Audit</a>
         </nav>
         <div class="sidebar-note">
@@ -342,6 +343,17 @@
               <div class="bar-stack" id="barStack"></div>
             </section>
           </div>
+        </section>
+
+        <section id="security-assurance" class="band" aria-labelledby="securityAssuranceHeading">
+          <div class="section-heading">
+            <div><p class="eyebrow">Operational security posture</p><h2 id="securityAssuranceHeading">Security Assurance</h2><p class="section-intro">A public, sanitized view of the latest automated HR1 scan. Detailed findings remain administrator-only.</p></div>
+            <button class="button secondary" id="securityScanButton" type="button"><i data-lucide="scan-search"></i>Start administrator scan</button>
+          </div>
+          <div class="security-assurance-banner" id="securityAssuranceBanner" role="status" aria-live="polite"><i data-lucide="loader-circle"></i><div><strong>Checking latest scan status</strong><span>No scan is started when this page loads.</span></div></div>
+          <div class="security-assurance-grid" id="securityAssuranceGrid" aria-live="polite"></div>
+          <div class="security-assurance-note"><i data-lucide="lock-keyhole"></i><span>Public summary only. Rafter credentials, raw findings, and scan payloads stay server-side. Synthetic demonstration data is used throughout this prototype.</span></div>
+          <div class="security-assurance-note"><i data-lucide="workflow"></i><span>Teams / Power Automate critical-finding notification: <strong>Proposed, not connected</strong>.</span></div>
         </section>
 
         <section id="audit" class="band" aria-labelledby="auditHeading">

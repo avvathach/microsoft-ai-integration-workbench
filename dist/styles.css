@@ -507,6 +507,111 @@
   background: linear-gradient(135deg, #f5fffb 0%, #ffffff 58%, #f5f8ff 100%);
 }
 
+.security-assurance-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 18px 0;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.security-assurance-banner > svg {
+  flex: 0 0 auto;
+  color: var(--teal);
+}
+
+.security-assurance-banner div {
+  display: grid;
+  gap: 4px;
+}
+
+.security-assurance-banner span {
+  color: var(--ink-2);
+  font-size: 0.86rem;
+}
+
+.security-assurance-banner.available {
+  border-color: rgba(16, 185, 129, 0.36);
+  background: #f0fdf4;
+}
+
+.security-assurance-banner.unavailable {
+  border-color: rgba(180, 83, 9, 0.3);
+  background: #fffaf0;
+}
+
+.security-assurance-banner.loading > svg {
+  animation: security-spin 1.2s linear infinite;
+}
+
+.security-assurance-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.security-assurance-card {
+  display: grid;
+  gap: 7px;
+  min-height: 112px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--paper);
+}
+
+.security-assurance-card span {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.security-assurance-card strong {
+  color: var(--teal);
+  font-size: 1.16rem;
+  overflow-wrap: anywhere;
+}
+
+.security-assurance-card small {
+  color: var(--ink-2);
+  font-size: 0.76rem;
+}
+
+.security-assurance-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin-top: 16px;
+  color: var(--ink-2);
+  font-size: 0.84rem;
+}
+
+.security-assurance-note svg {
+  flex: 0 0 auto;
+  color: var(--teal);
+}
+
+@keyframes security-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 900px) {
+  .security-assurance-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .security-assurance-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .routing-visual {
   display: grid;
   gap: 16px;

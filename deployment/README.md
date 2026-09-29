@@ -50,3 +50,28 @@ mv -Tf current.next current
 ```
 
 No Caddy reload is required for content-only deployments or rollbacks.
+
+## Security Assurance API
+
+The static Hetzner deployment does not run server-side application code. Deploy `api/` as a separate Azure Functions Node.js v4 app before enabling live Rafter status. Put the Function behind Azure API Management or an equivalent protected API boundary and route the frontend's fixed `/api/security` path to the API origin through the production proxy.
+
+Required Azure Function settings are:
+
+- `RAFTER_API_BASE_URL`
+- `RAFTER_API_KEY`
+- `RAFTER_SITE_ID`
+- `RAFTER_PROJECT_ID`
+- `ENTRA_TENANT_ID`
+- `ENTRA_API_AUDIENCE`
+- `SECURITY_ASSURANCE_ADMIN_ROLE`
+- `APPLICATIONINSIGHTS_CONNECTION_STRING`
+
+Set `RAFTER_API_KEY` as an Azure Key Vault reference, for example `@Microsoft.KeyVault(SecretUri=https://<vault>.vault.azure.net/secrets/<secret-name>/)`, and grant the Function managed identity permission to read that secret. Never add the key to GitHub secrets for frontend builds, static artifacts, browser storage, logs, or source control.
+
+Routes:
+
+- `GET /api/security/status`: public sanitized status only.
+- `GET /api/security/csrf`: short-lived CSRF token for the administrator flow.
+- `POST /api/security/scan`: Entra-authenticated administrator endpoint; fixed HR1 project and security/DNS sections only.
+
+The API emits safe scan lifecycle events to Application Insights. It does not log API keys, tokens, raw Rafter responses, or vulnerability details. The Teams or Power Automate critical-finding notification remains proposed until a Logic App or flow is separately approved and configured.

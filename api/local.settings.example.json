@@ -1,0 +1,14 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "RAFTER_API_BASE_URL": "https://api.example-rafter.invalid",
+    "RAFTER_API_KEY": "",
+    "RAFTER_SITE_ID": "",
+    "RAFTER_PROJECT_ID": "",
+    "ENTRA_TENANT_ID": "",
+    "ENTRA_API_AUDIENCE": "",
+    "SECURITY_ASSURANCE_ADMIN_ROLE": "SecurityAssurance.Admin",
+    "APPLICATIONINSIGHTS_CONNECTION_STRING": ""
+  }
+}

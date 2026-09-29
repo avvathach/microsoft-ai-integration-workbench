@@ -478,6 +478,10 @@ const m365State = {
   connected: false,
 };
 
+const SECURITY_API_BASE = "/api/security";
+const SECURITY_API_SCOPE = "api://hr1-security-api/SecurityAssurance.Read";
+const securityAssuranceState = { state: "loading", data: null, error: "", scanRunning: false };
+
 const useCaseDemos = [
   {
     id: "student-dispute",
@@ -939,6 +943,115 @@ function renderM365Data(cards = []) {
     ? cards.map((card) => `<article class="tenant-live-card"><span>${card.label}</span><strong>${card.value}</strong></article>`).join("")
     : '<div class="tenant-empty"><i data-lucide="plug-zap"></i><span>Enter your tenant and application IDs to connect.</span></div>';
   refreshIcons();
+}
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function formatSecurityDate(value) {
+  if (!value) return "Not reported";
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? "Not reported" : parsed.toLocaleString();
+}
+
+function securityValue(value, suffix = "") {
+  return value === null || value === undefined ? "Not reported" : `${escapeHtml(value)}${suffix}`;
+}
+
+function renderSecurityAssurance() {
+  const banner = document.querySelector("#securityAssuranceBanner");
+  const grid = document.querySelector("#securityAssuranceGrid");
+  const button = document.querySelector("#securityScanButton");
+  if (!banner || !grid) return;
+  const current = securityAssuranceState.data;
+  if (securityAssuranceState.state === "loading") {
+    banner.className = "security-assurance-banner loading";
+    banner.innerHTML = '<i data-lucide="loader-circle"></i><div><strong>Checking latest scan status</strong><span>No scan is started when this page loads.</span></div>';
+  } else if (securityAssuranceState.state === "not_configured") {
+    banner.className = "security-assurance-banner unavailable";
+    banner.innerHTML = '<i data-lucide="settings-2"></i><div><strong>Security status is not configured for this deployment</strong><span>No scan result is being inferred or fabricated.</span></div>';
+  } else if (securityAssuranceState.state === "error") {
+    banner.className = "security-assurance-banner unavailable";
+    banner.innerHTML = '<i data-lucide="triangle-alert"></i><div><strong>Latest automated scan summary is unavailable</strong><span>The server did not return a usable status response.</span></div>';
+  } else {
+    const noCritical = current.latestScanStatus === "completed" && current.criticalCount === 0;
+    banner.className = `security-assurance-banner ${securityAssuranceState.scanRunning ? "loading" : "available"}`;
+    banner.innerHTML = `<i data-lucide="${securityAssuranceState.scanRunning ? "loader-circle" : "shield-check"}"></i><div><strong>${noCritical ? "No critical findings detected in the latest automated scan." : escapeHtml(current.latestScanStatus || "Latest scan status reported")}</strong><span>${securityAssuranceState.scanRunning ? "An administrator scan request is in progress." : "Public summary only. Detailed findings require administrator access."}</span></div>`;
+  }
+  const data = current || {};
+  const cards = [
+    ["Source Code Security", escapeHtml(data.latestScanStatus || "Not reported"), "Automated scan status"],
+    ["Deployed Application Security", data.progressPercent === null || data.progressPercent === undefined ? "Not reported" : `${data.progressPercent}%`, "Latest scan progress"],
+    ["Latest scan date", escapeHtml(formatSecurityDate(data.scanCompletedAt || data.scanStartedAt)), "Completion or start time"],
+    ["Scan status", escapeHtml(data.latestScanStatus || "Not reported"), "Server-reported status"],
+    ["Critical findings", securityValue(data.criticalCount), "Sanitized count"],
+    ["Warning findings", securityValue(data.warningCount), "Sanitized count"],
+    ["Informational findings", securityValue(data.informationalCount), "Sanitized count"],
+    ["Remediation verification", escapeHtml(data.remediationVerificationStatus || "Not reported"), "Administrator view may provide more detail"],
+  ];
+  grid.innerHTML = cards.map(([label, value, note]) => `<article class="security-assurance-card"><span>${escapeHtml(label)}</span><strong>${value}</strong><small>${escapeHtml(note)}</small></article>`).join("");
+  if (button) button.disabled = securityAssuranceState.scanRunning;
+  refreshIcons();
+}
+
+async function loadSecurityStatus() {
+  securityAssuranceState.state = "loading";
+  securityAssuranceState.error = "";
+  renderSecurityAssurance();
+  try {
+    const response = await fetch(`${SECURITY_API_BASE}/status`, { cache: "no-store" });
+    const payload = await response.json();
+    if (response.status === 503 && payload.status === "not_configured") {
+      securityAssuranceState.state = "not_configured";
+      securityAssuranceState.data = null;
+    } else if (!response.ok || !payload || payload.domain !== "hr1.iavva.ai") {
+      throw new Error("Invalid security status response");
+    } else {
+      securityAssuranceState.state = "ready";
+      securityAssuranceState.data = payload;
+    }
+  } catch (error) {
+    securityAssuranceState.state = "error";
+    securityAssuranceState.error = error.message;
+    securityAssuranceState.data = null;
+  }
+  renderSecurityAssurance();
+}
+
+async function triggerSecurityScan() {
+  if (securityAssuranceState.scanRunning) return;
+  if (!m365State.pca || !m365State.account) {
+    showToast("Administrator Microsoft sign-in is required to start a scan");
+    return;
+  }
+  securityAssuranceState.scanRunning = true;
+  renderSecurityAssurance();
+  try {
+    const csrfResponse = await fetch(`${SECURITY_API_BASE}/csrf`, { credentials: "same-origin", cache: "no-store" });
+    const csrfPayload = await csrfResponse.json();
+    if (!csrfResponse.ok || !csrfPayload.token) throw new Error("Security API is not configured");
+    const token = await m365State.pca.acquireTokenSilent({ account: m365State.account, scopes: [SECURITY_API_SCOPE] });
+    const response = await fetch(`${SECURITY_API_BASE}/scan`, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: { Authorization: `Bearer ${token.accessToken}`, "Content-Type": "application/json", "X-HR1-CSRF": csrfPayload.token },
+      body: "{}",
+    });
+    if (!response.ok) throw new Error("Administrator scan request was not accepted");
+    showToast("Administrator scan requested");
+    await loadSecurityStatus();
+  } catch (error) {
+    showToast(error.message || "Security scan request failed");
+  } finally {
+    securityAssuranceState.scanRunning = false;
+    renderSecurityAssurance();
+  }
 }
 
 function getM365Config() {
@@ -1444,6 +1557,7 @@ function renderAll() {
   renderApiSnippet();
   renderCharts();
   renderGraphRouting();
+  renderSecurityAssurance();
   renderAudit();
   refreshIcons();
 }
@@ -1579,6 +1693,7 @@ function bindEvents() {
   document.querySelector("#exportButton").addEventListener("click", exportCsv);
   document.querySelector("#aiPassButton")?.addEventListener("click", simulateAiPass);
   document.querySelector("#graphButton").addEventListener("click", simulateGraphRouting);
+  document.querySelector("#securityScanButton")?.addEventListener("click", triggerSecurityScan);
   document.querySelector("#resetButton").addEventListener("click", resetDemo);
   document.querySelector("#connectMicrosoftButton")?.addEventListener("click", connectMicrosoft);
   document.querySelector("#refreshMicrosoftButton")?.addEventListener("click", async () => {
@@ -1653,6 +1768,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (clientInput) clientInput.value = m365State.clientId;
   renderM365Status("Not connected", false);
   renderM365Data();
+  renderSecurityAssurance();
+  loadSecurityStatus();
   pollLiveConnectors();
   window.setInterval(() => {
     if (sourceMonitor.running) updateSourceMonitor();
