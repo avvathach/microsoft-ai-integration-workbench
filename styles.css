@@ -507,6 +507,234 @@
   background: linear-gradient(135deg, #f5fffb 0%, #ffffff 58%, #f5f8ff 100%);
 }
 
+.thinking-lab-band {
+  background: linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
+}
+
+.thinking-method-flow {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  margin: 20px 0;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.thinking-method-flow article {
+  display: grid;
+  min-width: 128px;
+  gap: 5px;
+  padding: 13px;
+  border: 1px solid rgba(4, 120, 87, 0.18);
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 8px 22px rgba(16, 32, 51, 0.06);
+}
+
+.thinking-method-flow article > span {
+  color: var(--teal);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.thinking-method-flow article svg {
+  width: 20px;
+  color: var(--brand-warm);
+}
+
+.thinking-method-flow article strong {
+  font-size: 0.92rem;
+}
+
+.thinking-method-flow article small {
+  color: var(--muted);
+  font-size: 0.74rem;
+}
+
+.thinking-method-flow > b {
+  align-self: center;
+  color: var(--teal);
+  font-size: 1.15rem;
+}
+
+.thinking-lab-layout {
+  display: grid;
+  grid-template-columns: minmax(230px, 0.78fr) minmax(0, 1.85fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.thinking-lens {
+  position: sticky;
+  top: 18px;
+  display: grid;
+  gap: 14px;
+  padding: 20px;
+  border-color: rgba(37, 99, 235, 0.2);
+  background: linear-gradient(155deg, #eef7ff, #ffffff 70%);
+}
+
+.thinking-lens h3 {
+  margin: -4px 0 2px;
+  font-size: 1.2rem;
+}
+
+.lens-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.lens-item > svg {
+  width: 18px;
+  flex: 0 0 auto;
+  color: var(--microsoft-blue);
+}
+
+.lens-item div {
+  display: grid;
+  gap: 3px;
+}
+
+.lens-item span {
+  color: var(--ink-2);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.thinking-phrase {
+  display: grid;
+  gap: 5px;
+  margin-top: 2px;
+  padding: 13px;
+  border-left: 3px solid var(--brand-warm);
+  background: rgba(244, 178, 74, 0.14);
+}
+
+.thinking-phrase span,
+.session-label {
+  color: var(--teal);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.thinking-phrase strong {
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.thinking-sessions {
+  display: grid;
+  gap: 9px;
+}
+
+.thinking-sessions > .eyebrow {
+  margin: 0 0 1px;
+}
+
+.thinking-session {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 7px 20px rgba(16, 32, 51, 0.05);
+}
+
+.thinking-session summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.thinking-session summary::-webkit-details-marker {
+  display: none;
+}
+
+.thinking-session summary > span:nth-child(2) {
+  display: grid;
+  flex: 1;
+  gap: 3px;
+}
+
+.thinking-session summary small {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 400;
+}
+
+.thinking-session summary > svg {
+  width: 18px;
+  color: var(--muted);
+  transition: transform 180ms ease;
+}
+
+.thinking-session[open] summary > svg {
+  transform: rotate(180deg);
+}
+
+.session-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  border-radius: 9px;
+  color: #ffffff;
+  background: var(--teal);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.session-body {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 18px;
+  padding: 0 16px 16px 58px;
+}
+
+.session-body > div {
+  display: grid;
+  align-content: start;
+  gap: 4px;
+}
+
+.session-body p {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.answer-pattern {
+  display: grid;
+  grid-template-columns: minmax(190px, 0.65fr) minmax(0, 1.65fr);
+  gap: 22px;
+  align-items: center;
+  margin-top: 18px;
+  padding: 20px;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  border-radius: 14px;
+  background: linear-gradient(135deg, #effcf7, #ffffff 68%);
+}
+
+.answer-pattern h3 {
+  margin: 2px 0 0;
+  font-size: 1.15rem;
+}
+
+.answer-pattern p:last-child {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: 0.94rem;
+  line-height: 1.6;
+}
+
 .security-assurance-banner {
   display: flex;
   align-items: flex-start;
@@ -681,11 +909,41 @@
   .security-operations-grid {
     grid-template-columns: 1fr;
   }
+
+  .thinking-lab-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .thinking-lens {
+    position: static;
+  }
 }
 
 @media (max-width: 560px) {
   .security-assurance-grid {
     grid-template-columns: 1fr;
+  }
+
+  .thinking-method-flow {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .thinking-method-flow > b {
+    display: none;
+  }
+
+  .thinking-method-flow article {
+    min-width: 0;
+  }
+
+  .session-body,
+  .answer-pattern {
+    grid-template-columns: 1fr;
+  }
+
+  .session-body {
+    padding-left: 16px;
   }
 }
 
