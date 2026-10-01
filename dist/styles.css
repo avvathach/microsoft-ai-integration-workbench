@@ -558,6 +558,46 @@
   font-size: 1.15rem;
 }
 
+.star-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin: 2px 0 20px;
+}
+
+.star-strip span {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 8px;
+  align-items: center;
+  padding: 10px 12px;
+  border: 1px solid rgba(37, 99, 235, 0.16);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.star-strip b {
+  grid-row: span 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  color: #ffffff;
+  background: var(--microsoft-blue);
+  font-size: 0.72rem;
+}
+
+.star-strip strong {
+  font-size: 0.78rem;
+}
+
+.star-strip small {
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+
 .thinking-lab-layout {
   display: grid;
   grid-template-columns: minmax(230px, 0.78fr) minmax(0, 1.85fr);
@@ -935,6 +975,10 @@
 
   .thinking-method-flow article {
     min-width: 0;
+  }
+
+  .star-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .session-body,
