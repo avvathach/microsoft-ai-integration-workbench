@@ -596,6 +596,79 @@
   color: var(--teal);
 }
 
+.security-operations {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  border: 1px solid var(--line);
+  border-radius: 1.25rem;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.security-operations-heading h3 {
+  margin: 0.2rem 0 0.4rem;
+  font-size: clamp(1.25rem, 2vw, 1.7rem);
+}
+
+.security-operations-heading p:last-child {
+  max-width: 52rem;
+  color: var(--ink-2);
+}
+
+.security-operations-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+  margin-top: 1.1rem;
+}
+
+.security-operation-card {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+
+.security-operation-card svg {
+  width: 1.35rem;
+  color: var(--teal);
+  flex: 0 0 auto;
+}
+
+.security-operation-card div {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.security-operation-card span {
+  color: var(--ink-2);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.security-operations-flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: 1.1rem;
+  color: var(--teal);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.security-operations-flow span {
+  padding: 0.45rem 0.65rem;
+  border-radius: 999px;
+  background: var(--mint);
+}
+
+.security-operations-flow b {
+  color: var(--ink-2);
+}
+
 @keyframes security-spin {
   to { transform: rotate(360deg); }
 }
@@ -603,6 +676,10 @@
 @media (max-width: 900px) {
   .security-assurance-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .security-operations-grid {
+    grid-template-columns: 1fr;
   }
 }
 

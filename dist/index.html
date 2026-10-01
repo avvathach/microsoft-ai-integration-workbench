@@ -6,10 +6,10 @@
     <meta name="theme-color" content="#102033">
     <title>Microsoft AI Applications Integration Workbench | iAvva AI</title>
     <meta name="description" content="A working higher-education prototype demonstrating governed AI integration, accountable human decisions, and auditable enterprise workflows.">
-    <link rel="stylesheet" href="./styles.css?v=58270778d751">
+    <link rel="stylesheet" href="./styles.css?v=abf702347778">
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
     <script src="./assets/msal-browser.min.js" defer></script>
-    <script src="./app.js?v=f666f46eaa5c" defer></script>
+    <script src="./app.js?v=f77ad951b4a9" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to main content</a>
@@ -355,6 +355,15 @@
           <div class="security-assurance-note"><i data-lucide="lock-keyhole"></i><span>Public summary only. Rafter credentials, raw findings, and scan payloads stay server-side. Synthetic demonstration data is used throughout this prototype.</span></div>
           <div class="security-assurance-note"><i data-lucide="workflow"></i><span>Teams / Power Automate critical-finding notification: <strong>Proposed, not connected</strong>.</span></div>
           <div class="security-assurance-note"><i data-lucide="user-round-check"></i><span>Administrator actions appear only after authenticated Microsoft sign-in.</span></div>
+          <div class="security-operations" aria-labelledby="securityOperationsHeading">
+            <div class="security-operations-heading"><p class="eyebrow">Security operations</p><h3 id="securityOperationsHeading">From secure sign-in to root-cause analysis</h3><p>Security is part of the workflow, not a separate report at the end. Each event can be tied to an identity, a system, a decision, and an accountable owner.</p></div>
+            <div class="security-operations-grid">
+              <article class="security-operation-card"><i data-lucide="log-in"></i><div><strong>1. Secure access</strong><span>Microsoft Entra ID, MFA, role-based access, and least privilege control who can view data or approve an action.</span></div></article>
+              <article class="security-operation-card"><i data-lucide="bell-ring"></i><div><strong>2. Detect and alert</strong><span>Application Insights and approved monitoring identify unusual failures, blocked actions, and integration drift without exposing sensitive data.</span></div></article>
+              <article class="security-operation-card"><i data-lucide="search-check"></i><div><strong>3. Find the root cause</strong><span>Investigators correlate the timestamp, identity, source system, rule result, and workflow step before deciding what to fix.</span></div></article>
+            </div>
+            <div class="security-operations-flow"><span>LOGIN</span><b>→</b><span>EVENT</span><b>→</b><span>ALERT</span><b>→</b><span>ROOT CAUSE</span><b>→</b><span>ACCOUNTABLE FIX</span></div>
+          </div>
         </section>
 
         <section id="audit" class="band" aria-labelledby="auditHeading">
