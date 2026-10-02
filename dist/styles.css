@@ -661,30 +661,10 @@
   background: #f4fffb;
 }
 
-.safe-90-grid span,
-.safe-talk-track span {
+.safe-90-grid span {
   color: var(--ink-2);
   font-size: 0.84rem;
   line-height: 1.5;
-}
-
-.safe-talk-track {
-  display: grid;
-  gap: 6px;
-  margin-top: 14px;
-  padding: 16px;
-  border: 1px solid rgba(16, 32, 51, 0.12);
-  border-radius: 14px;
-  background: #102033;
-  color: #ffffff;
-}
-
-.safe-talk-track strong {
-  color: #ffffff;
-}
-
-.safe-talk-track span {
-  color: rgba(255, 255, 255, 0.82);
 }
 
 .thinking-method-flow {
