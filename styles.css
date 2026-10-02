@@ -1613,6 +1613,35 @@
   margin-top: 12px;
 }
 
+.m365-working-image {
+  margin: 18px 0 0;
+  overflow: hidden;
+  border: 1px solid rgba(37, 99, 235, 0.18);
+  border-radius: 14px;
+  background: #102033;
+}
+
+.m365-working-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.m365-working-image figcaption {
+  padding: 10px 14px;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.78rem;
+}
+
+.thinking-byline {
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
 .tenant-fix-panel {
   display: grid;
   gap: 6px;

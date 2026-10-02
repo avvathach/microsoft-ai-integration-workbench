@@ -330,32 +330,19 @@
           <div class="integration-grid" id="integrationGrid"></div>
           <section class="panel tenant-connection-panel" aria-labelledby="tenantConnectionHeading">
             <div class="panel-heading">
-              <div><p class="eyebrow">Live Microsoft 365 connector</p><h3 id="tenantConnectionHeading">Connect your own business tenant</h3></div>
-              <span class="status warn" id="m365Status">Tenant setup required</span>
+              <div><p class="eyebrow">Live Microsoft 365 connection</p><h3 id="tenantConnectionHeading">Live Microsoft 365 connection (demo tenant)</h3></div>
+              <span class="status warn" id="m365Status">Sign-in available for the demo tenant</span>
             </div>
-            <p class="api-note">This uses Microsoft sign-in and delegated Graph permissions. No password or client secret is stored in this application. Live data stays in your tenant and is read only. If this says setup required, the Entra app still needs this page URL registered as an SPA redirect URI.</p>
+            <p class="api-note">This is a live, read-only connection to my own Microsoft 365 test tenant using delegated Microsoft Graph permissions (User.Read, Files.Read). Sign-in is limited to that tenant; no institutional accounts or data are used.</p>
             <div class="tenant-connection-form">
-              <label><span>Directory (tenant) ID</span><input id="tenantInput" type="text" autocomplete="off" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"></label>
-              <label><span>Application (client) ID</span><input id="clientInput" type="text" autocomplete="off" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"></label>
               <button class="button primary" id="connectMicrosoftButton" type="button"><i data-lucide="log-in"></i>Sign in with Microsoft</button>
               <button class="button secondary" id="refreshMicrosoftButton" type="button" disabled><i data-lucide="refresh-cw"></i>Refresh live data</button>
             </div>
-            <small class="tenant-note">Use the GUID values from your app Overview. Tenant ID: <code>336cd8f8-94b0-42c4-9d2f-16050b2c0a68</code>. Client ID: <code>1f6493f4-a929-46a3-8a65-3ecb368e54ce</code>. Do not enter an <code>.onmicrosoft.com</code> domain in either field.</small>
-            <div class="tenant-live-grid" id="m365LiveData" aria-live="polite"><div class="tenant-empty"><i data-lucide="plug-zap"></i><span>Enter your tenant and application IDs to connect.</span></div></div>
-            <small class="tenant-note">Register these SPA redirect URIs for the demo: <code>https://hr1.iavva.ai/</code> for production and <code>http://localhost:5173/</code> for this local run. Required delegated permissions: User.Read and Files.Read. Add site permissions only after your administrator approves the use case.</small>
-            <div class="tenant-fix-panel" aria-label="How to fix tenant connection">
-              <strong>How to fix “tenant setup required”</strong>
-              <span>Azure Portal → Microsoft Entra ID → App registrations → this app → Authentication → Add platform → Single-page application → add the redirect URI above → Save. Then API permissions → Microsoft Graph delegated permissions → User.Read and Files.Read → grant admin consent if required by policy.</span>
-            </div>
-            <div class="tenant-setup-visual" aria-label="Tenant connection setup explanation">
-              <article><span>1</span><strong>Create Entra app</strong><small>Single-page app registration with this page URL as a redirect URI.</small></article>
-              <article><span>2</span><strong>Grant delegated Graph permissions</strong><small>User.Read and Files.Read for this demo; expand only after approval.</small></article>
-              <article><span>3</span><strong>Sign in</strong><small>Microsoft verifies identity, Conditional Access, and tenant policy.</small></article>
-              <article><span>4</span><strong>Refresh live data</strong><small>Graph returns read-only M365 profile and file metadata; SIS writeback stays blocked.</small></article>
-            </div>
+            <div class="tenant-live-grid" id="m365LiveData" aria-live="polite"><div class="tenant-empty"><i data-lucide="plug-zap"></i><span>Sign-in available for the demo tenant.</span></div></div>
+            <figure class="m365-working-image"><img src="./assets/m365-demo-refresh.svg" alt="Illustration of successful demo tenant sign-in and refreshed Microsoft Graph data"><figcaption>See it working: successful sign-in and a read-only Graph refresh.</figcaption></figure>
           </section>
           <section class="panel connection-panel" aria-labelledby="connectionHeading">
-            <div class="panel-heading"><div><p class="eyebrow">Implementation sequence</p><h3 id="connectionHeading">What an institutional implementation would require</h3></div><span class="status warn">Not connected to a tenant</span></div>
+            <div class="panel-heading"><div><p class="eyebrow">Implementation sequence</p><h3 id="connectionHeading">What an institutional implementation would require</h3></div></div>
             <div class="connection-grid">
               <div><strong>1. Establish identity</strong><p>Configure Entra ID, application roles, Conditional Access and named owners.</p></div>
               <div><strong>2. Approve integrations</strong><p>Use supported SIS, LMS and Microsoft APIs with least-privilege credentials.</p></div>
@@ -384,9 +371,9 @@
         <section id="thinking-lab" class="band thinking-lab-band" aria-labelledby="thinkingLabHeading">
           <div class="section-heading">
             <div>
-              <p class="eyebrow">Leadership walkthrough</p>
+              <p class="eyebrow">How I work</p>
               <h2 id="thinkingLabHeading">A practical approach for moving from an ambiguous question to a governed outcome.</h2>
-              <p class="section-intro">This leadership walkthrough shows a repeatable consulting pattern: clarify the outcome, map the evidence, align the owners, choose the right guardrails, prove value with a pilot, and scale what works.</p>
+              <p class="section-intro">This section shows a repeatable pattern: clarify the outcome, map the evidence, align the owners, choose the right guardrails, prove value with a pilot, and scale what works.</p>
             </div>
             <span class="status review">Leadership model</span>
           </div>
@@ -427,63 +414,7 @@
             <article><span>06</span><i data-lucide="rocket"></i><strong>Prove</strong><small>Pilot, measure, learn</small></article>
           </div>
 
-          <div class="star-strip" aria-label="Answer structure">
-            <span><b>S</b><strong>Situation</strong><small>What is happening?</small></span>
-            <span><b>T</b><strong>Task</strong><small>What outcome matters?</small></span>
-            <span><b>A</b><strong>Action</strong><small>What changed?</small></span>
-            <span><b>R</b><strong>Result</strong><small>What evidence moved?</small></span>
-          </div>
-
-          <div class="thinking-lab-layout">
-            <aside class="thinking-lens panel">
-              <p class="eyebrow">Three lenses in the room</p>
-              <h3>One decision, three levels of detail.</h3>
-              <div class="lens-item"><i data-lucide="briefcase-business"></i><div><strong>CIO lens</strong><span>What outcome improves, what risk changes, and how adoption will be measured.</span></div></div>
-              <div class="lens-item"><i data-lucide="network"></i><div><strong>CTO lens</strong><span>Where data comes from, how systems connect, and which controls prevent unsafe writeback.</span></div></div>
-              <div class="lens-item"><i data-lucide="kanban-square"></i><div><strong>Delivery lens</strong><span>Who owns the work, what is blocked, what ships first, and how feedback changes the plan.</span></div></div>
-              <div class="thinking-phrase"><span>Default opening</span><strong>“First clarify the outcome, then make the evidence and trade-offs visible.”</strong></div>
-            </aside>
-
-            <div class="thinking-sessions">
-              <p class="eyebrow">Session cards</p>
-              <details class="thinking-session" open>
-                <summary><span class="session-number">01</span><span><strong>AI integration in higher education</strong><small>Connect experience to mission without overclaiming.</small></span><i data-lucide="chevron-down"></i></summary>
-                <div class="session-body"><div><span class="session-label">Situation</span><p>Higher education often has strong ideas but fragmented systems, limited capacity, and a high duty of care to students.</p></div><div><span class="session-label">Approach</span><p>Start with the student and institutional outcome, map the current workflow, then connect proven enterprise practices to a right-sized pilot.</p></div><div><span class="session-label">Delivery evidence</span><p>Prior higher-education work established a verified 5,023-enrollment baseline, reached 100% instructor response within 48 hours, and supported 51 educators against a target of 40. Enterprise transformation work helped shape six digital platforms for a 10,000-person transformation with $20M in projected savings.</p></div><div><span class="session-label">Panel takeaway</span><p>The approach combines enterprise transformation discipline and higher-education empathy while keeping institutional systems of record and governance authoritative.</p></div></div>
-              </details>
-
-              <details class="thinking-session">
-                <summary><span class="session-number">02</span><span><strong>Data pipeline, reconciliation, and trust</strong><small>Make the evidence flow visible before discussing AI.</small></span><i data-lucide="chevron-down"></i></summary>
-                <div class="session-body"><div><span class="session-label">Situation</span><p>Records arrive from different systems with different identifiers, formats, timing, and ownership.</p></div><div><span class="session-label">Approach</span><p>Inventory sources, classify data, normalize fields, apply deterministic rules, isolate exceptions, and preserve lineage for every decision.</p></div><div><span class="session-label">Delivery evidence</span><p>Post-acquisition operating work supported the transfer of $22B in institutional funds across 60 countries, resolved $2M in accounting discrepancies, and created operating manuals and training for consistent execution.</p></div><div><span class="session-label">Panel takeaway</span><p>AI is an assistant for ambiguity. It is not the source of truth and it does not independently change an institutional record.</p></div></div>
-              </details>
-
-              <details class="thinking-session">
-                <summary><span class="session-number">03</span><span><strong>Alignment, prioritization, and scaled delivery</strong><small>Turn competing requests into a transparent sequence.</small></span><i data-lucide="chevron-down"></i></summary>
-                <div class="session-body"><div><span class="session-label">Situation</span><p>Faculty, administrators, IT, and campus leaders may all have valid priorities that compete for the same people and budget.</p></div><div><span class="session-label">Approach</span><p>Translate the North Star into outcomes, create an owner group, make dependencies visible, and use value, risk, effort, and urgency to sequence the work. Use planning events, Kanban visibility, and a regular inspect-and-adapt cadence.</p></div><div><span class="session-label">Delivery evidence</span><p>Scaled delivery experience includes SPC and RTE leadership, mentoring 20+ Scrum Masters and Agile Coaches, and training six RTEs and their teams in parallel. The method is familiar: align the outcome, make the work visible, resolve dependencies early, and let ownership move closer to the teams.</p></div><div><span class="session-label">Panel takeaway</span><p>Scaled Agile is not a ceremony. It is a way to make trade-offs and accountability visible across the value stream.</p></div></div>
-              </details>
-
-              <details class="thinking-session">
-                <summary><span class="session-number">04</span><span><strong>Privacy, security, and responsible AI</strong><small>Put controls around the data before adding capability.</small></span><i data-lucide="chevron-down"></i></summary>
-                <div class="session-body"><div><span class="session-label">Situation</span><p>Student and employee information can carry legal, ethical, and reputational risk when it crosses a boundary.</p></div><div><span class="session-label">Approach</span><p>Classify the data, use approved enterprise services, enforce Entra ID and least-privilege roles, isolate untrusted content, validate model outputs, log decisions, and require human approval for consequential actions.</p></div><div><span class="session-label">Delivery evidence</span><p>iAvva AI prototypes use Microsoft Graph and Entra ID planning, secure writeback boundaries, audit requirements, and human-in-the-loop workflows. Higher-education reporting work used FERPA-aware handling and synthetic or authorized data boundaries.</p></div><div><span class="session-label">Panel takeaway</span><p>Institutional policy and legal review must be confirmed rather than claiming compliance by architecture alone. Controls are monitored continuously, not installed once and forgotten.</p></div></div>
-              </details>
-
-              <details class="thinking-session">
-                <summary><span class="session-number">05</span><span><strong>Failure, root cause, and recovery</strong><small>Show how a problem becomes a learning loop.</small></span><i data-lucide="chevron-down"></i></summary>
-                <div class="session-body"><div><span class="session-label">Situation</span><p>A legacy incident workflow was too slow to surface urgent issues, creating customer impact and competing work.</p></div><div><span class="session-label">Approach</span><p>Stabilize the service first, establish a visible Kanban flow with swim lanes and priorities, trace the event across systems, then fix the bottleneck and document the new operating path.</p></div><div><span class="session-label">Delivery evidence</span><p>Client transformation work brought incident, technology, and business teams together to redesign the reporting path and focus capacity on the highest-impact work. The operating principle is to find the constraint, not assign blame.</p></div><div><span class="session-label">Panel takeaway</span><p>Root-cause analysis connects the timestamp, identity, source system, rule result, and workflow step so the fix is accountable and repeatable.</p></div></div>
-              </details>
-
-              <details class="thinking-session">
-                <summary><span class="session-number">06</span><span><strong>Metrics, adoption, and executive reporting</strong><small>Define success before building a dashboard.</small></span><i data-lucide="chart-no-axes-combined"></i></summary>
-                <div class="session-body"><div><span class="session-label">Situation</span><p>Activity is not the same as value. A dashboard can be busy while the underlying outcome is unchanged.</p></div><div><span class="session-label">Approach</span><p>Start with the North Star, agree on an outcome KPI, add leading indicators and operational measures, and pair them with adoption and safety guardrails.</p></div><div><span class="session-label">Delivery evidence</span><p>Higher-education work connected enrollment, response time, educator participation, and confidence change. Coaching and transformation work turns strategy into operating routines, measurable execution, and executive-ready reporting.</p></div><div><span class="session-label">Panel takeaway</span><p>The executive view is concise; the technical view can drill into lineage, exceptions, latency, access, and audit coverage.</p></div></div>
-              </details>
-
-              <details class="thinking-session">
-                <summary><span class="session-number">07</span><span><strong>Vendor evaluation and adoption</strong><small>Choose a capability the organization can sustain.</small></span><i data-lucide="clipboard-list"></i></summary>
-                <div class="session-body"><div><span class="session-label">Decision frame</span><p>Business fit, technical integration, security and privacy, accessibility, ecosystem, total cost, adoption effort, measurable value, and an exit path.</p></div><div><span class="session-label">Delivery evidence</span><p>Startup ecosystem work analyzed 177 startups representing $65M in investment activity, redesigned an accelerator for 60 international companies, and secured $150K+ in government-backed funding.</p></div><div><span class="session-label">Panel takeaway</span><p>Evaluate the whole operating model, not only the demo. The best tool is one people can safely adopt, govern, measure, and maintain.</p></div></div>
-              </details>
-            </div>
-          </div>
-
-          <div class="answer-pattern"><div><p class="eyebrow">The concise version</p><h3>How the approach handles an unfamiliar question</h3></div><p>“Start by clarifying the outcome and who is affected. Then map the systems, data, constraints, and owners. Prioritize a small, measurable pilot, put identity, privacy, and human approval around it, and use feedback and evidence to decide what to scale.”</p></div>
+          <p class="thinking-byline">Built by Avva Thach.</p>
         </section>
 
         <section id="security-assurance" class="band" aria-labelledby="securityAssuranceHeading">

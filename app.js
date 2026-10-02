@@ -470,12 +470,14 @@ const sourceMonitor = {
 };
 
 const m365State = {
-  tenantId: sessionStorage.getItem("iavva-m365-tenant") || "336cd8f8-94b0-42c4-9d2f-16050b2c0a68",
-  clientId: sessionStorage.getItem("iavva-m365-client") || "1f6493f4-a929-46a3-8a65-3ecb368e54ce",
+  // Public SPA identifiers are fixed to the portfolio's own demo tenant. They are not secrets.
+  tenantId: "336cd8f8-94b0-42c4-9d2f-16050b2c0a68",
+  clientId: "1f6493f4-a929-46a3-8a65-3ecb368e54ce",
   account: null,
   token: null,
   pca: null,
   connected: false,
+  lastRefreshAt: null,
 };
 
 const SECURITY_API_BASE = "https://hr1-security-api-avvathach-cvaxdxexeca4cagv.westus3-01.azurewebsites.net/api/security";
@@ -571,13 +573,76 @@ const state = {
   graphEvents: 0,
 };
 
+const seededAuditTrail = [
+  {
+    id: "EDU-TXN-0836",
+    domain: "Transaction",
+    action: "Microsoft 365 review workflow prepared",
+    reviewer: "Microsoft Graph preview",
+    timestamp: "2026-10-02T14:06:00.000Z",
+    rationale: "Teams review task and SharePoint audit payload staged for Student Accounts; SIS writeback remains blocked pending human approval.",
+  },
+  {
+    id: "EDU-TXN-0836",
+    domain: "Transaction",
+    action: "Reject match",
+    reviewer: reviewerName,
+    timestamp: "2026-10-02T14:05:00.000Z",
+    rationale: "Payment amount aligns, but the date, reference, channel, and waiver evidence do not support an accepted match.",
+  },
+  {
+    id: "EDU-ID-2041",
+    domain: "Identity",
+    action: "Microsoft 365 review workflow prepared",
+    reviewer: "Microsoft Graph preview",
+    timestamp: "2026-10-02T14:02:00.000Z",
+    rationale: "Teams review task and SharePoint audit payload staged for Registrar; SIS writeback remains blocked pending human approval.",
+  },
+  {
+    id: "EDU-ID-2041",
+    domain: "Identity",
+    action: "Accept match",
+    reviewer: reviewerName,
+    timestamp: "2026-10-02T14:01:00.000Z",
+    rationale: "Same birth date and normalized phone. Name differs only by middle initial; program wording maps to the same nursing award.",
+  },
+];
+
+function canonicalAuditTrail(entries = []) {
+  const allowedIds = new Set(["EDU-ID-2041", "EDU-TXN-0836"]);
+  const allowedActions = new Set(["Accept match", "Reject match", "Microsoft 365 review workflow prepared"]);
+  const unique = new Map();
+  entries
+    .filter((entry) => allowedIds.has(entry?.id) && allowedActions.has(entry?.action))
+    .forEach((entry) => {
+      const key = `${entry.id}:${entry.action}`;
+      if (!unique.has(key)) unique.set(key, entry);
+    });
+  return seededAuditTrail.map((seed) => {
+    const existing = unique.get(`${seed.id}:${seed.action}`);
+    return existing && allowedIds.has(existing.id) && allowedActions.has(existing.action) ? { ...seed, ...existing } : { ...seed };
+  });
+}
+
+function seedCanonicalDecisions() {
+  const identity = cases.find((item) => item.id === "EDU-ID-2041");
+  const transaction = cases.find((item) => item.id === "EDU-TXN-0836");
+  if (identity) identity.decision = { action: "Accept match", reviewer: reviewerName, timestamp: "2026-10-02T14:01:00.000Z", rationale: identity.rationale };
+  if (transaction) transaction.decision = { action: "Reject match", reviewer: reviewerName, timestamp: "2026-10-02T14:05:00.000Z", rationale: "Payment amount aligns, but the date, reference, channel, and waiver evidence do not support an accepted match." };
+}
+
 function loadState() {
   const saved = localStorage.getItem(storageKey) || localStorage.getItem(legacyStorageKey);
-  if (!saved) return;
+  if (!saved) {
+    state.audit = seededAuditTrail.map((entry) => ({ ...entry }));
+    seedCanonicalDecisions();
+    saveState();
+    return;
+  }
 
   try {
     const parsed = JSON.parse(saved);
-    state.audit = Array.isArray(parsed.audit) ? parsed.audit : [];
+    state.audit = canonicalAuditTrail(Array.isArray(parsed.audit) ? parsed.audit : []);
     state.threshold = Number(parsed.threshold) || state.threshold;
     state.graphEvents = Number(parsed.graphEvents) || 0;
 
@@ -588,9 +653,14 @@ function loadState() {
         }
       });
     }
+    seedCanonicalDecisions();
+    saveState();
   } catch {
     localStorage.removeItem(storageKey);
     localStorage.removeItem(legacyStorageKey);
+    state.audit = seededAuditTrail.map((entry) => ({ ...entry }));
+    seedCanonicalDecisions();
+    saveState();
   }
 }
 
@@ -927,7 +997,7 @@ function runUseCaseDemo(id) {
   }, 850);
 }
 
-function renderM365Status(message = "Tenant setup required", connected = false) {
+function renderM365Status(message = "Sign-in available for the demo tenant", connected = false) {
   const status = document.querySelector("#m365Status");
   const button = document.querySelector("#refreshMicrosoftButton");
   if (!status) return;
@@ -940,8 +1010,8 @@ function renderM365Data(cards = []) {
   const target = document.querySelector("#m365LiveData");
   if (!target) return;
   target.innerHTML = cards.length
-    ? cards.map((card) => `<article class="tenant-live-card"><span>${card.label}</span><strong>${card.value}</strong></article>`).join("")
-    : '<div class="tenant-empty"><i data-lucide="plug-zap"></i><span>Tenant setup required: register this page as an Entra SPA redirect URI, then sign in.</span></div>';
+    ? cards.map((card) => `<article class="tenant-live-card"><span>${escapeHtml(card.label)}</span><strong>${escapeHtml(card.value)}</strong></article>`).join("")
+    : '<div class="tenant-empty"><i data-lucide="plug-zap"></i><span>Sign-in available for the demo tenant.</span></div>';
   refreshIcons();
 }
 
@@ -1059,16 +1129,10 @@ async function triggerSecurityScan() {
 }
 
 function getM365Config() {
-  const tenantId = document.querySelector("#tenantInput")?.value.trim() || m365State.tenantId;
-  const clientId = document.querySelector("#clientInput")?.value.trim() || m365State.clientId;
-  if (!tenantId || !clientId) throw new Error("Enter the tenant ID and client ID first");
+  const { tenantId, clientId } = m365State;
+  if (!tenantId || !clientId) throw new Error("The demo tenant connection is not configured");
   const guid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-  if (!guid.test(tenantId)) throw new Error("Tenant ID must be the Directory (tenant) ID GUID, not an onmicrosoft.com domain");
-  if (!guid.test(clientId)) throw new Error("Client ID must be the Application (client) ID GUID, not an onmicrosoft.com domain");
-  m365State.tenantId = tenantId;
-  m365State.clientId = clientId;
-  sessionStorage.setItem("iavva-m365-tenant", tenantId);
-  sessionStorage.setItem("iavva-m365-client", clientId);
+  if (!guid.test(tenantId) || !guid.test(clientId)) throw new Error("The demo tenant connection is not configured");
   return { tenantId, clientId };
 }
 
@@ -1108,12 +1172,13 @@ async function refreshMicrosoftData() {
     graphGet("/me/drive/root/children?$top=8&$select=name,lastModifiedDateTime,size,file,folder"),
   ]);
   const files = Array.isArray(drive.value) ? drive.value : [];
-  renderM365Status("Live tenant data", true);
+  m365State.lastRefreshAt = new Date();
+  renderM365Status("Connected", true);
   renderM365Data([
     { label: "Signed-in account", value: profile.userPrincipalName || profile.displayName || "Microsoft user" },
     { label: "Microsoft Graph profile", value: profile.jobTitle || "Authenticated" },
     { label: "OneDrive items observed", value: `${files.length} recent items` },
-    { label: "Last Graph refresh", value: new Date().toLocaleTimeString() },
+    { label: "Last successful refresh", value: m365State.lastRefreshAt.toLocaleString() },
     { label: "Access model", value: "Delegated, read only" },
     { label: "SIS writeback", value: "Disabled" },
   ]);
@@ -1130,14 +1195,15 @@ async function connectMicrosoft() {
     await refreshMicrosoftData();
   } catch (error) {
     m365State.connected = false;
-    renderM365Status("Connection needs attention", false);
+    m365State.account = null;
+    renderM365Status("Sign-in available for the demo tenant", false);
     renderM365Data([
-      { label: "Connection state", value: "Not connected to tenant" },
-      { label: "Most likely fix", value: "Register this page URL as an SPA redirect URI" },
-      { label: "Local demo URL", value: `${window.location.origin}/` },
-      { label: "Required permissions", value: "User.Read and Files.Read delegated" },
-      { label: "Boundary", value: "Graph reads M365 context only" },
-      { label: "SIS writeback", value: "Blocked in this demo" },
+      { label: "Connection state", value: "Sign-in available for the demo tenant" },
+      { label: "Refresh state", value: "No successful refresh recorded" },
+      { label: "Access model", value: "Delegated, read only" },
+      { label: "Graph scope", value: "User.Read, Files.Read" },
+      { label: "Boundary", value: "Graph reads demo-tenant context only" },
+      { label: "SIS writeback", value: "Disabled" },
     ]);
     showToast(error.message || "Microsoft sign-in failed");
   }
@@ -1404,6 +1470,7 @@ function recordDecision(action) {
   };
 
   item.decision = decision;
+  state.audit = state.audit.filter((entry) => !(entry.id === item.id && entry.action === action));
   state.audit.unshift({
     id: item.id,
     domain: item.domain,
@@ -1616,6 +1683,7 @@ function simulateGraphRouting() {
   graphRoutingState.step = 0;
   graphRoutingState.itemId = item.id;
   const timestamp = new Date().toISOString();
+  state.audit = state.audit.filter((entry) => !(entry.id === item.id && entry.action === "Microsoft 365 review workflow prepared"));
   state.audit.unshift({
     id: item.id,
     domain: item.domain,
@@ -1653,7 +1721,8 @@ function resetDemo() {
   cases.forEach((item) => {
     delete item.decision;
   });
-  state.audit = [];
+  state.audit = seededAuditTrail.map((entry) => ({ ...entry }));
+  seedCanonicalDecisions();
   state.graphEvents = 0;
   state.selectedId = cases[0].id;
   localStorage.removeItem(storageKey);
@@ -1774,11 +1843,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initializeSourceMonitor();
   renderAll();
   bindEvents();
-  const tenantInput = document.querySelector("#tenantInput");
-  const clientInput = document.querySelector("#clientInput");
-  if (tenantInput) tenantInput.value = m365State.tenantId;
-  if (clientInput) clientInput.value = m365State.clientId;
-  renderM365Status("Tenant setup required", false);
+  renderM365Status("Sign-in available for the demo tenant", false);
   renderM365Data();
   renderSecurityAssurance();
   loadSecurityStatus();
