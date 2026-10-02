@@ -164,12 +164,12 @@ const cases = [
     owner: "Student Accounts",
     priority: "High",
     age: "3d",
-    proposal: "Reject match",
-    confidence: 86,
+    proposal: "Accept match",
+    confidence: 93,
     aiNeeded: true,
     rationale:
-      "Payment amount and term align, but transaction dates, reference numbers, and payer channel differ enough to reject this match.",
-    evidence: ["Amount match", "Reference mismatch", "Date outside tolerance", "Channel mismatch"],
+      "Payment amount and term align strongly enough to recommend an accepted match, while the date, reference, and channel differences are surfaced for reviewer confirmation before any writeback.",
+    evidence: ["Amount match", "Reference mismatch", "Date outside tolerance", "Channel mismatch", "Needs reviewer confirmation"],
     source: {
       system: "Legacy SIS",
       studentId: "L-661720",
@@ -470,8 +470,8 @@ const sourceMonitor = {
 };
 
 const m365State = {
-  tenantId: sessionStorage.getItem("iavva-m365-tenant") || "",
-  clientId: sessionStorage.getItem("iavva-m365-client") || "",
+  tenantId: sessionStorage.getItem("iavva-m365-tenant") || "336cd8f8-94b0-42c4-9d2f-16050b2c0a68",
+  clientId: sessionStorage.getItem("iavva-m365-client") || "1f6493f4-a929-46a3-8a65-3ecb368e54ce",
   account: null,
   token: null,
   pca: null,
@@ -927,7 +927,7 @@ function runUseCaseDemo(id) {
   }, 850);
 }
 
-function renderM365Status(message = "Not connected", connected = false) {
+function renderM365Status(message = "Tenant setup required", connected = false) {
   const status = document.querySelector("#m365Status");
   const button = document.querySelector("#refreshMicrosoftButton");
   if (!status) return;
@@ -941,7 +941,7 @@ function renderM365Data(cards = []) {
   if (!target) return;
   target.innerHTML = cards.length
     ? cards.map((card) => `<article class="tenant-live-card"><span>${card.label}</span><strong>${card.value}</strong></article>`).join("")
-    : '<div class="tenant-empty"><i data-lucide="plug-zap"></i><span>Enter your tenant and application IDs to connect.</span></div>';
+    : '<div class="tenant-empty"><i data-lucide="plug-zap"></i><span>Tenant setup required: register this page as an Entra SPA redirect URI, then sign in.</span></div>';
   refreshIcons();
 }
 
@@ -978,18 +978,19 @@ function renderSecurityAssurance() {
     banner.innerHTML = '<i data-lucide="settings-2"></i><div><strong>Security status is not configured for this deployment</strong><span>No scan result is being inferred or fabricated.</span></div>';
   } else if (securityAssuranceState.state === "error") {
     banner.className = "security-assurance-banner unavailable";
-    banner.innerHTML = '<i data-lucide="triangle-alert"></i><div><strong>Latest automated scan summary is unavailable</strong><span>The server did not return a usable status response.</span></div>';
+    banner.innerHTML = '<i data-lucide="triangle-alert"></i><div><strong>System alert ready: latest automated scan summary is unavailable</strong><span>The browser reached this page, but the security API did not return a usable status. In production this routes to the accountable security owner.</span></div>';
   } else {
     const noCritical = ["completed", "succeeded"].includes(current.latestScanStatus) && current.criticalCount === 0;
     banner.className = `security-assurance-banner ${securityAssuranceState.scanRunning ? "loading" : "available"}`;
     banner.innerHTML = `<i data-lucide="${securityAssuranceState.scanRunning ? "loader-circle" : "shield-check"}"></i><div><strong>${noCritical ? "No critical findings detected in the latest automated scan." : escapeHtml(current.latestScanStatus || "Latest scan status reported")}</strong><span>${securityAssuranceState.scanRunning ? "An administrator scan request is in progress." : "Public summary only. Detailed findings require administrator access."}</span></div>`;
   }
   const data = current || {};
+  const unavailable = securityAssuranceState.state === "error" || securityAssuranceState.state === "not_configured";
   const cards = [
-    ["Source Code Security", escapeHtml(data.latestScanStatus || "Not reported"), "Automated scan status"],
-    ["Deployed Application Security", data.progressPercent === null || data.progressPercent === undefined ? "Not reported" : `${data.progressPercent}%`, "Latest scan progress"],
+    ["Source Code Security", unavailable ? "Needs API status" : escapeHtml(data.latestScanStatus || "Not reported"), "Automated scan status"],
+    ["Deployed Application Security", unavailable ? "Needs API status" : data.progressPercent === null || data.progressPercent === undefined ? "Not reported" : `${data.progressPercent}%`, "Latest scan progress"],
     ["Latest scan date", escapeHtml(formatSecurityDate(data.scanCompletedAt || data.scanStartedAt)), "Completion or start time"],
-    ["Scan status", escapeHtml(data.latestScanStatus || "Not reported"), "Server-reported status"],
+    ["Scan status", unavailable ? "Route alert" : escapeHtml(data.latestScanStatus || "Not reported"), "Server-reported status"],
     ["Critical findings", securityValue(data.criticalCount), "Sanitized count"],
     ["Warning findings", securityValue(data.warningCount), "Sanitized count"],
     ["Informational findings", securityValue(data.informationalCount), "Sanitized count"],
@@ -1130,6 +1131,14 @@ async function connectMicrosoft() {
   } catch (error) {
     m365State.connected = false;
     renderM365Status("Connection needs attention", false);
+    renderM365Data([
+      { label: "Connection state", value: "Not connected to tenant" },
+      { label: "Most likely fix", value: "Register this page URL as an SPA redirect URI" },
+      { label: "Local demo URL", value: `${window.location.origin}/` },
+      { label: "Required permissions", value: "User.Read and Files.Read delegated" },
+      { label: "Boundary", value: "Graph reads M365 context only" },
+      { label: "SIS writeback", value: "Blocked in this demo" },
+    ]);
     showToast(error.message || "Microsoft sign-in failed");
   }
 }
@@ -1769,7 +1778,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const clientInput = document.querySelector("#clientInput");
   if (tenantInput) tenantInput.value = m365State.tenantId;
   if (clientInput) clientInput.value = m365State.clientId;
-  renderM365Status("Not connected", false);
+  renderM365Status("Tenant setup required", false);
   renderM365Data();
   renderSecurityAssurance();
   loadSecurityStatus();
