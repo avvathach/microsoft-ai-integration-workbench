@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#102033">
     <title>Microsoft AI Applications Integration Workbench | iAvva AI</title>
     <meta name="description" content="A working higher-education prototype demonstrating governed AI integration, accountable human decisions, and auditable enterprise workflows.">
-    <link rel="stylesheet" href="./styles.css?v=e6791b6634e7">
+    <link rel="stylesheet" href="./styles.css?v=e6924569ad6d">
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
     <script src="./assets/msal-browser.min.js" defer></script>
     <script src="./app.js?v=04a26c1a0791" defer></script>
@@ -366,6 +366,14 @@
               <span>The approach moves from identity, to approved integrations, to validated controls, to measurable operations. That lets business leaders understand the outcome and technical teams understand exactly where controls live.</span>
             </div>
           </section>
+          <section class="deployment-model" aria-labelledby="deploymentModelHeading">
+            <div class="section-heading compact-heading"><div><p class="eyebrow">Deployment and operating model</p><h3 id="deploymentModelHeading">Two practical ways to keep institutional data inside Microsoft controls.</h3><p class="section-intro">The choice depends on the customer's Azure plan, security requirements, and operating ownership.</p></div></div>
+            <div class="deployment-options">
+              <article class="deployment-option preferred"><div class="deployment-option-head"><span>Option 1</span><strong>Microsoft-hosted end to end</strong><em>Preferred when Azure is available</em></div><p>Frontend, Azure Functions, Azure SQL, Key Vault, Application Insights, Power Platform, SharePoint, and Microsoft Graph remain in the customer's Microsoft environment.</p><div class="deployment-stack"><span>Entra ID</span><span>Azure App Service / Static Web Apps</span><span>Azure Functions</span><span>Azure SQL</span><span>SharePoint / Graph</span><span>Power BI / Fabric</span></div><small>Data stays under the institution's tenant, subscriptions, retention policies, and administrators.</small></article>
+              <article class="deployment-option"><div class="deployment-option-head"><span>Option 2</span><strong>External frontend, Microsoft data layer</strong><em>Useful when Azure hosting is constrained</em></div><p>Host the presentation layer on an approved external platform such as Cloudflare Pages or Vercel while SharePoint remains the governed document and workflow layer. Azure or a secure server-side proxy still protects API credentials and policy enforcement.</p><div class="deployment-stack"><span>Cloudflare / Vercel frontend</span><span>Entra ID sign-in</span><span>SharePoint data layer</span><span>Microsoft Graph</span><span>Azure Function proxy</span></div><small>No SharePoint data is copied out by default. External hosting receives only the minimum authorized response.</small></article>
+            </div>
+            <div class="operations-contract"><div><p class="eyebrow">Proposed service level</p><h4>Clear ownership after deployment</h4><p>Avva Thach owns the application operating runbook, release coordination, access review, and first-line incident response during the agreed support window.</p></div><div class="sla-grid"><div><strong>Critical outage</strong><span>Acknowledge within 1 hour; restore or establish a workaround within 4 hours.</span></div><div><strong>High-impact defect</strong><span>Acknowledge within 4 business hours; remediation plan within 1 business day.</span></div><div><strong>Standard request</strong><span>Acknowledge within 1 business day; schedule through the change backlog.</span></div><div><strong>Security event</strong><span>Contain access, preserve logs, notify named owners, and document root cause and remediation.</span></div></div></div>
+          </section>
           <div class="dashboard-grid">
             <section class="panel" aria-labelledby="apiHeading">
               <div class="panel-heading"><div><p class="eyebrow">Microsoft 365 workflow example</p><h3 id="apiHeading">Graph records an approved decision in SharePoint</h3></div><span class="status review">Demo payload</span></div>
@@ -452,6 +460,11 @@
               <article><strong>Safe public view</strong><span>Executives see sanitized counts and posture; administrators see detailed findings after sign-in.</span></article>
               <article><strong>Fix is accountable</strong><span>Every alert routes to a named owner with root cause, remediation step, and verification status.</span></article>
             </div>
+            <section class="identity-gate" aria-labelledby="identityGateHeading">
+              <div class="identity-gate-heading"><div><p class="eyebrow">Access decision example</p><h3 id="identityGateHeading">A record is never shown until identity and role checks pass.</h3><p>For a reconciliation request, the gateway first compares the source identifier, target identifier, signed-in user, and permitted business scope. A mismatch returns no record details, creates an audit event, and alerts the owner when policy requires it.</p></div><span class="status warn">Default deny</span></div>
+              <div class="identity-gate-flow" aria-label="Identity and access denial workflow"><article class="gate-step"><span>1</span><i data-lucide="log-in"></i><strong>Authenticate</strong><small>Entra ID, MFA, and tenant restriction</small></article><b>→</b><article class="gate-step"><span>2</span><i data-lucide="fingerprint"></i><strong>Match identity</strong><small>PeopleSoft ID and Banner ID crosswalk</small></article><b>→</b><article class="gate-step"><span>3</span><i data-lucide="key-round"></i><strong>Check role scope</strong><small>Only the minimum relevant records</small></article><b>→</b><article class="gate-step deny"><span>4</span><i data-lucide="shield-x"></i><strong>Deny or allow</strong><small>No match means no record response</small></article><b>→</b><article class="gate-step"><span>5</span><i data-lucide="bell-ring"></i><strong>Audit and notify</strong><small>Timestamp, reason, owner, and alert path</small></article></div>
+              <div class="access-example-grid"><article><span class="access-label allow-label">Illustrative allow</span><strong>PS-104883 ↔ BN-104883</strong><small>Crosswalk matches; Registrar role can view the permitted identity and enrollment fields.</small></article><article><span class="access-label deny-label">Illustrative deny</span><strong>PS-104883 ↔ BN-775230</strong><small>Crosswalk does not match; return “record unavailable,” reveal no student details, and log the denial.</small></article><article><span class="access-label scope-label">Role scope</span><strong>Least privilege by job</strong><small>Registrar: identity/enrollment. Chair: course-access evidence. Student Accounts: payment/refund evidence. Recruiter: applicant evidence only.</small></article></div>
+            </section>
           </div>
         </section>
 

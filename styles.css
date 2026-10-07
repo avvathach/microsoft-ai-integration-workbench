@@ -1149,6 +1149,14 @@
     grid-template-columns: 1fr;
   }
 
+  .access-example-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .identity-gate-heading {
+    flex-direction: column;
+  }
+
   .thinking-lab-layout {
     grid-template-columns: 1fr;
   }
@@ -2761,6 +2769,49 @@ h3 {
   line-height: 1.5;
 }
 
+.deployment-model { margin-top: 18px; padding: clamp(18px, 2.4vw, 26px); border: 1px solid rgba(37, 99, 235, 0.2); border-radius: 14px; background: linear-gradient(145deg, #f7fbff, #ffffff 72%); }
+.compact-heading { margin-bottom: 14px; }
+.deployment-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.deployment-option { display: grid; gap: 11px; padding: 17px; border: 1px solid var(--line); border-radius: 12px; background: #ffffff; }
+.deployment-option.preferred { border-color: rgba(16, 185, 129, 0.42); box-shadow: 0 8px 20px rgba(16, 185, 129, 0.08); }
+.deployment-option-head { display: grid; gap: 3px; }
+.deployment-option-head span { color: var(--teal); font-size: 0.68rem; font-weight: 850; letter-spacing: 0.08em; text-transform: uppercase; }
+.deployment-option-head strong { font-size: 1.03rem; }
+.deployment-option-head em { color: var(--muted); font-size: 0.76rem; font-style: normal; }
+.deployment-option p, .deployment-option small { margin: 0; color: var(--ink-2); font-size: 0.82rem; line-height: 1.5; }
+.deployment-stack { display: flex; flex-wrap: wrap; gap: 6px; }
+.deployment-stack span { padding: 5px 8px; border-radius: 999px; color: var(--ink-2); background: var(--surface); font-size: 0.7rem; font-weight: 750; }
+.operations-contract { display: grid; grid-template-columns: minmax(210px, 0.7fr) minmax(0, 1.3fr); gap: 16px; margin-top: 14px; padding: 16px; border: 1px solid rgba(244, 178, 74, 0.35); border-radius: 12px; background: #fffaf0; }
+.operations-contract h4 { margin: 2px 0 5px; font-size: 1.05rem; }
+.operations-contract p:last-child { margin: 0; color: var(--ink-2); font-size: 0.8rem; line-height: 1.5; }
+.sla-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.sla-grid div { display: grid; gap: 4px; padding: 10px; border: 1px solid rgba(154, 95, 0, 0.18); border-radius: 9px; background: #ffffff; }
+.sla-grid strong { font-size: 0.78rem; }
+.sla-grid span { color: var(--ink-2); font-size: 0.72rem; line-height: 1.4; }
+
+.identity-gate { margin-top: 18px; padding: 18px; border: 1px solid rgba(180, 83, 9, 0.28); border-radius: 14px; background: linear-gradient(145deg, #fffaf0, #ffffff 70%); }
+.identity-gate-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; }
+.identity-gate-heading h3 { margin: 3px 0 5px; font-size: clamp(1.1rem, 2vw, 1.45rem); }
+.identity-gate-heading p:last-child { max-width: 850px; margin: 0; color: var(--ink-2); font-size: 0.84rem; line-height: 1.5; }
+.identity-gate-flow { display: flex; align-items: stretch; gap: 7px; margin-top: 16px; overflow-x: auto; padding-bottom: 3px; }
+.identity-gate-flow > b { align-self: center; color: var(--amber); }
+.gate-step { display: grid; min-width: 145px; gap: 4px; padding: 11px; border: 1px solid var(--line); border-radius: 10px; background: #ffffff; }
+.gate-step.deny { border-color: rgba(180, 35, 24, 0.35); background: #fff5f4; }
+.gate-step > span { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; color: #ffffff; background: var(--teal); font-size: 0.66rem; font-weight: 850; }
+.gate-step.deny > span { background: var(--red); }
+.gate-step > svg { width: 19px; color: var(--teal); }
+.gate-step.deny > svg { color: var(--red); }
+.gate-step strong { font-size: 0.78rem; }
+.gate-step small { color: var(--muted); font-size: 0.7rem; line-height: 1.35; }
+.access-example-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; margin-top: 12px; }
+.access-example-grid article { display: grid; gap: 4px; padding: 12px; border: 1px solid var(--line); border-radius: 9px; background: #ffffff; }
+.access-example-grid strong { font-size: 0.8rem; }
+.access-example-grid small { color: var(--ink-2); font-size: 0.72rem; line-height: 1.4; }
+.access-label { font-size: 0.65rem; font-weight: 850; letter-spacing: 0.06em; text-transform: uppercase; }
+.allow-label { color: var(--teal); }
+.deny-label { color: var(--red); }
+.scope-label { color: var(--microsoft-blue); }
+
 .integration-card {
   min-height: 206px;
   padding: 16px;
@@ -4304,6 +4355,11 @@ tr:last-child td {
 
   .source-map-arrow span {
     writing-mode: initial;
+  }
+
+  .deployment-options,
+  .operations-contract {
+    grid-template-columns: 1fr;
   }
 
   .executive-answers,
