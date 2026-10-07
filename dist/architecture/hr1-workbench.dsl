@@ -133,6 +133,61 @@ workspace "HR1 Governed AI Integration Workbench" "Illustrative higher-education
             title "HR1 - Rules-first reconciliation and accountable decision workflow"
         }
 
+        dynamic hr1 "student-record-dispute-flow" {
+            1: reviewer -> hr1.review "Submits a historical record or refund question"
+            2: hr1.review -> hr1.api "Requests linked evidence using the authorized case scope"
+            3: hr1.api -> peopleSoft "Reads enrollment, program, and term evidence" "HTTPS / REST"
+            4: hr1.api -> banner "Reads registration and course evidence" "HTTPS / REST"
+            5: hr1.api -> lms "Reads course activity evidence" "HTTPS / REST"
+            6: hr1.api -> crm "Reads prior support or case history" "Dataverse / API"
+            7: hr1.api -> hr1.orchestration "Returns the approved evidence set"
+            8: hr1.orchestration -> hr1.rules "Normalizes identifiers and applies deterministic checks"
+            9: hr1.rules -> azureSql "Reads or updates the crosswalk and processing state"
+            10: hr1.rules -> hr1.ai "Sends only unresolved mismatches with evidence references"
+            11: hr1.ai -> hr1.review "Presents an exception summary; no writeback authority"
+            12: reviewer -> hr1.review "Accepts, rejects, or escalates with rationale"
+            13: hr1.review -> sharePoint "Records evidence packet, decision, and audit event" "Microsoft Graph"
+            14: hr1.review -> teams "Notifies the accountable owner or next queue" "Microsoft Graph"
+            autolayout lr
+            description "Technical sequence: historical student evidence is collected, reconciled, reviewed, and audited without replacing the authoritative systems."
+            title "HR1 - Student record dispute dynamic flow"
+        }
+
+        dynamic hr1 "course-access-refund-flow" {
+            1: reviewer -> hr1.review "Opens an online course access or refund review"
+            2: hr1.review -> hr1.api "Requests enrollment, payment, textbook, and access evidence"
+            3: hr1.api -> peopleSoft "Reads enrollment and term status" "HTTPS / REST"
+            4: hr1.api -> banner "Reads course and registration status" "HTTPS / REST"
+            5: hr1.api -> lms "Reads login and course access activity" "HTTPS / REST"
+            6: hr1.api -> crm "Reads support contacts and prior cases" "Dataverse / API"
+            7: hr1.api -> hr1.orchestration "Builds a dated evidence timeline"
+            8: hr1.orchestration -> hr1.rules "Checks policy deadlines and payment/access conditions"
+            9: hr1.rules -> hr1.ai "Summarizes contradictions or missing evidence"
+            10: hr1.ai -> hr1.review "Shows the chair a bounded evidence summary"
+            11: reviewer -> hr1.review "Makes the remedy decision; Student Accounts policy remains authoritative"
+            12: hr1.review -> sharePoint "Stores the decision, rationale, and appeal path" "Microsoft Graph"
+            13: hr1.review -> teams "Routes follow-up tasks"
+            autolayout lr
+            description "Technical sequence: course access and refund evidence is assembled into a reviewable timeline; AI assists, but the chair decides."
+            title "HR1 - Online course access and refund dynamic flow"
+        }
+
+        dynamic hr1 "recruiter-triage-flow" {
+            1: reviewer -> hr1.review "Opens a candidate review queue"
+            2: hr1.review -> hr1.api "Requests the application, resume, transcript, and role criteria"
+            3: hr1.api -> crm "Reads candidate and requisition context" "Dataverse / API"
+            4: hr1.api -> hr1.orchestration "Extracts evidence into a normalized candidate packet"
+            5: hr1.orchestration -> hr1.rules "Checks explicit requirements and missing evidence"
+            6: hr1.rules -> hr1.ai "Summarizes relevant experience only for unclear cases"
+            7: hr1.ai -> hr1.review "Provides a traceable summary with source references"
+            8: reviewer -> hr1.review "Routes to recruiter or holds for human review"
+            9: hr1.review -> sharePoint "Records routing reason and review history" "Microsoft Graph"
+            10: hr1.review -> teams "Notifies recruiter and hiring manager"
+            autolayout lr
+            description "Technical sequence: deterministic evidence checks come first; AI does not auto-reject candidates or infer protected characteristics."
+            title "HR1 - Recruiter candidate triage dynamic flow"
+        }
+
         deployment hr1 "azure-deployment" {
             include *
             autolayout lr
