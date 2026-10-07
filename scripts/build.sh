@@ -5,6 +5,8 @@ mkdir -p dist
 cp app.js styles.css dist/
 mkdir -p dist/assets
 cp assets/* dist/assets/
+mkdir -p dist/architecture
+cp architecture/hr1-workbench.dsl architecture/README.md dist/architecture/
 
 css_version=$(sha256sum styles.css | cut -c1-12)
 js_version=$(sha256sum app.js | cut -c1-12)

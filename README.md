@@ -76,3 +76,11 @@ The current production deployment is static Hetzner/Caddy hosting. The frontend 
 All people and records in the demo are fictional. Microsoft Graph is used only for Microsoft 365 integration, workflow routing, Teams, SharePoint, and related M365 actions. Any writeback to an SIS must use that system’s supported API or integration service after authorized human approval.
 
 The live Microsoft 365 panel is a browser-based delegated connector. Register the SPA redirect URI `https://hr1.iavva.ai/`, then use only the tenant ID and client ID in the panel. Never place a client secret or password in the browser.
+## Architecture as code
+
+The end-to-end architecture is also maintained as a Structurizr DSL workspace:
+
+- [`architecture/hr1-workbench.dsl`](architecture/hr1-workbench.dsl) - system-context, container, and illustrative Azure deployment views
+- [`architecture/README.md`](architecture/README.md) - rendering instructions and scope notes
+
+The public visual diagram is available at [`#technical`](https://hr1.iavva.ai/#technical). The DSL intentionally marks PeopleSoft, Banner, LMS, CRM, and Azure SQL as illustrative adapters until an institution authorizes production APIs.

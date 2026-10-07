@@ -3585,6 +3585,13 @@ tr:last-child td {
   margin-bottom: 14px;
 }
 
+.architecture-downloads {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
 .architecture-diagram-heading h3 {
   margin: 3px 0 0;
   font-size: clamp(1.15rem, 2vw, 1.55rem);
