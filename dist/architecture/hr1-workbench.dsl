@@ -65,6 +65,19 @@ workspace "HR1 Governed AI Integration Workbench" "Illustrative higher-education
             tags "Control"
         }
 
+        ehr = softwareSystem "EHR / patient accounting" "Illustrative healthcare source system for encounters, charges, coverage, and patient responsibility." {
+            tags "Illustrative healthcare source"
+        }
+        clearinghouse = softwareSystem "Claims clearinghouse" "Illustrative external exchange for claim submission, acknowledgements, and remittance files." {
+            tags "Illustrative healthcare source"
+        }
+        payer = softwareSystem "Payer / eligibility service" "Illustrative external service for eligibility, authorization, and claim-status evidence." {
+            tags "Illustrative healthcare source"
+        }
+        rcmOwner = person "RCM operations owner" "Authorized billing or revenue-cycle reviewer who resolves a denial or exception." {
+            tags "Person"
+        }
+
         peopleSoft -> hr1.api "Reads student, program, and term records via approved integration API" "HTTPS / REST"
         banner -> hr1.api "Reads student, course, and registration records via approved integration API" "HTTPS / REST"
         lms -> hr1.api "Reads course, enrollment, and activity evidence via approved API" "HTTPS / REST"
@@ -89,6 +102,11 @@ workspace "HR1 Governed AI Integration Workbench" "Illustrative higher-education
         insights -> hr1.api "Collects request and failure telemetry"
         insights -> hr1.orchestration "Collects processing and retry telemetry"
         insights -> hr1.review "Logs scan/workflow initiation and completion metadata"
+
+        ehr -> hr1.api "Reads encounter, charge, coverage, and patient-responsibility evidence" "FHIR / HL7 / REST"
+        clearinghouse -> hr1.api "Returns claim acknowledgements and remittance evidence" "EDI / API"
+        payer -> hr1.api "Returns eligibility, authorization, and claim-status evidence" "API"
+        rcmOwner -> hr1.review "Reviews denial evidence and approves the next action"
     }
 
     views {
@@ -105,6 +123,10 @@ workspace "HR1 Governed AI Integration Workbench" "Illustrative higher-education
             include graph
             include entra
             include insights
+            include ehr
+            include clearinghouse
+            include payer
+            include rcmOwner
             autolayout lr
             description "System context: authoritative sources connect through HR1 to governed Microsoft workflow surfaces."
             title "HR1 - Governed enterprise integration system context"
@@ -186,6 +208,24 @@ workspace "HR1 Governed AI Integration Workbench" "Illustrative higher-education
             autolayout lr
             description "Technical sequence: deterministic evidence checks come first; AI does not auto-reject candidates or infer protected characteristics."
             title "HR1 - Recruiter candidate triage dynamic flow"
+        }
+
+        dynamic hr1 "rcm-denial-management-flow" {
+            1: rcmOwner -> hr1.review "Opens a denial or underpayment case"
+            2: hr1.review -> hr1.api "Requests the minimum case evidence"
+            3: hr1.api -> ehr "Reads encounter, charge, coverage, and responsibility evidence" "FHIR / HL7 / REST"
+            4: hr1.api -> payer "Checks eligibility, authorization, and claim status" "API"
+            5: hr1.api -> clearinghouse "Reads acknowledgement and remittance evidence" "EDI / API"
+            6: hr1.api -> hr1.orchestration "Returns evidence through the approved integration boundary"
+            7: hr1.orchestration -> hr1.rules "Checks required fields, identifiers, payer rules, and timely-filing conditions"
+            8: hr1.rules -> hr1.ai "Sends only unresolved denial patterns with evidence references"
+            9: hr1.ai -> hr1.review "Summarizes likely cause and missing evidence; no autonomous claim change"
+            10: rcmOwner -> hr1.review "Approves correction, appeal, hold, or escalation"
+            11: hr1.review -> sharePoint "Stores the evidence packet, decision, and audit trail" "Microsoft Graph"
+            12: hr1.review -> teams "Routes follow-up to the responsible queue" "Microsoft Graph"
+            autolayout lr
+            description "Illustrative RCM sequence: source evidence is assembled and governed before an authorized revenue-cycle owner decides. This is not a claim of production access or a completed healthcare deployment."
+            title "HR1 - Illustrative revenue-cycle denial management flow"
         }
 
         deployment hr1 "azure-deployment" {
