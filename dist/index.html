@@ -6,10 +6,10 @@
     <meta name="theme-color" content="#102033">
     <title>Microsoft AI Applications Integration Workbench | iAvva AI</title>
     <meta name="description" content="A working higher-education prototype demonstrating governed AI integration, accountable human decisions, and auditable enterprise workflows.">
-    <link rel="stylesheet" href="./styles.css?v=937020102442">
+    <link rel="stylesheet" href="./styles.css?v=e6791b6634e7">
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
     <script src="./assets/msal-browser.min.js" defer></script>
-    <script src="./app.js?v=2c11b61d2346" defer></script>
+    <script src="./app.js?v=04a26c1a0791" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to main content</a>
@@ -240,6 +240,12 @@
             </section>
           </div>
 
+          <section class="source-map-explainer" aria-labelledby="sourceMapExplainerHeading">
+            <div class="panel-heading tight"><div><p class="eyebrow">How to explain the source map</p><h3 id="sourceMapExplainerHeading">Every source answers three questions: where, how, and what.</h3></div><span class="status review">End-to-end view</span></div>
+            <div id="sourceMapExplainer" aria-live="polite"></div>
+            <div class="source-map-talk-track"><i data-lucide="message-circle-more"></i><span><strong>Simple talk track:</strong> “These systems remain owners of their data. HR1 reads through supported interfaces, validates and normalizes the evidence, sends only ambiguity to a human owner, and records the outcome for reporting.”</span></div>
+          </section>
+
           <div class="source-to-decision" aria-label="Data movement from sources to business decisions">
             <div><i data-lucide="database"></i><span>Source systems</span></div><i data-lucide="arrow-right"></i>
             <div><i data-lucide="list-checks"></i><span>Validate and normalize</span></div><i data-lucide="arrow-right"></i>
@@ -259,6 +265,7 @@
             <div class="architecture-diagram-heading"><div><p class="eyebrow">Shareable system map</p><h3 id="architectureDiagramTitle">How HR1 moves evidence to an accountable decision</h3></div><a class="button secondary compact" href="./assets/hr1-architecture.svg" download="hr1-architecture.svg"><i data-lucide="download"></i>Download SVG</a></div>
             <img src="./assets/hr1-architecture.svg" alt="System architecture showing enterprise systems flowing through Microsoft integration, validation, governed AI exception review, human approval, controlled writeback, Microsoft 365 workflow, and reporting, with identity, privacy, audit, and monitoring controls across every layer">
             <figcaption>CIO view: value moves from fragmented evidence to an accountable outcome. CTO view: every boundary has an owner, supported interface, control, and audit path.</figcaption>
+            <div class="architecture-integration-note" role="note"><strong>Prototype boundary:</strong><span><b>Live in HR1:</b> Microsoft Graph demo-tenant sign-in and GitHub REST delivery telemetry. Rafter is represented through a server-side status integration when configured.</span><span><b>Illustrative adapters:</b> PeopleSoft, Banner, LMS, CRM, Azure SQL, bookstore/payment, HR/applicant, and support systems require authorized institutional APIs before production use.</span></div>
           </figure>
           <div class="architecture-shell" aria-label="Technical architecture">
             <div class="architecture-layers">

@@ -816,6 +816,7 @@ function renderSourceDashboard() {
   const grid = document.querySelector("#sourceGrid");
   const metrics = document.querySelector("#sourceMetrics");
   const feed = document.querySelector("#activityFeed");
+  const explainer = document.querySelector("#sourceMapExplainer");
   if (!grid || !metrics || !feed) return;
 
   const totalRecords = sourceSystems.reduce((sum, source) => sum + source.records, 0);
@@ -853,6 +854,25 @@ function renderSourceDashboard() {
     )
     .join("");
 
+  if (explainer) {
+    const sourceNodes = sourceSystems.map((source) => `
+      <article class="source-map-node ${source.live ? "live" : "illustrative"}">
+        <div class="source-map-node-title"><i data-lucide="${source.icon}"></i><strong>${escapeHtml(source.name)}</strong><span class="source-map-status">${escapeHtml(source.health)}</span></div>
+        <span class="source-map-method">${escapeHtml(source.method)}</span>
+        <small>${escapeHtml(source.data)}</small>
+      </article>
+    `).join("");
+    explainer.innerHTML = `
+      <div class="source-map-graph">
+        <div class="source-map-column source-map-inputs"><div class="source-map-column-heading"><span>1</span><div><strong>Source systems</strong><small>Authoritative data owners</small></div></div>${sourceNodes}</div>
+        <div class="source-map-arrow" aria-hidden="true"><span>supported APIs</span><i data-lucide="arrow-right"></i></div>
+        <div class="source-map-column source-map-processing"><div class="source-map-column-heading"><span>2</span><div><strong>HR1 integration path</strong><small>Validate, normalize, and route</small></div></div><article class="source-map-stage"><i data-lucide="list-checks"></i><strong>Validate and normalize</strong><small>IDs, dates, terms, access, payments, and requirements</small></article><article class="source-map-stage"><i data-lucide="sparkles"></i><strong>Assist exceptions</strong><small>AI summarizes contradictions; rules clear routine matches</small></article><article class="source-map-stage"><i data-lucide="shield-check"></i><strong>Apply controls</strong><small>Identity, least privilege, audit, retry, and monitoring</small></article></div>
+        <div class="source-map-arrow" aria-hidden="true"><span>evidence packet</span><i data-lucide="arrow-right"></i></div>
+        <div class="source-map-column source-map-outcomes"><div class="source-map-column-heading"><span>3</span><div><strong>Accountable outcomes</strong><small>People decide; systems remain authoritative</small></div></div><article class="source-map-stage"><i data-lucide="user-check"></i><strong>Human decision</strong><small>Registrar, chair, Student Accounts, recruiter, or owner</small></article><article class="source-map-stage"><i data-lucide="send"></i><strong>Approved workflow</strong><small>Teams, SharePoint, or supported system API</small></article><article class="source-map-stage"><i data-lucide="chart-no-axes-combined"></i><strong>Audit and analytics</strong><small>Rationale, reviewer, timestamp, adoption, and operations</small></article></div>
+      </div>
+    `;
+  }
+
   feed.innerHTML = sourceMonitor.events
     .map(
       (event) => `
@@ -867,6 +887,7 @@ function renderSourceDashboard() {
 
   document.querySelector("#activityCount").textContent = sourceMonitor.events.length;
   renderSourceClock();
+  refreshIcons();
 }
 
 function renderUseCaseDemos() {

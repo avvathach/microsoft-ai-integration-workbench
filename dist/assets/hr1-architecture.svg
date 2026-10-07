@@ -19,17 +19,18 @@
 
   <rect x="64" y="184" width="1472" height="182" rx="18" fill="#fff" filter="url(#shadow)"/>
   <text x="94" y="218" class="eyebrow" fill="#047857">SOURCE LANDSCAPE</text>
-  <text x="94" y="248" class="head">Enterprise systems</text>
+  <text x="94" y="248" class="head">Enterprise systems and prototype connectors</text>
   <g>
-    <rect x="94" y="272" width="160" height="54" rx="10" fill="#f6f8fb" stroke="#d8e0ea"/><text x="174" y="305" text-anchor="middle" class="chip">PeopleSoft</text>
-    <rect x="270" y="272" width="130" height="54" rx="10" fill="#f6f8fb" stroke="#d8e0ea"/><text x="335" y="305" text-anchor="middle" class="chip">Banner</text>
-    <rect x="416" y="272" width="110" height="54" rx="10" fill="#f6f8fb" stroke="#d8e0ea"/><text x="471" y="305" text-anchor="middle" class="chip">LMS</text>
-    <rect x="542" y="272" width="110" height="54" rx="10" fill="#f6f8fb" stroke="#d8e0ea"/><text x="597" y="305" text-anchor="middle" class="chip">CRM</text>
-    <rect x="668" y="272" width="175" height="54" rx="10" fill="#f6f8fb" stroke="#d8e0ea"/><text x="755" y="305" text-anchor="middle" class="chip">Microsoft 365</text>
-    <rect x="859" y="272" width="176" height="54" rx="10" fill="#f6f8fb" stroke="#d8e0ea"/><text x="947" y="305" text-anchor="middle" class="chip">HR / applicant systems</text>
-    <rect x="1051" y="272" width="190" height="54" rx="10" fill="#f6f8fb" stroke="#d8e0ea"/><text x="1146" y="305" text-anchor="middle" class="chip">Bookstore / payment</text>
-    <rect x="1257" y="272" width="245" height="54" rx="10" fill="#f6f8fb" stroke="#d8e0ea"/><text x="1379" y="305" text-anchor="middle" class="chip">Support / email / files</text>
+    <rect x="94" y="272" width="160" height="54" rx="10" fill="#f6f8fb" stroke="#d8e0ea"/><text x="174" y="300" text-anchor="middle" class="chip">PeopleSoft</text><text x="174" y="317" text-anchor="middle" class="small">illustrative</text>
+    <rect x="270" y="272" width="130" height="54" rx="10" fill="#f6f8fb" stroke="#d8e0ea"/><text x="335" y="300" text-anchor="middle" class="chip">Banner</text><text x="335" y="317" text-anchor="middle" class="small">illustrative</text>
+    <rect x="416" y="272" width="110" height="54" rx="10" fill="#f6f8fb" stroke="#d8e0ea"/><text x="471" y="300" text-anchor="middle" class="chip">LMS</text><text x="471" y="317" text-anchor="middle" class="small">illustrative</text>
+    <rect x="542" y="272" width="110" height="54" rx="10" fill="#f6f8fb" stroke="#d8e0ea"/><text x="597" y="300" text-anchor="middle" class="chip">CRM</text><text x="597" y="317" text-anchor="middle" class="small">illustrative</text>
+    <rect x="668" y="272" width="175" height="54" rx="10" fill="#ecfdf5" stroke="#10b981"/><text x="755" y="300" text-anchor="middle" class="chip">Microsoft Graph</text><text x="755" y="317" text-anchor="middle" class="note">demo tenant live</text>
+    <rect x="859" y="272" width="176" height="54" rx="10" fill="#f6f8fb" stroke="#d8e0ea"/><text x="947" y="300" text-anchor="middle" class="chip">HR / applicant</text><text x="947" y="317" text-anchor="middle" class="small">illustrative</text>
+    <rect x="1051" y="272" width="190" height="54" rx="10" fill="#ecfdf5" stroke="#10b981"/><text x="1146" y="300" text-anchor="middle" class="chip">GitHub REST</text><text x="1146" y="317" text-anchor="middle" class="note">delivery telemetry live</text>
+    <rect x="1257" y="272" width="245" height="54" rx="10" fill="#f6f8fb" stroke="#d8e0ea"/><text x="1379" y="300" text-anchor="middle" class="chip">Rafter security API</text><text x="1379" y="317" text-anchor="middle" class="small">server-side integration</text>
   </g>
+  <text x="94" y="350" class="small">Additional prototype surfaces: Azure SQL crosswalks, SharePoint review records, GitHub delivery telemetry, and Rafter security status.</text>
 
   <line x1="800" y1="366" x2="800" y2="412" stroke="#8ee9df" stroke-width="3" marker-end="url(#arrow)"/>
   <text x="816" y="394" class="whitesmall">Supported REST / API integrations</text>
