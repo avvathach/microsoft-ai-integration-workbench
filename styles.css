@@ -3517,6 +3517,44 @@ tr:last-child td {
   align-items: stretch;
 }
 
+.architecture-diagram-card {
+  margin: 18px 0;
+  padding: clamp(16px, 2.4vw, 24px);
+  border: 1px solid rgba(37, 99, 235, 0.22);
+  border-radius: 14px;
+  background: linear-gradient(145deg, #f7fbff 0%, #ffffff 70%);
+  box-shadow: 0 12px 28px rgba(16, 32, 51, 0.08);
+}
+
+.architecture-diagram-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.architecture-diagram-heading h3 {
+  margin: 3px 0 0;
+  font-size: clamp(1.15rem, 2vw, 1.55rem);
+}
+
+.architecture-diagram-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #102033;
+}
+
+.architecture-diagram-card figcaption {
+  margin-top: 10px;
+  color: var(--ink-2);
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
 .architecture-layers,
 .controls-rail {
   padding: clamp(18px, 2.4vw, 28px);
@@ -4059,6 +4097,10 @@ tr:last-child td {
 }
 
 @media (max-width: 1260px) {
+  .architecture-diagram-heading {
+    flex-direction: column;
+  }
+
   .executive-answers,
   .outcomes-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));

@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 930" role="img" aria-labelledby="title desc">
+  <title id="title">HR1 governed AI integration architecture</title>
+  <desc id="desc">Enterprise systems connect through supported APIs to validation and orchestration, then deterministic rules and governed AI assist human review before controlled writeback, Microsoft 365 workflow, and reporting.</desc>
+  <defs>
+    <linearGradient id="canvas" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#102033"/><stop offset="1" stop-color="#173c5c"/></linearGradient>
+    <linearGradient id="integration" x1="0" x2="1"><stop offset="0" stop-color="#dbeafe"/><stop offset="1" stop-color="#eff6ff"/></linearGradient>
+    <linearGradient id="decision" x1="0" x2="1"><stop offset="0" stop-color="#ede9fe"/><stop offset="1" stop-color="#f5f3ff"/></linearGradient>
+    <linearGradient id="human" x1="0" x2="1"><stop offset="0" stop-color="#d1fae5"/><stop offset="1" stop-color="#ecfdf5"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="9" flood-opacity=".18"/></filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#8ee9df"/></marker>
+    <style>
+      .title{font:700 34px Arial,sans-serif;fill:#fff}.subtitle{font:400 17px Arial,sans-serif;fill:#c8d8e7}.eyebrow{font:700 13px Arial,sans-serif;letter-spacing:2px;fill:#8ee9df}.head{font:700 20px Arial,sans-serif;fill:#102033}.body{font:600 14px Arial,sans-serif;fill:#25364a}.small{font:400 13px Arial,sans-serif;fill:#5f6f84}.whitehead{font:700 17px Arial,sans-serif;fill:#fff}.whitesmall{font:400 13px Arial,sans-serif;fill:#d8e8f4}.chip{font:700 13px Arial,sans-serif;fill:#102033}.note{font:700 13px Arial,sans-serif;fill:#047857}
+    </style>
+  </defs>
+  <rect width="1600" height="930" rx="28" fill="url(#canvas)"/>
+  <text x="64" y="66" class="eyebrow">HR1 | MICROSOFT AI APPLICATIONS INTEGRATION WORKBENCH</text>
+  <text x="64" y="112" class="title">Governed decisions between enterprise systems</text>
+  <text x="64" y="143" class="subtitle">Evidence moves through supported interfaces. AI assists unresolved exceptions. Authorized owners decide.</text>
+
+  <rect x="64" y="184" width="1472" height="182" rx="18" fill="#fff" filter="url(#shadow)"/>
+  <text x="94" y="218" class="eyebrow" fill="#047857">SOURCE LANDSCAPE</text>
+  <text x="94" y="248" class="head">Enterprise systems</text>
+  <g>
+    <rect x="94" y="272" width="160" height="54" rx="10" fill="#f6f8fb" stroke="#d8e0ea"/><text x="174" y="305" text-anchor="middle" class="chip">PeopleSoft</text>
+    <rect x="270" y="272" width="130" height="54" rx="10" fill="#f6f8fb" stroke="#d8e0ea"/><text x="335" y="305" text-anchor="middle" class="chip">Banner</text>
+    <rect x="416" y="272" width="110" height="54" rx="10" fill="#f6f8fb" stroke="#d8e0ea"/><text x="471" y="305" text-anchor="middle" class="chip">LMS</text>
+    <rect x="542" y="272" width="110" height="54" rx="10" fill="#f6f8fb" stroke="#d8e0ea"/><text x="597" y="305" text-anchor="middle" class="chip">CRM</text>
+    <rect x="668" y="272" width="175" height="54" rx="10" fill="#f6f8fb" stroke="#d8e0ea"/><text x="755" y="305" text-anchor="middle" class="chip">Microsoft 365</text>
+    <rect x="859" y="272" width="176" height="54" rx="10" fill="#f6f8fb" stroke="#d8e0ea"/><text x="947" y="305" text-anchor="middle" class="chip">HR / applicant systems</text>
+    <rect x="1051" y="272" width="190" height="54" rx="10" fill="#f6f8fb" stroke="#d8e0ea"/><text x="1146" y="305" text-anchor="middle" class="chip">Bookstore / payment</text>
+    <rect x="1257" y="272" width="245" height="54" rx="10" fill="#f6f8fb" stroke="#d8e0ea"/><text x="1379" y="305" text-anchor="middle" class="chip">Support / email / files</text>
+  </g>
+
+  <line x1="800" y1="366" x2="800" y2="412" stroke="#8ee9df" stroke-width="3" marker-end="url(#arrow)"/>
+  <text x="816" y="394" class="whitesmall">Supported REST / API integrations</text>
+
+  <g filter="url(#shadow)">
+    <rect x="64" y="432" width="350" height="202" rx="18" fill="url(#integration)"/>
+    <text x="94" y="469" class="eyebrow" fill="#2563eb">ORCHESTRATION</text><text x="94" y="500" class="head">Integration layer</text>
+    <text x="94" y="535" class="body">Azure API Management</text><text x="94" y="562" class="body">Azure Functions / Power Automate</text><text x="94" y="589" class="body">Validate, transform, retry, and route</text>
+    <rect x="452" y="432" width="350" height="202" rx="18" fill="url(#decision)"/>
+    <text x="482" y="469" class="eyebrow" fill="#6d28d9">CONTROLLED ANALYSIS</text><text x="482" y="500" class="head">Decision layer</text>
+    <text x="482" y="535" class="body">Deterministic matching rules first</text><text x="482" y="562" class="body">Azure AI summarizes exceptions</text><text x="482" y="589" class="body">Confidence thresholds and evidence</text>
+    <rect x="840" y="432" width="350" height="202" rx="18" fill="url(#human)"/>
+    <text x="870" y="469" class="eyebrow" fill="#047857">ACCOUNTABLE DECISION</text><text x="870" y="500" class="head">Human-in-the-loop</text>
+    <text x="870" y="535" class="body">Named owner reviews the evidence</text><text x="870" y="562" class="body">Approve, reject, or escalate</text><text x="870" y="589" class="body">Rationale and timestamp recorded</text>
+    <rect x="1228" y="432" width="308" height="202" rx="18" fill="#fff"/>
+    <text x="1258" y="469" class="eyebrow" fill="#1b7f3a">CONTROLLED OUTCOMES</text><text x="1258" y="500" class="head">Approved actions</text>
+    <text x="1258" y="535" class="body">SIS API writeback</text><text x="1258" y="562" class="body">Graph to Teams / SharePoint</text><text x="1258" y="589" class="body">Power BI / Fabric reporting</text>
+  </g>
+  <line x1="414" y1="533" x2="452" y2="533" stroke="#8ee9df" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="802" y1="533" x2="840" y2="533" stroke="#8ee9df" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="1190" y1="533" x2="1228" y2="533" stroke="#8ee9df" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <rect x="64" y="690" width="1472" height="174" rx="18" fill="#0b1725" stroke="#33536d"/>
+  <text x="94" y="728" class="eyebrow">CROSS-CUTTING CONTROLS</text>
+  <text x="94" y="758" class="whitehead">Identity, privacy, observability, and operating discipline</text>
+  <g>
+    <rect x="94" y="786" width="176" height="48" rx="9" fill="#173c5c"/><text x="182" y="816" text-anchor="middle" class="whitesmall">Entra ID + RBAC</text>
+    <rect x="286" y="786" width="176" height="48" rx="9" fill="#173c5c"/><text x="374" y="816" text-anchor="middle" class="whitesmall">Least privilege</text>
+    <rect x="478" y="786" width="176" height="48" rx="9" fill="#173c5c"/><text x="566" y="816" text-anchor="middle" class="whitesmall">Key Vault</text>
+    <rect x="670" y="786" width="176" height="48" rx="9" fill="#173c5c"/><text x="758" y="816" text-anchor="middle" class="whitesmall">FERPA-aware privacy</text>
+    <rect x="862" y="786" width="176" height="48" rx="9" fill="#173c5c"/><text x="950" y="816" text-anchor="middle" class="whitesmall">Audit logging</text>
+    <rect x="1054" y="786" width="176" height="48" rx="9" fill="#173c5c"/><text x="1142" y="816" text-anchor="middle" class="whitesmall">App Insights</text>
+    <rect x="1246" y="786" width="256" height="48" rx="9" fill="#173c5c"/><text x="1374" y="816" text-anchor="middle" class="whitesmall">System of record stays authoritative</text>
+  </g>
+</svg>
