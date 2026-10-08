@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1860" role="img" aria-labelledby="title desc">
+  <title id="title">HR1 C4 architecture views</title>
+  <desc id="desc">C4-style system landscape, system context, container, component, dynamic, and deployment views for the HR1 governed AI integration workbench.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0 0L12 6L0 12z" fill="#334155"/></marker>
+    <style>
+      .bg{fill:#f8fafc}.panel{fill:#fff;stroke:#cbd5e1;stroke-width:2}.title{font:700 28px Arial;fill:#0f172a}.sub{font:400 15px Arial;fill:#475569}.section{font:700 13px Arial;letter-spacing:1.5px;fill:#2563eb}.box{stroke-width:2;rx:10}.source{fill:#f8fafc;stroke:#64748b}.hr1{fill:#dbeafe;stroke:#2563eb}.ms{fill:#dcfce7;stroke:#16a34a}.decision{fill:#f5f3ff;stroke:#7c3aed}.human{fill:#fff7ed;stroke:#ea580c}.control{fill:#e2e8f0;stroke:#64748b}.text{font:700 15px Arial;fill:#0f172a}.small{font:400 12px Arial;fill:#475569}.tiny{font:400 11px Arial;fill:#64748b}.rel{font:400 11px Arial;fill:#334155}.arrow{stroke:#334155;stroke-width:2;fill:none;marker-end:url(#arrow)}.legend{font:400 12px Arial;fill:#334155}
+    </style>
+  </defs>
+  <rect width="1600" height="1860" class="bg"/>
+  <text x="60" y="58" class="title">HR1 C4 architecture views</text><text x="60" y="86" class="sub">A CTO-ready visual companion to the Structurizr DSL. Illustrative source adapters require customer-approved APIs.</text>
+
+  <g transform="translate(50 120)"><rect width="1500" height="250" class="panel"/><text x="28" y="34" class="section">1. SYSTEM LANDSCAPE</text><text x="28" y="60" class="sub">Who participates and where authority lives</text>
+    <rect x="55" y="105" width="180" height="70" class="human box"/><text x="145" y="134" text-anchor="middle" class="text">Business owner</text><text x="145" y="155" text-anchor="middle" class="small">Registrar / RCM / recruiter</text>
+    <rect x="290" y="105" width="210" height="70" class="source box"/><text x="395" y="134" text-anchor="middle" class="text">Source systems</text><text x="395" y="155" text-anchor="middle" class="small">PeopleSoft, Banner, EHR, payer</text>
+    <rect x="555" y="90" width="250" height="100" class="hr1 box"/><text x="680" y="128" text-anchor="middle" class="text">HR1 Workbench</text><text x="680" y="150" text-anchor="middle" class="small">Validate, reconcile, govern</text><text x="680" y="171" text-anchor="middle" class="small">AI assists; humans decide</text>
+    <rect x="860" y="105" width="220" height="70" class="ms box"/><text x="970" y="134" text-anchor="middle" class="text">Microsoft 365</text><text x="970" y="155" text-anchor="middle" class="small">SharePoint, Teams, Graph</text>
+    <rect x="1135" y="105" width="180" height="70" class="control box"/><text x="1225" y="134" text-anchor="middle" class="text">Controls</text><text x="1225" y="155" text-anchor="middle" class="small">Entra, Key Vault, telemetry</text>
+    <path d="M235 140H290M500 140H555M805 140H860M1080 140H1135" class="arrow"/><text x="257" y="130" class="rel">evidence</text><text x="522" y="130" class="rel">approved APIs</text><text x="818" y="130" class="rel">workflow</text><text x="1090" y="130" class="rel">protects</text>
+  </g>
+
+  <g transform="translate(50 400)"><rect width="1500" height="250" class="panel"/><text x="28" y="34" class="section">2. SYSTEM CONTEXT</text><text x="28" y="60" class="sub">HR1 in context of source systems, Microsoft services, and the accountable owner</text>
+    <rect x="70" y="105" width="190" height="70" class="source box"/><text x="165" y="134" text-anchor="middle" class="text">PeopleSoft / Banner</text><text x="165" y="155" text-anchor="middle" class="small">Authoritative SIS records</text>
+    <rect x="340" y="105" width="190" height="70" class="source box"/><text x="435" y="134" text-anchor="middle" class="text">LMS / CRM / EHR</text><text x="435" y="155" text-anchor="middle" class="small">Evidence sources</text>
+    <rect x="620" y="85" width="270" height="110" class="hr1 box"/><text x="755" y="126" text-anchor="middle" class="text">HR1 Integration Workbench</text><text x="755" y="149" text-anchor="middle" class="small">Governed decision workflow</text><text x="755" y="170" text-anchor="middle" class="small">No autonomous writeback</text>
+    <rect x="980" y="105" width="190" height="70" class="ms box"/><text x="1075" y="134" text-anchor="middle" class="text">SharePoint + Teams</text><text x="1075" y="155" text-anchor="middle" class="small">Evidence and tasks</text>
+    <rect x="1260" y="105" width="170" height="70" class="human box"/><text x="1345" y="134" text-anchor="middle" class="text">Owner</text><text x="1345" y="155" text-anchor="middle" class="small">Makes decision</text>
+    <path d="M260 140H340M530 140H620M890 140H980M1170 140H1260" class="arrow"/>
+  </g>
+
+  <g transform="translate(50 680)"><rect width="1500" height="270" class="panel"/><text x="28" y="34" class="section">3. CONTAINER DIAGRAM</text><text x="28" y="60" class="sub">The major technical building blocks inside the HR1 boundary</text>
+    <rect x="70" y="105" width="190" height="90" class="hr1 box"/><text x="165" y="136" text-anchor="middle" class="text">API boundary</text><text x="165" y="158" text-anchor="middle" class="small">API Management</text><text x="165" y="178" text-anchor="middle" class="small">Auth / throttle / route</text>
+    <rect x="330" y="105" width="210" height="90" class="hr1 box"/><text x="435" y="136" text-anchor="middle" class="text">Orchestration</text><text x="435" y="158" text-anchor="middle" class="small">Functions / Power Automate</text><text x="435" y="178" text-anchor="middle" class="small">Validate / normalize / retry</text>
+    <rect x="610" y="105" width="190" height="90" class="decision box"/><text x="705" y="136" text-anchor="middle" class="text">Rules</text><text x="705" y="158" text-anchor="middle" class="small">Match IDs and policies</text><text x="705" y="178" text-anchor="middle" class="small">Crosswalk / thresholds</text>
+    <rect x="870" y="105" width="190" height="90" class="decision box"/><text x="965" y="136" text-anchor="middle" class="text">AI assistant</text><text x="965" y="158" text-anchor="middle" class="small">Exception summary</text><text x="965" y="178" text-anchor="middle" class="small">Evidence references</text>
+    <rect x="1130" y="105" width="250" height="90" class="ms box"/><text x="1255" y="136" text-anchor="middle" class="text">SharePoint workflow</text><text x="1255" y="158" text-anchor="middle" class="small">Human review / audit / Teams</text><text x="1255" y="178" text-anchor="middle" class="small">Decision and rationale</text>
+    <path d="M260 150H330M540 150H610M800 150H870M1060 150H1130" class="arrow"/>
+  </g>
+
+  <g transform="translate(50 980)"><rect width="1500" height="250" class="panel"/><text x="28" y="34" class="section">4. COMPONENT DIAGRAM</text><text x="28" y="60" class="sub">Inside the integration boundary: small responsibilities with clear ownership</text>
+    <rect x="70" y="105" width="200" height="78" class="hr1 box"/><text x="170" y="137" text-anchor="middle" class="text">Adapter registry</text><text x="170" y="160" text-anchor="middle" class="small">Approved connectors</text>
+    <rect x="330" y="105" width="200" height="78" class="hr1 box"/><text x="430" y="137" text-anchor="middle" class="text">Evidence validator</text><text x="430" y="160" text-anchor="middle" class="small">Schema / ID / scope</text>
+    <rect x="590" y="105" width="200" height="78" class="decision box"/><text x="690" y="137" text-anchor="middle" class="text">Record matcher</text><text x="690" y="160" text-anchor="middle" class="small">Deterministic match</text>
+    <rect x="850" y="105" width="200" height="78" class="decision box"/><text x="950" y="137" text-anchor="middle" class="text">Evidence guard</text><text x="950" y="160" text-anchor="middle" class="small">Bounded AI context</text>
+    <rect x="1110" y="105" width="270" height="78" class="ms box"/><text x="1245" y="137" text-anchor="middle" class="text">Decision recorder</text><text x="1245" y="160" text-anchor="middle" class="small">Owner / rationale / time</text>
+    <path d="M270 144H330M530 144H590M790 144H850M1050 144H1110" class="arrow"/>
+  </g>
+
+  <g transform="translate(50 1260)"><rect width="1500" height="250" class="panel"/><text x="28" y="34" class="section">5. DYNAMIC DIAGRAM</text><text x="28" y="60" class="sub">Numbered runtime sequence for a denial, dispute, or reconciliation exception</text>
+    <g class="small"><text x="90" y="110" class="text">1. Owner opens case</text><text x="90" y="138">Review request</text><text x="335" y="110" class="text">2. Collect evidence</text><text x="335" y="138">SIS / EHR / payer APIs</text><text x="585" y="110" class="text">3. Validate</text><text x="585" y="138">IDs, schema, policy</text><text x="805" y="110" class="text">4. Assist</text><text x="805" y="138">AI summarizes ambiguity</text><text x="1055" y="110" class="text">5. Decide</text><text x="1055" y="138">Authorized human</text><text x="1260" y="110" class="text">6. Audit</text><text x="1260" y="138">SharePoint + Teams</text></g>
+    <path d="M245 125H330M500 125H585M750 125H805M1010 125H1055M1215 125H1260" class="arrow"/>
+    <rect x="240" y="185" width="1010" height="34" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/><text x="745" y="207" text-anchor="middle" class="legend">Failure path: retry transient errors → alert operations → hold the case; never fabricate a result or silently change the source system.</text>
+  </g>
+
+  <g transform="translate(50 1540)"><rect width="1500" height="250" class="panel"/><text x="28" y="34" class="section">6. DEPLOYMENT DIAGRAM</text><text x="28" y="60" class="sub">Illustrative Azure/Microsoft 365 deployment and control boundaries</text>
+    <rect x="70" y="100" width="330" height="110" class="control box"/><text x="235" y="135" text-anchor="middle" class="text">Customer Microsoft 365 tenant</text><text x="235" y="158" text-anchor="middle" class="small">SharePoint / Teams / Graph</text><text x="235" y="180" text-anchor="middle" class="small">Entra ID / MFA / RBAC</text>
+    <rect x="500" y="100" width="330" height="110" class="hr1 box"/><text x="665" y="135" text-anchor="middle" class="text">Azure subscription</text><text x="665" y="158" text-anchor="middle" class="small">Functions / API Management</text><text x="665" y="180" text-anchor="middle" class="small">Key Vault / Azure SQL</text>
+    <rect x="930" y="100" width="260" height="110" class="control box"/><text x="1060" y="135" text-anchor="middle" class="text">Operations</text><text x="1060" y="158" text-anchor="middle" class="small">Application Insights</text><text x="1060" y="180" text-anchor="middle" class="small">Alerts / SLA / audit</text>
+    <rect x="1280" y="100" width="180" height="110" class="human box"/><text x="1370" y="135" text-anchor="middle" class="text">Owner</text><text x="1370" y="158" text-anchor="middle" class="small">Decision queue</text><text x="1370" y="180" text-anchor="middle" class="small">Support / escalation</text>
+    <path d="M400 155H500M830 155H930M1190 155H1280" class="arrow"/>
+  </g>
+
+  <rect x="70" y="1810" width="20" height="20" class="source box"/><text x="100" y="1826" class="legend">Illustrative source / external system</text><rect x="410" y="1810" width="20" height="20" class="hr1 box"/><text x="440" y="1826" class="legend">HR1-controlled integration</text><rect x="730" y="1810" width="20" height="20" class="ms box"/><text x="760" y="1826" class="legend">Microsoft governed surface</text><rect x="1080" y="1810" width="20" height="20" class="human box"/><text x="1110" y="1826" class="legend">Human owner</text>
+</svg>
