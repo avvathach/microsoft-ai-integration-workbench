@@ -1,74 +1,60 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 980" role="img" aria-labelledby="title desc">
-  <title id="title">Structurizr-style HR1 governed enterprise integration architecture</title>
-  <desc id="desc">PeopleSoft, Banner, a learning platform, CRM and Azure SQL connect through an API integration boundary to a governed SharePoint data layer. Rules and AI assist exceptions, while authorized people make decisions. Microsoft identity, secrets, logging and alerts protect every interaction.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">HR1 C4-style container diagram</title>
+  <desc id="desc">A C4-style diagram showing source systems connecting through the HR1 integration boundary to SharePoint workflow, AI exception assistance, human approval, and reporting.</desc>
   <defs>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="8" flood-opacity=".14"/></filter>
-    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0 0L12 6L0 12z" fill="#0f6b78"/></marker>
-    <marker id="arrowMuted" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0 0L12 6L0 12z" fill="#64748b"/></marker>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0 0L12 6L0 12z" fill="#475569"/></marker>
     <style>
-      .title{font:700 34px Arial,sans-serif;fill:#102033}.subtitle{font:400 17px Arial,sans-serif;fill:#475569}.eyebrow{font:700 13px Arial,sans-serif;letter-spacing:2px;fill:#0f6b78}.head{font:700 20px Arial,sans-serif;fill:#102033}.body{font:600 14px Arial,sans-serif;fill:#243447}.small{font:400 12px Arial,sans-serif;fill:#64748b}.tiny{font:400 11px Arial,sans-serif;fill:#64748b}.label{font:700 12px Arial,sans-serif;fill:#0f6b78}.white{font:700 14px Arial,sans-serif;fill:#fff}.whiteSmall{font:400 12px Arial,sans-serif;fill:#dce7ef}.boundary{font:700 13px Arial,sans-serif;letter-spacing:1.4px;fill:#2563eb}.rel{font:400 11px Arial,sans-serif;fill:#334155}.tag{font:700 11px Arial,sans-serif;fill:#047857}.source{fill:#f8fafc;stroke:#cbd5e1}.microsoft{fill:#eff6ff;stroke:#7dd3fc}.governed{fill:#ecfdf5;stroke:#34d399}.decision{fill:#f5f3ff;stroke:#a78bfa}.person{fill:#fff7ed;stroke:#fb923c}.control{fill:#0f2e43;stroke:#2d5b72}
+      .title{font:700 30px Arial,sans-serif;fill:#1f2937}.sub{font:400 16px Arial,sans-serif;fill:#64748b}.eyebrow{font:700 12px Arial,sans-serif;letter-spacing:1.8px;fill:#64748b}.head{font:700 18px Arial,sans-serif;fill:#fff}.body{font:400 13px Arial,sans-serif;fill:#fff}.externalHead{font:700 16px Arial,sans-serif;fill:#1f2937}.externalBody{font:400 13px Arial,sans-serif;fill:#334155}.rel{font:400 12px Arial,sans-serif;fill:#475569}.key{font:400 12px Arial,sans-serif;fill:#475569}.boundaryLabel{font:700 13px Arial,sans-serif;letter-spacing:1.4px;fill:#2563eb}
     </style>
   </defs>
+  <rect width="1600" height="900" fill="#ffffff"/>
+  <text x="55" y="55" class="eyebrow">CONTAINER DIAGRAM | HR1 INTEGRATION WORKBENCH</text>
+  <text x="55" y="96" class="title">Governed evidence flow from source systems to an accountable decision</text>
+  <text x="55" y="126" class="sub">C4 view: source systems remain authoritative; HR1 validates evidence, assists ambiguity, and records the human decision.</text>
 
-  <rect width="1600" height="980" rx="26" fill="#f8fafc"/>
-  <text x="64" y="62" class="eyebrow">HR1 | STRUCTURIZR-STYLE SYSTEM CONTEXT + CONTAINER VIEW</text>
-  <text x="64" y="106" class="title">Governed decisions between enterprise systems</text>
-  <text x="64" y="136" class="subtitle">Each source remains authoritative. HR1 validates evidence, stores governed workflow records, and routes decisions to an accountable owner.</text>
+  <!-- External source systems -->
+  <text x="70" y="190" class="eyebrow">EXTERNAL SYSTEMS</text>
+  <rect x="70" y="215" width="210" height="86" rx="4" fill="#f3f4f6" stroke="#6b7280" stroke-width="2"/>
+  <text x="175" y="248" text-anchor="middle" class="externalHead">PeopleSoft</text><text x="175" y="272" text-anchor="middle" class="externalBody">Student information system</text><text x="175" y="290" text-anchor="middle" class="rel">Illustrative REST API</text>
+  <rect x="70" y="330" width="210" height="86" rx="4" fill="#f3f4f6" stroke="#6b7280" stroke-width="2"/>
+  <text x="175" y="363" text-anchor="middle" class="externalHead">Banner</text><text x="175" y="387" text-anchor="middle" class="externalBody">Student information system</text><text x="175" y="405" text-anchor="middle" class="rel">Illustrative supported API</text>
+  <rect x="70" y="445" width="210" height="86" rx="4" fill="#f3f4f6" stroke="#6b7280" stroke-width="2"/>
+  <text x="175" y="478" text-anchor="middle" class="externalHead">LMS / CRM / EHR</text><text x="175" y="502" text-anchor="middle" class="externalBody">Additional evidence sources</text><text x="175" y="520" text-anchor="middle" class="rel">Approved APIs required</text>
 
-  <rect x="54" y="170" width="1492" height="540" rx="18" fill="#fff" stroke="#d8e0ea" filter="url(#shadow)"/>
-  <text x="82" y="205" class="boundary">SYSTEM CONTEXT</text>
-  <text x="82" y="230" class="small">Blue boxes are illustrative enterprise adapters; green boxes are the governed Microsoft workflow surfaces.</text>
+  <!-- HR1 boundary -->
+  <rect x="355" y="170" width="780" height="440" rx="8" fill="#f8fbff" stroke="#2563eb" stroke-width="2" stroke-dasharray="8 6"/>
+  <text x="385" y="202" class="boundaryLabel">HR1 INTEGRATION WORKBENCH</text>
+  <text x="385" y="226" class="rel">Azure-hosted integration boundary; exact services depend on the customer deployment option.</text>
 
-  <g filter="url(#shadow)">
-    <rect x="92" y="275" width="210" height="92" rx="12" class="source"/><text x="197" y="307" text-anchor="middle" class="head">PeopleSoft</text><text x="197" y="329" text-anchor="middle" class="body">Student information system</text><text x="197" y="350" text-anchor="middle" class="tiny">Illustrative REST / integration API</text>
-    <rect x="92" y="405" width="210" height="92" rx="12" class="source"/><text x="197" y="437" text-anchor="middle" class="head">Banner</text><text x="197" y="459" text-anchor="middle" class="body">Student information system</text><text x="197" y="480" text-anchor="middle" class="tiny">Illustrative supported API</text>
-    <rect x="92" y="535" width="210" height="92" rx="12" class="source"/><text x="197" y="567" text-anchor="middle" class="head">Learning platform</text><text x="197" y="589" text-anchor="middle" class="body">Courses and activity</text><text x="197" y="610" text-anchor="middle" class="tiny">Illustrative REST API</text>
-    <rect x="370" y="275" width="210" height="92" rx="12" class="source"/><text x="475" y="307" text-anchor="middle" class="head">CRM</text><text x="475" y="329" text-anchor="middle" class="body">Cases and engagement</text><text x="475" y="350" text-anchor="middle" class="tiny">Illustrative Dataverse API</text>
-    <rect x="370" y="405" width="210" height="92" rx="12" class="source"/><text x="475" y="437" text-anchor="middle" class="head">Azure SQL</text><text x="475" y="459" text-anchor="middle" class="body">Crosswalks and metrics</text><text x="475" y="480" text-anchor="middle" class="tiny">Illustrative private endpoint</text>
-    <rect x="370" y="535" width="210" height="92" rx="12" class="microsoft"/><text x="475" y="567" text-anchor="middle" class="head">Microsoft Graph</text><text x="475" y="589" text-anchor="middle" class="body">Demo tenant connection</text><text x="475" y="610" text-anchor="middle" class="tag">Read-only prototype surface</text>
-  </g>
+  <rect x="390" y="270" width="190" height="110" rx="4" fill="#438dd5"/>
+  <text x="485" y="305" text-anchor="middle" class="head">API boundary</text><text x="485" y="329" text-anchor="middle" class="body">Azure API Management</text><text x="485" y="350" text-anchor="middle" class="body">Auth, throttle, route</text>
+  <rect x="620" y="270" width="210" height="110" rx="4" fill="#438dd5"/>
+  <text x="725" y="305" text-anchor="middle" class="head">Orchestration</text><text x="725" y="329" text-anchor="middle" class="body">Functions / Power Automate</text><text x="725" y="350" text-anchor="middle" class="body">Validate, normalize, retry</text>
+  <rect x="870" y="270" width="205" height="110" rx="4" fill="#7b61a8"/>
+  <text x="972" y="305" text-anchor="middle" class="head">Rules + AI assist</text><text x="972" y="329" text-anchor="middle" class="body">Match IDs and policy</text><text x="972" y="350" text-anchor="middle" class="body">Summarize exceptions only</text>
+  <rect x="500" y="455" width="225" height="110" rx="4" fill="#438dd5"/>
+  <text x="612" y="490" text-anchor="middle" class="head">Evidence packet</text><text x="612" y="514" text-anchor="middle" class="body">Normalized records</text><text x="612" y="535" text-anchor="middle" class="body">Crosswalk + provenance</text>
+  <rect x="775" y="455" width="250" height="110" rx="4" fill="#438dd5"/>
+  <text x="900" y="490" text-anchor="middle" class="head">Human review workflow</text><text x="900" y="514" text-anchor="middle" class="body">Accept, reject, escalate</text><text x="900" y="535" text-anchor="middle" class="body">Decision + rationale</text>
 
-  <rect x="636" y="245" width="410" height="410" rx="16" fill="#f0f7ff" stroke="#60a5fa" stroke-width="2" stroke-dasharray="7 6"/>
-  <text x="662" y="277" class="boundary">HR1 INTEGRATION BOUNDARY</text>
-  <text x="662" y="302" class="head">Supported adapters and orchestration</text>
-  <g filter="url(#shadow)">
-    <rect x="666" y="330" width="350" height="70" rx="11" class="microsoft"/><text x="841" y="358" text-anchor="middle" class="head">Azure API Management</text><text x="841" y="380" text-anchor="middle" class="small">Authentication, throttling, approved routes</text>
-    <rect x="666" y="420" width="350" height="70" rx="11" class="microsoft"/><text x="841" y="448" text-anchor="middle" class="head">Azure Functions / Power Automate</text><text x="841" y="470" text-anchor="middle" class="small">Validate, normalize, retry, route</text>
-    <rect x="666" y="510" width="350" height="70" rx="11" class="decision"/><text x="841" y="538" text-anchor="middle" class="head">Rules-first reconciliation</text><text x="841" y="560" text-anchor="middle" class="small">ID crosswalk, required fields, policy checks</text>
-  </g>
+  <!-- Microsoft governed systems -->
+  <text x="1190" y="190" class="eyebrow">MICROSOFT GOVERNED SURFACES</text>
+  <rect x="1190" y="215" width="300" height="100" rx="4" fill="#84b7e6" stroke="#2f6fae" stroke-width="2"/>
+  <text x="1340" y="252" text-anchor="middle" class="externalHead">SharePoint / Microsoft 365</text><text x="1340" y="276" text-anchor="middle" class="externalBody">Evidence, workflow, audit records</text><text x="1340" y="296" text-anchor="middle" class="rel">Microsoft Graph / SharePoint API</text>
+  <rect x="1190" y="355" width="300" height="100" rx="4" fill="#84b7e6" stroke="#2f6fae" stroke-width="2"/>
+  <text x="1340" y="392" text-anchor="middle" class="externalHead">Teams / Power BI / Fabric</text><text x="1340" y="416" text-anchor="middle" class="externalBody">Tasks, alerts, executive reporting</text><text x="1340" y="436" text-anchor="middle" class="rel">Graph / reporting connectors</text>
+  <rect x="1190" y="495" width="300" height="100" rx="4" fill="#e5e7eb" stroke="#6b7280" stroke-width="2"/>
+  <text x="1340" y="532" text-anchor="middle" class="externalHead">Entra ID / Key Vault / Insights</text><text x="1340" y="556" text-anchor="middle" class="externalBody">Identity, secrets, telemetry</text><text x="1340" y="576" text-anchor="middle" class="rel">MFA, RBAC, managed identity</text>
 
-  <g filter="url(#shadow)">
-    <rect x="1100" y="275" width="380" height="110" rx="12" class="governed"/><text x="1290" y="309" text-anchor="middle" class="head">SharePoint governed data layer</text><text x="1290" y="333" text-anchor="middle" class="body">Evidence packets, workflow records, audit trail</text><text x="1290" y="356" text-anchor="middle" class="tiny">Data stays in the customer Microsoft 365 tenant</text>
-    <rect x="1100" y="425" width="180" height="110" rx="12" class="decision"/><text x="1190" y="458" text-anchor="middle" class="head">AI exception</text><text x="1190" y="480" text-anchor="middle" class="body">Summary only</text><text x="1190" y="502" text-anchor="middle" class="tiny">No autonomous writeback</text>
-    <rect x="1300" y="425" width="180" height="110" rx="12" class="person"/><text x="1390" y="458" text-anchor="middle" class="head">Authorized owner</text><text x="1390" y="480" text-anchor="middle" class="body">Accept / reject / escalate</text><text x="1390" y="502" text-anchor="middle" class="tiny">Rationale is recorded</text>
-    <rect x="1100" y="575" width="380" height="70" rx="12" class="microsoft"/><text x="1290" y="603" text-anchor="middle" class="head">Graph to Teams / Power BI / Fabric</text><text x="1290" y="625" text-anchor="middle" class="small">Tasks, notifications, and executive reporting</text>
-  </g>
+  <!-- Relationships -->
+  <path d="M280 258H390M280 373H390M280 488H390" class="arrow" stroke="#475569" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <text x="300" y="248" class="rel">read evidence</text><text x="300" y="363" class="rel">read evidence</text><text x="300" y="478" class="rel">read evidence</text>
+  <path d="M580 325H620M830 325H870M972 380V455M725 380V455M1025 510H1190M1025 550H1190" class="arrow" stroke="#475569" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <text x="590" y="314" class="rel">approved request</text><text x="840" y="314" class="rel">normalized evidence</text><text x="987" y="420" class="rel">exception / decision</text><text x="1060" y="500" class="rel">governed record</text><text x="1060" y="542" class="rel">task / report</text>
+  <path d="M1190 265H1135M1190 405H1135M1190 545H1135" class="arrow" stroke="#475569" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
 
-  <g stroke="#64748b" stroke-width="2" fill="none" marker-end="url(#arrowMuted)">
-    <path d="M302 321H636"/><path d="M302 451H636"/><path d="M302 581H636"/><path d="M580 321H636"/><path d="M580 451H636"/><path d="M580 581H636"/>
-  </g>
-  <text x="395" y="313" class="rel">records / terms</text><text x="395" y="443" class="rel">enrollment / status</text><text x="395" y="573" class="rel">activity evidence</text>
-  <text x="590" y="313" class="rel">cases</text><text x="590" y="443" class="rel">crosswalks</text><text x="590" y="573" class="rel">read-only Graph</text>
-
-  <g stroke="#0f6b78" stroke-width="2.5" fill="none" marker-end="url(#arrow)">
-    <path d="M841 400V420"/><path d="M841 490V510"/><path d="M1016 545H1100"/><path d="M1290 385V425"/><path d="M1280 480H1300"/><path d="M1390 535V575"/><path d="M1190 535V575"/>
-  </g>
-  <text x="854" y="414" class="rel">validated payload</text><text x="854" y="504" class="rel">normalized evidence</text><text x="1028" y="537" class="rel">approved evidence packet</text>
-  <text x="1302" y="414" class="rel">review case</text><text x="1279" y="470" class="rel">ambiguous exception</text><text x="1404" y="563" class="rel">task / report</text>
-
-  <rect x="92" y="680" width="1388" height="30" rx="8" fill="#fff7ed" stroke="#fed7aa"/>
-  <text x="786" y="700" text-anchor="middle" class="small">Important relationship: PeopleSoft and Banner do not write directly to SharePoint. HR1 uses approved APIs, validates the evidence, then stores only governed workflow and audit records.</text>
-
-  <rect x="54" y="748" width="1492" height="174" rx="18" fill="#102033"/>
-  <text x="82" y="784" class="eyebrow">CROSS-CUTTING CONTROLS</text>
-  <text x="82" y="811" class="white">The same controls apply to every relationship in the diagram.</text>
-  <g>
-    <rect x="82" y="838" width="175" height="50" rx="9" class="control"/><text x="169" y="868" text-anchor="middle" class="whiteSmall">Entra ID + MFA</text>
-    <rect x="272" y="838" width="175" height="50" rx="9" class="control"/><text x="359" y="868" text-anchor="middle" class="whiteSmall">RBAC / least privilege</text>
-    <rect x="462" y="838" width="175" height="50" rx="9" class="control"/><text x="549" y="868" text-anchor="middle" class="whiteSmall">Key Vault secrets</text>
-    <rect x="652" y="838" width="175" height="50" rx="9" class="control"/><text x="739" y="868" text-anchor="middle" class="whiteSmall">Audit + data lineage</text>
-    <rect x="842" y="838" width="175" height="50" rx="9" class="control"/><text x="929" y="868" text-anchor="middle" class="whiteSmall">App Insights alerts</text>
-    <rect x="1032" y="838" width="175" height="50" rx="9" class="control"/><text x="1119" y="868" text-anchor="middle" class="whiteSmall">FERPA-aware privacy</text>
-    <rect x="1222" y="838" width="258" height="50" rx="9" class="control"/><text x="1351" y="860" text-anchor="middle" class="whiteSmall">Source systems remain</text><text x="1351" y="877" text-anchor="middle" class="whiteSmall">authoritative</text>
-  </g>
+  <rect x="70" y="665" width="1420" height="100" rx="6" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="95" y="698" class="eyebrow">C4 KEY</text><rect x="190" y="686" width="18" height="18" fill="#f3f4f6" stroke="#6b7280"/><text x="218" y="700" class="key">External/source system</text><rect x="390" y="686" width="18" height="18" fill="#438dd5"/><text x="418" y="700" class="key">HR1 container</text><rect x="575" y="686" width="18" height="18" fill="#7b61a8"/><text x="603" y="700" class="key">Rules or bounded AI</text><rect x="785" y="686" width="18" height="18" fill="#84b7e6"/><text x="813" y="700" class="key">Microsoft governed surface</text><rect x="1060" y="686" width="18" height="18" fill="#e5e7eb" stroke="#6b7280"/><text x="1088" y="700" class="key">Security / operations control</text>
+  <text x="95" y="735" class="key">Authority rule: source systems remain authoritative. HR1 may read approved evidence and write governed workflow/audit records, but AI never independently changes institutional or healthcare records.</text>
+  <text x="55" y="840" class="sub">Illustrative architecture. Production healthcare deployment requires customer-approved interfaces, privacy/security review, contracts, data minimization, and an accountable operational owner.</text>
 </svg>
