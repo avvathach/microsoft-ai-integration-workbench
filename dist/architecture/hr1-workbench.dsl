@@ -28,18 +28,48 @@ workspace "HR1 Governed AI Integration Workbench" "Illustrative higher-education
             }
             orchestration = container "Orchestration and validation" "Normalizes IDs, validates required evidence, applies policy checks, and routes work." "Azure Functions / Power Automate" {
                 tags "Integration"
+                adapterRegistry = component "Adapter registry" "Selects only approved source-system connectors and scopes." "Application component" {
+                    tags "Integration"
+                }
+                validator = component "Evidence validator" "Checks schema, required fields, identifiers, and data minimization rules." "Application component" {
+                    tags "Integration"
+                }
+                retryQueue = component "Retry and failure queue" "Retries transient failures and routes non-retryable failures to operations." "Azure Storage Queue" {
+                    tags "Control"
+                }
             }
             rules = container "Deterministic reconciliation" "Matches identifiers and compares records before any AI assistance is used." "Application service" {
                 tags "Decision"
+                matcher = component "Identity and record matcher" "Compares source identifiers, crosswalks, and normalized values." "Application component" {
+                    tags "Decision"
+                }
+                policyEvaluator = component "Policy evaluator" "Applies explicit business rules, deadlines, and confidence thresholds." "Application component" {
+                    tags "Decision"
+                }
             }
             ai = container "AI exception assistant" "Summarizes unresolved differences and cites the evidence; it cannot independently change source records." "Azure AI" {
                 tags "Decision"
+                evidenceGuard = component "Evidence guard" "Removes out-of-scope fields and prepares bounded context for the model." "Application component" {
+                    tags "Control"
+                }
+                exceptionSummarizer = component "Exception summarizer" "Produces a traceable summary with evidence references and uncertainty." "Application component" {
+                    tags "Decision"
+                }
             }
             review = container "Human review and workflow" "Presents an evidence packet, records accept/reject/escalate, owner, rationale, and timestamp." "SharePoint + Microsoft Graph" {
                 tags "Governed"
+                caseWorkspace = component "Case workspace" "Displays evidence, decision options, and role-scoped tasks." "SharePoint" {
+                    tags "Governed"
+                }
+                decisionRecorder = component "Decision recorder" "Writes owner, decision, rationale, timestamp, and appeal path." "Microsoft Graph" {
+                    tags "Governed"
+                }
             }
             audit = container "Audit and reporting" "Maintains workflow evidence and produces operational and executive reporting." "SharePoint, Power BI / Fabric" {
                 tags "Governed"
+                auditWriter = component "Audit writer" "Appends immutable workflow events and operational metadata." "SharePoint" {
+                    tags "Governed"
+                }
             }
         }
 
@@ -97,6 +127,17 @@ workspace "HR1 Governed AI Integration Workbench" "Illustrative higher-education
         hr1.audit -> teams "Publishes operational notifications"
         hr1.review -> hr1.audit "Emits an auditable decision event"
 
+        hr1.orchestration.adapterRegistry -> hr1.api "Uses approved API routes"
+        hr1.orchestration.validator -> hr1.orchestration.adapterRegistry "Receives scoped source payload"
+        hr1.orchestration.retryQueue -> hr1.orchestration.validator "Retries transient validation failures"
+        hr1.rules.matcher -> azureSql "Reads crosswalks"
+        hr1.rules.policyEvaluator -> hr1.rules.matcher "Evaluates matched records"
+        hr1.ai.evidenceGuard -> hr1.rules.policyEvaluator "Receives unresolved exceptions"
+        hr1.ai.exceptionSummarizer -> hr1.ai.evidenceGuard "Summarizes bounded evidence"
+        hr1.review.caseWorkspace -> hr1.ai.exceptionSummarizer "Displays exception summary"
+        hr1.review.decisionRecorder -> hr1.review.caseWorkspace "Captures authorized decision"
+        hr1.audit.auditWriter -> hr1.review.decisionRecorder "Appends decision event"
+
         entra -> hr1.api "Authenticates callers and enforces role scope" "OAuth 2.0 / MFA"
         keyVault -> hr1.api "Provides server-side secrets at runtime" "Managed identity"
         insights -> hr1.api "Collects request and failure telemetry"
@@ -110,6 +151,13 @@ workspace "HR1 Governed AI Integration Workbench" "Illustrative higher-education
     }
 
     views {
+        systemLandscape "system-landscape" {
+            include *
+            autolayout lr
+            description "System landscape: the organizations, source platforms, HR1 boundary, Microsoft services, and accountable people involved in governed decisions."
+            title "HR1 - System landscape"
+        }
+
         systemContext hr1 "system-context" {
             include reviewer
             include peopleSoft
@@ -153,6 +201,25 @@ workspace "HR1 Governed AI Integration Workbench" "Illustrative higher-education
             autolayout lr
             description "Container view: validation and rules precede AI assistance; only an authorized owner decides."
             title "HR1 - Rules-first reconciliation and accountable decision workflow"
+        }
+
+        component hr1.orchestration "component-view" {
+            include peopleSoft
+            include banner
+            include lms
+            include crm
+            include hr1.api
+            include hr1.orchestration.*
+            include hr1.rules
+            include hr1.ai
+            include sharePoint
+            include azureSql
+            include entra
+            include keyVault
+            include insights
+            autolayout lr
+            description "Component view: how an approved request is adapted, validated, retried, and passed to rules and exception handling."
+            title "HR1 - Integration boundary components"
         }
 
         dynamic hr1 "student-record-dispute-flow" {
@@ -245,6 +312,7 @@ workspace "HR1 Governed AI Integration Workbench" "Illustrative higher-education
             element "Microsoft" { background #e0f2fe color #075985 }
             element "Live prototype" { background #d1fae5 color #065f46 }
             element "Control" { background #e2e8f0 color #0f172a }
+            element "Illustrative healthcare source" { background #fef2f2 color #991b1b }
         }
     }
 }
