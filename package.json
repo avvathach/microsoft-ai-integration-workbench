@@ -5,8 +5,11 @@
   "description": "Governed AI integration prototype for higher-education data reconciliation.",
   "scripts": {
     "build": "sh scripts/build.sh",
-    "check": "node --check app.js && node scripts/verify.mjs",
+    "check": "node --check app.js && node --check api/src/localServer.js && node scripts/verify.mjs",
     "check:dist": "node --check dist/app.js && node scripts/verify.mjs dist",
-    "test:security": "node --test api/test/*.test.js"
+    "test:security": "node --test api/test/*.test.js",
+    "start:api": "npm run start:local --prefix api",
+    "start:demo": "npm run start:demo --prefix api",
+    "build:interview-word": "node scripts/build-interview-word.mjs"
   }
 }

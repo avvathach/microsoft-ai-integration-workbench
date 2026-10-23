@@ -480,9 +480,57 @@ const m365State = {
   lastRefreshAt: null,
 };
 
-const SECURITY_API_BASE = "https://hr1-security-api-avvathach-cvaxdxexeca4cagv.westus3-01.azurewebsites.net/api/security";
+const SECURITY_API_BASE = "/api/security";
 const SECURITY_API_SCOPE = "api://hr1-security-api/SecurityAssurance.Read";
 const securityAssuranceState = { state: "loading", data: null, error: "", scanRunning: false };
+
+const INTERVIEW_API_BASE = "/api/interview";
+const interviewAuditKey = "hr1-interview-demo-audit";
+const INTERVIEW_DECISION_BOUNDARY = "Recommendation only; authorized human decision required.";
+const interviewCaseCatalog = {
+  "SYN-ID-001": {
+    title: "Identity reconciliation",
+    owner: "Registrar",
+    description: "Two synthetic records share strong identity evidence but use different record IDs and program labels.",
+    fields: [
+      ["Record ID", "LEGACY-SYN-104883", "TARGET-SYN-88213", "difference"],
+      ["Name", "Synthetic Learner A", "Synthetic Learner A.", "match"],
+      ["Birth date", "2004-02-14", "2004-02-14", "match"],
+      ["Phone", "713-555-0194", "(713) 555-0194", "match"],
+      ["Program", "AAS Nursing", "Associate Nursing", "difference"],
+    ],
+  },
+  "SYN-TXN-002": {
+    title: "Payment exception",
+    owner: "Student Accounts",
+    description: "A synthetic payment and waiver share an amount but disagree on reference, date, and transaction type.",
+    fields: [
+      ["Amount", "1140.00", "1140.00", "match"],
+      ["Date", "2026-08-14", "2026-08-21", "difference"],
+      ["Reference", "PAYMENT-SYN-44", "WAIVER-SYN-91", "difference"],
+      ["Transaction type", "Payment", "Waiver", "difference"],
+    ],
+  },
+  "SYN-CRS-003": {
+    title: "Course mapping",
+    owner: "Academic Affairs",
+    description: "Two synthetic catalog entries share an award but differ in code, title, and contact hours.",
+    fields: [
+      ["Title", "Patient Care Technician I", "Patient Care Technician Clinical", "difference"],
+      ["Course code", "NURA-1013", "NURA-1060", "difference"],
+      ["Contact hours", "96", "64", "difference"],
+      ["Award", "Continuing Education", "Continuing Education", "match"],
+    ],
+  },
+};
+const interviewDemoState = {
+  mode: "checking",
+  apiAvailable: false,
+  running: false,
+  selectedId: "SYN-ID-001",
+  result: null,
+  error: "",
+};
 
 const useCaseDemos = [
   {
@@ -1043,6 +1091,299 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
+}
+
+function interviewModeCopy() {
+  if (interviewDemoState.mode === "live-model") {
+    return { badge: "Live model + tools", className: "good", note: "The server is configured for a live model. Only synthetic evidence and read-only tools are available." };
+  }
+  if (interviewDemoState.mode === "guided-fixture") {
+    return { badge: "Server guided fixture", className: "review", note: "The server route is live, but no model credential is configured. Deterministic fixture output is labeled and used instead." };
+  }
+  if (interviewDemoState.mode === "browser-guided") {
+    return { badge: "Browser guided fixture", className: "warn", note: "The interview API is unavailable from this host. This run is a clearly labeled browser fixture, not a model response." };
+  }
+  return { badge: "Checking API", className: "warn", note: "Checking whether the server is configured for a live model or guided fixture." };
+}
+
+function evidenceReferenceLabel(value) {
+  const labels = {
+    "field:recordId": "Record ID comparison",
+    "field:name": "Normalized name",
+    "field:birthDate": "Birth date",
+    "field:phone": "Normalized phone",
+    "field:program": "Program label",
+    "field:amount": "Transaction amount",
+    "field:date": "Transaction date",
+    "field:reference": "Transaction reference",
+    "field:type": "Transaction type",
+    "field:title": "Course title",
+    "field:courseCode": "Course code",
+    "field:hours": "Contact hours",
+    "field:award": "Award type",
+    "policy:1": "Governance policy 1",
+    "policy:2": "Governance policy 2",
+    "policy:3": "Governance policy 3",
+  };
+  return labels[value] || value;
+}
+
+function renderInterviewEvidence() {
+  const target = document.querySelector("#interviewEvidence");
+  const record = interviewCaseCatalog[interviewDemoState.selectedId];
+  if (!target || !record) return;
+  target.innerHTML = `
+    <div class="interview-case-summary"><span>${escapeHtml(interviewDemoState.selectedId)}</span><strong>${escapeHtml(record.title)}</strong><small>Decision owner: ${escapeHtml(record.owner)}</small><p>${escapeHtml(record.description)}</p></div>
+    <div class="interview-field-head"><span>Evidence</span><span>Source</span><span>Target</span></div>
+    ${record.fields.map(([label, source, destination, status]) => `
+      <div class="interview-field-row ${status}">
+        <span><i data-lucide="${status === "match" ? "check" : "triangle-alert"}"></i>${escapeHtml(label)}</span>
+        <code>${escapeHtml(source)}</code>
+        <code>${escapeHtml(destination)}</code>
+      </div>
+    `).join("")}
+  `;
+  refreshIcons();
+}
+
+function renderInterviewMode() {
+  const badge = document.querySelector("#interviewModeBadge");
+  const note = document.querySelector("#interviewModeNote");
+  const mode = interviewModeCopy();
+  if (badge) {
+    badge.textContent = mode.badge;
+    badge.className = `status ${mode.className}`;
+  }
+  if (note) note.textContent = mode.note;
+}
+
+function guidedBrowserAnalysis(caseId) {
+  const record = interviewCaseCatalog[caseId];
+  const matches = record.fields.filter((item) => item[3] === "match");
+  const differences = record.fields.filter((item) => item[3] === "difference");
+  const recommendation = caseId === "SYN-ID-001" ? "accept_match" : "escalate";
+  return {
+    requestId: `browser-${Date.now()}`,
+    caseId,
+    mode: "browser-guided",
+    durationMs: 0,
+    ruleSummary: { matches: matches.length, differences: differences.length, criticalDifferences: recommendation === "escalate" ? Math.min(2, differences.length) : 0, recommendation, confidence: recommendation === "escalate" ? 66 : 92 },
+    trace: [
+      { tool: "load_case_evidence", status: "completed", selectedBy: "policy", writeAccess: false },
+      { tool: "compare_case_fields", status: "completed", selectedBy: "policy", writeAccess: false },
+      { tool: "get_governance_policy", status: "completed", selectedBy: "policy", writeAccess: false },
+    ],
+    analysis: {
+      recommendation,
+      confidence: recommendation === "escalate" ? 66 : 92,
+      summary: recommendation === "escalate" ? "The guided fixture found critical differences that require the named owner to review the case." : "The guided fixture found strong normalized evidence for a match, subject to registrar approval.",
+      supportingEvidence: matches.map((item) => item[0]),
+      conflictingEvidence: differences.map((item) => item[0]),
+      missingEvidence: [],
+      humanReviewRequired: true,
+      decisionBoundary: INTERVIEW_DECISION_BOUNDARY,
+    },
+  };
+}
+
+function renderInterviewTrace() {
+  const target = document.querySelector("#interviewTrace");
+  if (!target) return;
+  if (interviewDemoState.running) {
+    target.innerHTML = `
+      <div class="interview-trace-row active"><span><i data-lucide="loader-circle"></i></span><div><strong>Validating allowlisted request</strong><small>Only the selected synthetic case ID is sent.</small></div></div>
+      <div class="interview-trace-row"><span>2</span><div><strong>Running deterministic comparison</strong><small>Rules execute before model assistance.</small></div></div>
+      <div class="interview-trace-row"><span>3</span><div><strong>Applying bounded tools</strong><small>Evidence, comparison, and governance are read only.</small></div></div>
+      <div class="interview-trace-row"><span>4</span><div><strong>Validating structured output</strong><small>Unsupported evidence fails closed.</small></div></div>
+    `;
+    refreshIcons();
+    return;
+  }
+  const result = interviewDemoState.result;
+  if (!result) {
+    target.innerHTML = '<div class="interview-empty"><i data-lucide="activity"></i><span>Run the analysis to see rules, tools, guardrails, and timing.</span></div>';
+    refreshIcons();
+    return;
+  }
+  const rules = result.ruleSummary || {};
+  const rows = [
+    { icon: "badge-check", title: "Request validated", copy: `Allowlisted ${result.caseId}; raw browser records rejected.` },
+    { icon: "list-checks", title: "Deterministic rules completed", copy: `${rules.matches ?? 0} matches, ${rules.differences ?? 0} differences, ${rules.criticalDifferences ?? 0} critical.` },
+    ...(result.trace || []).map((item) => ({ icon: "wrench", title: item.tool.replaceAll("_", " "), copy: `${item.selectedBy === "model" ? "Model selected" : "Policy required"}; read only; ${item.status}.` })),
+    { icon: "braces", title: "Structured output accepted", copy: "Schema, evidence references, and human-decision boundary validated." },
+  ];
+  target.innerHTML = rows.map((item) => `<div class="interview-trace-row done"><span><i data-lucide="${item.icon}"></i></span><div><strong>${escapeHtml(item.title)}</strong><small>${escapeHtml(item.copy)}</small></div></div>`).join("");
+  refreshIcons();
+}
+
+function renderInterviewResult() {
+  const target = document.querySelector("#interviewResult");
+  const decisionButtons = document.querySelectorAll("[data-interview-decision]");
+  const rationale = document.querySelector("#interviewDecisionRationale");
+  const copy = document.querySelector("#interviewDecisionCopy");
+  if (!target) return;
+  const result = interviewDemoState.result;
+  decisionButtons.forEach((button) => { button.disabled = !result || interviewDemoState.running; });
+  if (rationale) rationale.disabled = !result || interviewDemoState.running;
+  if (!result) {
+    target.innerHTML = '<div class="interview-empty"><i data-lucide="file-question"></i><span>No recommendation yet. AI cannot make the final decision.</span></div>';
+    if (copy) copy.textContent = "Run an analysis before recording a human outcome.";
+    refreshIcons();
+    return;
+  }
+  const analysis = result.analysis;
+  const recommendation = analysis.recommendation.replaceAll("_", " ");
+  const evidenceList = (values, empty) => values.length ? values.map((item) => `<li>${escapeHtml(evidenceReferenceLabel(item))}</li>`).join("") : `<li>${escapeHtml(empty)}</li>`;
+  target.innerHTML = `
+    <div class="interview-recommendation-head"><span class="status ${analysis.recommendation === "escalate" ? "review" : analysis.recommendation === "reject_match" ? "danger" : "good"}">${escapeHtml(recommendation)}</span><strong>${escapeHtml(analysis.confidence)}%</strong><small>bounded confidence</small></div>
+    <p class="interview-summary">${escapeHtml(analysis.summary)}</p>
+    <div class="interview-result-lists">
+      <div><strong>Supporting evidence</strong><ul>${evidenceList(analysis.supportingEvidence, "No supporting evidence reported")}</ul></div>
+      <div><strong>Conflicts</strong><ul>${evidenceList(analysis.conflictingEvidence, "No conflicting evidence reported")}</ul></div>
+      <div><strong>Missing evidence</strong><ul>${evidenceList(analysis.missingEvidence, "No missing evidence reported")}</ul></div>
+    </div>
+    <div class="interview-result-boundary"><i data-lucide="user-check"></i><span>${escapeHtml(analysis.decisionBoundary)}</span></div>
+    <div class="interview-result-meta"><span>Mode: ${escapeHtml(result.mode)}</span><span>Request: ${escapeHtml(result.requestId)}</span><span>${escapeHtml(result.durationMs)} ms</span></div>
+  `;
+  if (copy) copy.textContent = `The ${result.mode === "live-model" ? "model" : "guided fixture"} recommends ${recommendation}. You remain responsible for the outcome.`;
+  refreshIcons();
+}
+
+function renderInterviewAudit() {
+  const target = document.querySelector("#interviewAuditRecord");
+  if (!target) return;
+  let audit = null;
+  try {
+    audit = JSON.parse(localStorage.getItem(interviewAuditKey) || "null");
+  } catch {
+    localStorage.removeItem(interviewAuditKey);
+  }
+  const validAudit = audit
+    && typeof audit.caseId === "string"
+    && ["Accept", "Reject", "Escalate"].includes(audit.decision)
+    && ["accept_match", "reject_match", "escalate"].includes(audit.recommendation)
+    && ["live-model", "guided-fixture", "browser-guided"].includes(audit.mode)
+    && typeof audit.requestId === "string"
+    && typeof audit.rationale === "string"
+    && !Number.isNaN(new Date(audit.timestamp).getTime());
+  if (audit && !validAudit) {
+    localStorage.removeItem(interviewAuditKey);
+    audit = null;
+  }
+  if (!audit) {
+    target.innerHTML = "<span>No interview-mode decision recorded yet.</span>";
+    return;
+  }
+  target.innerHTML = `
+    <div><span>Case</span><strong>${escapeHtml(audit.caseId)}</strong></div>
+    <div><span>Human decision</span><strong>${escapeHtml(audit.decision)}</strong></div>
+    <div><span>AI recommendation</span><strong>${escapeHtml(audit.recommendation.replaceAll("_", " "))}</strong></div>
+    <div><span>Mode</span><strong>${escapeHtml(audit.mode)}</strong></div>
+    <div><span>Request</span><strong>${escapeHtml(audit.requestId)}</strong></div>
+    <div><span>Recorded</span><strong>${escapeHtml(new Date(audit.timestamp).toLocaleString())}</strong></div>
+    <p><span>Reviewer rationale</span><strong>${escapeHtml(audit.rationale)}</strong></p>
+  `;
+}
+
+async function loadInterviewStatus() {
+  renderInterviewEvidence();
+  renderInterviewMode();
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), 4000);
+  try {
+    const response = await fetch(`${INTERVIEW_API_BASE}/status`, { cache: "no-store", signal: controller.signal });
+    const payload = await response.json();
+    if (!response.ok || !["live-model", "guided-fixture"].includes(payload.mode)) throw new Error("Interview API unavailable");
+    interviewDemoState.mode = payload.mode;
+    interviewDemoState.apiAvailable = true;
+  } catch {
+    interviewDemoState.mode = "browser-guided";
+    interviewDemoState.apiAvailable = false;
+  } finally {
+    window.clearTimeout(timeout);
+  }
+  renderInterviewMode();
+}
+
+async function runInterviewAnalysis() {
+  if (interviewDemoState.running) return;
+  interviewDemoState.running = true;
+  interviewDemoState.result = null;
+  interviewDemoState.error = "";
+  renderInterviewTrace();
+  renderInterviewResult();
+  const button = document.querySelector("#interviewRunButton");
+  if (button) {
+    button.disabled = true;
+    button.innerHTML = '<i data-lucide="loader-circle"></i>Running governed review';
+  }
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), 18000);
+  try {
+    if (!interviewDemoState.apiAvailable) throw new Error("Interview API unavailable");
+    const response = await fetch(`${INTERVIEW_API_BASE}/analyze`, {
+      method: "POST",
+      signal: controller.signal,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ caseId: interviewDemoState.selectedId }),
+    });
+    const payload = await response.json();
+    const analysis = payload?.analysis;
+    const validContract = analysis
+      && ["accept_match", "reject_match", "escalate"].includes(analysis.recommendation)
+      && Number.isInteger(analysis.confidence)
+      && typeof analysis.summary === "string"
+      && Array.isArray(analysis.supportingEvidence)
+      && Array.isArray(analysis.conflictingEvidence)
+      && Array.isArray(analysis.missingEvidence)
+      && analysis.humanReviewRequired === true
+      && analysis.decisionBoundary === INTERVIEW_DECISION_BOUNDARY
+      && ["live-model", "guided-fixture"].includes(payload.mode)
+      && typeof payload.requestId === "string"
+      && payload.caseId === interviewDemoState.selectedId;
+    if (!response.ok || !validContract) throw new Error(payload.error || "Analysis unavailable");
+    interviewDemoState.result = payload;
+    interviewDemoState.mode = payload.mode;
+  } catch (error) {
+    interviewDemoState.mode = "browser-guided";
+    interviewDemoState.apiAvailable = false;
+    interviewDemoState.error = error.message;
+    interviewDemoState.result = guidedBrowserAnalysis(interviewDemoState.selectedId);
+    showToast("API unavailable; clearly labeled browser fixture used");
+  } finally {
+    window.clearTimeout(timeout);
+    interviewDemoState.running = false;
+    if (button) {
+      button.disabled = false;
+      button.innerHTML = '<i data-lucide="sparkles"></i>Analyze synthetic exception';
+    }
+    renderInterviewMode();
+    renderInterviewTrace();
+    renderInterviewResult();
+    refreshIcons();
+  }
+}
+
+function recordInterviewDecision(decision) {
+  const result = interviewDemoState.result;
+  const rationale = document.querySelector("#interviewDecisionRationale")?.value.trim() || "";
+  if (!result) return;
+  if (rationale.length < 12) {
+    showToast("Add a short reviewer rationale before recording the decision");
+    document.querySelector("#interviewDecisionRationale")?.focus();
+    return;
+  }
+  localStorage.setItem(interviewAuditKey, JSON.stringify({
+    caseId: result.caseId,
+    decision,
+    recommendation: result.analysis.recommendation,
+    rationale,
+    mode: result.mode,
+    requestId: result.requestId,
+    timestamp: new Date().toISOString(),
+  }));
+  renderInterviewAudit();
+  showToast(`${decision} recorded with human rationale`);
 }
 
 function formatSecurityDate(value) {
@@ -1748,7 +2089,18 @@ function resetDemo() {
   state.selectedId = cases[0].id;
   localStorage.removeItem(storageKey);
   localStorage.removeItem(legacyStorageKey);
+  localStorage.removeItem(interviewAuditKey);
+  interviewDemoState.result = null;
+  interviewDemoState.selectedId = "SYN-ID-001";
+  const interviewSelect = document.querySelector("#interviewCaseSelect");
+  if (interviewSelect) interviewSelect.value = interviewDemoState.selectedId;
+  const interviewRationale = document.querySelector("#interviewDecisionRationale");
+  if (interviewRationale) interviewRationale.value = "";
   renderAll();
+  renderInterviewEvidence();
+  renderInterviewTrace();
+  renderInterviewResult();
+  renderInterviewAudit();
   showToast("Demo state reset");
 }
 
@@ -1777,6 +2129,12 @@ function bindEvents() {
     const decisionButton = event.target.closest("[data-decision]");
     if (decisionButton) {
       recordDecision(decisionButton.dataset.decision);
+      return;
+    }
+
+    const interviewDecisionButton = event.target.closest("[data-interview-decision]");
+    if (interviewDecisionButton) {
+      recordInterviewDecision(interviewDecisionButton.dataset.interviewDecision);
     }
   });
 
@@ -1821,6 +2179,16 @@ function bindEvents() {
     renderUseCasePages();
   });
   document.querySelector("#storyPlayButton")?.addEventListener("click", toggleStory);
+  document.querySelector("#interviewRunButton")?.addEventListener("click", runInterviewAnalysis);
+  document.querySelector("#interviewCaseSelect")?.addEventListener("change", (event) => {
+    interviewDemoState.selectedId = event.target.value;
+    interviewDemoState.result = null;
+    const rationale = document.querySelector("#interviewDecisionRationale");
+    if (rationale) rationale.value = "";
+    renderInterviewEvidence();
+    renderInterviewTrace();
+    renderInterviewResult();
+  });
   document.querySelector("#storyScenes")?.addEventListener("click", (event) => {
     const scene = event.target.closest("li");
     if (!scene) return;
@@ -1866,6 +2234,11 @@ document.addEventListener("DOMContentLoaded", () => {
   bindEvents();
   renderM365Status("Sign-in available for the demo tenant", false);
   renderM365Data();
+  renderInterviewEvidence();
+  renderInterviewTrace();
+  renderInterviewResult();
+  renderInterviewAudit();
+  loadInterviewStatus();
   renderSecurityAssurance();
   loadSecurityStatus();
   pollLiveConnectors();

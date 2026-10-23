@@ -29,6 +29,11 @@ const required = [
   'id="walkthrough"',
   'id="storyPlayButton"',
   "Run live demo",
+  'id="interview-demo"',
+  'id="interviewRunButton"',
+  "Run governed AI review",
+  "humanReviewRequired",
+  "Recommendation only; authorized human decision required.",
 ];
 
 const forbidden = [

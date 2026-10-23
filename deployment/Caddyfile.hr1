@@ -15,5 +15,10 @@ hr1.iavva.ai {
 	header @assets Cache-Control "public, max-age=3600"
 	header /index.html Cache-Control "no-cache"
 
+	@api path /api/*
+	reverse_proxy @api https://hr1-security-api-avvathach-cvaxdxexeca4cagv.westus3-01.azurewebsites.net {
+		header_up Host {upstream_hostport}
+	}
+
 	file_server
 }

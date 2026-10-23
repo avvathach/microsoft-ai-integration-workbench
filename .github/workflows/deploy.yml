@@ -24,6 +24,8 @@ jobs:
           node-version: 22
       - name: Validate source
         run: npm run check
+      - name: Run API security and interview tests
+        run: npm run test:security
       - name: Build deployable files
         run: npm run build
       - name: Validate deployable files

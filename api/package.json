@@ -2,12 +2,16 @@
   "name": "hr1-security-api",
   "private": true,
   "version": "1.0.0",
+  "main": "src/index.js",
   "engines": { "node": ">=20" },
   "dependencies": {
     "@azure/functions": "^4.7.2",
     "jose": "^5.10.0"
   },
   "scripts": {
+    "start": "func start",
+    "start:local": "node src/localServer.js",
+    "start:demo": "node src/localServer.js --static",
     "test": "node --test test/*.test.js"
   }
 }

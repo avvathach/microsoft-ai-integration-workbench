@@ -34,6 +34,7 @@
         <nav>
           <a class="nav-link active" href="#business" data-nav="business"><i data-lucide="briefcase-business"></i>Business view</a>
           <a class="nav-link" href="#walkthrough" data-nav="walkthrough"><i data-lucide="play-circle"></i>60-second story</a>
+          <a class="nav-link" href="#interview-demo" data-nav="interview-demo"><i data-lucide="brain-circuit"></i>Governed AI demo</a>
           <a class="nav-link" href="#use-cases" data-nav="use-cases"><i data-lucide="layers-3"></i>Use case summary</a>
           <a class="nav-link" href="#use-case-1" data-nav="use-case-1"><i data-lucide="graduation-cap"></i>Use case 1</a>
           <a class="nav-link" href="#use-case-2" data-nav="use-case-2"><i data-lucide="book-open-check"></i>Use case 2</a>
@@ -62,6 +63,7 @@
               <div class="intro-actions">
                 <a class="button primary" href="#technical"><i data-lucide="workflow"></i>See how it works technically</a>
                 <a class="button ghost" href="#review"><i data-lucide="play-circle"></i>Try the working demo</a>
+                <a class="button ghost" href="#interview-demo"><i data-lucide="brain-circuit"></i>Run governed AI review</a>
               </div>
             </div>
             <aside class="use-case-callout" aria-labelledby="useCaseTitle">
@@ -116,6 +118,81 @@
               <article><strong>What IT controls</strong><span>APIs, validation, permissions, retries, monitoring, and approved writeback paths.</span></article>
               <article><strong>What never happens</strong><span>AI does not independently change student, financial, or recruiting records.</span></article>
             </div>
+          </section>
+        </section>
+
+        <section id="interview-demo" class="band interview-demo-band" aria-labelledby="interviewDemoHeading">
+          <div class="section-heading interview-demo-heading">
+            <div>
+              <p class="eyebrow">Interview mode · end-to-end vertical slice</p>
+              <h2 id="interviewDemoHeading">See rules, bounded AI tools, human approval, and audit in one flow.</h2>
+              <p class="section-intro">Choose an allowlisted synthetic case. The server runs deterministic comparison first, permits only read-only evidence tools, validates a structured recommendation, and leaves the final decision to a person.</p>
+            </div>
+            <span class="status warn" id="interviewModeBadge">Checking API</span>
+          </div>
+
+          <div class="interview-boundary" role="note">
+            <i data-lucide="shield-check"></i>
+            <div><strong>Synthetic evidence only</strong><span>No student, applicant, employee, or institutional record is used. The assistant has no write tool and cannot update a system of record.</span></div>
+            <span class="interview-boundary-pill">Human approval required</span>
+          </div>
+
+          <ol class="interview-flow" aria-label="Governed AI review flow">
+            <li><span>1</span><i data-lucide="folder-search-2"></i><strong>Select case</strong><small>Allowlisted ID only</small></li>
+            <li><span>2</span><i data-lucide="list-checks"></i><strong>Run rules</strong><small>Exact comparison first</small></li>
+            <li><span>3</span><i data-lucide="brain-circuit"></i><strong>Use AI tools</strong><small>Read-only and bounded</small></li>
+            <li><span>4</span><i data-lucide="user-check"></i><strong>Human decides</strong><small>Accept, reject, escalate</small></li>
+            <li><span>5</span><i data-lucide="file-clock"></i><strong>Audit outcome</strong><small>Reason and request ID</small></li>
+          </ol>
+
+          <div class="interview-workbench">
+            <section class="interview-card interview-case-card" aria-labelledby="interviewCaseHeading">
+              <div class="interview-card-heading"><span>01</span><div><p class="eyebrow">Synthetic input</p><h3 id="interviewCaseHeading">Choose an exception</h3></div></div>
+              <label class="interview-select"><span>Case</span><select id="interviewCaseSelect">
+                <option value="SYN-ID-001">Identity reconciliation</option>
+                <option value="SYN-TXN-002">Payment exception</option>
+                <option value="SYN-CRS-003">Course mapping</option>
+              </select></label>
+              <div id="interviewEvidence" class="interview-evidence"></div>
+              <button class="button primary interview-run" id="interviewRunButton" type="button"><i data-lucide="sparkles"></i>Analyze synthetic exception</button>
+              <p class="interview-mode-note" id="interviewModeNote">Checking whether the server is configured for a live model or guided fixture.</p>
+            </section>
+
+            <section class="interview-card interview-trace-card" aria-labelledby="interviewTraceHeading">
+              <div class="interview-card-heading"><span>02</span><div><p class="eyebrow">Execution trace</p><h3 id="interviewTraceHeading">What the workflow actually did</h3></div></div>
+              <div class="interview-trace" id="interviewTrace" aria-live="polite">
+                <div class="interview-empty"><i data-lucide="activity"></i><span>Run the analysis to see rules, tools, guardrails, and timing.</span></div>
+              </div>
+            </section>
+
+            <section class="interview-card interview-result-card" aria-labelledby="interviewResultHeading">
+              <div class="interview-card-heading"><span>03</span><div><p class="eyebrow">Structured recommendation</p><h3 id="interviewResultHeading">Evidence before judgment</h3></div></div>
+              <div class="interview-result" id="interviewResult" aria-live="polite">
+                <div class="interview-empty"><i data-lucide="file-question"></i><span>No recommendation yet. AI cannot make the final decision.</span></div>
+              </div>
+            </section>
+          </div>
+
+          <div class="interview-guardrails" aria-label="AI guardrails">
+            <article><i data-lucide="database-zap"></i><span>Input</span><strong>Case ID only</strong><small>Raw browser records are rejected</small></article>
+            <article><i data-lucide="wrench"></i><span>Tools</span><strong>Read only</strong><small>Evidence, comparison, policy</small></article>
+            <article><i data-lucide="repeat-2"></i><span>Loop</span><strong>Bounded</strong><small>Maximum three model-selected tools</small></article>
+            <article><i data-lucide="braces"></i><span>Output</span><strong>Schema validated</strong><small>Unsupported citations fail closed</small></article>
+            <article><i data-lucide="shield-ban"></i><span>Write access</span><strong>Disabled</strong><small>No SIS, payment, or HR action</small></article>
+          </div>
+
+          <section class="interview-decision" aria-labelledby="interviewDecisionHeading">
+            <div><p class="eyebrow">Accountable decision</p><h3 id="interviewDecisionHeading">The recommendation is not the decision.</h3><p id="interviewDecisionCopy">Run an analysis before recording a human outcome.</p><label class="interview-rationale"><span>Reviewer rationale</span><textarea id="interviewDecisionRationale" rows="2" maxlength="280" placeholder="Explain why you accept, reject, or escalate." disabled></textarea></label></div>
+            <div class="interview-decision-actions">
+              <button class="button primary" type="button" data-interview-decision="Accept" disabled><i data-lucide="check"></i>Accept</button>
+              <button class="button danger" type="button" data-interview-decision="Reject" disabled><i data-lucide="x"></i>Reject</button>
+              <button class="button escalate" type="button" data-interview-decision="Escalate" disabled><i data-lucide="flag"></i>Escalate</button>
+            </div>
+          </section>
+
+          <section class="interview-audit" aria-labelledby="interviewAuditHeading">
+            <div class="panel-heading tight"><div><p class="eyebrow">Interview audit</p><h3 id="interviewAuditHeading">Latest governed review</h3></div><span class="status review">Browser-local demo record</span></div>
+            <div id="interviewAuditRecord" class="interview-audit-record"><span>No interview-mode decision recorded yet.</span></div>
           </section>
         </section>
 
@@ -263,25 +340,32 @@
           <div class="authority-banner" role="note"><i data-lucide="shield-check"></i><div><strong>System of record remains authoritative.</strong><span>AI never independently changes institutional records.</span></div></div>
           <figure class="architecture-diagram-card" aria-labelledby="architectureDiagramTitle">
             <div class="architecture-diagram-heading"><div><p class="eyebrow">Shareable system map</p><h3 id="architectureDiagramTitle">How HR1 moves evidence to an accountable decision</h3></div><div class="architecture-downloads"><a class="button secondary compact" href="./assets/hr1-architecture.svg" download="hr1-architecture.svg"><i data-lucide="download"></i>Download SVG</a><a class="button secondary compact" href="./architecture/hr1-workbench.dsl" download="hr1-workbench.dsl"><i data-lucide="file-code-2"></i>Structurizr DSL</a></div></div>
-            <img src="./assets/hr1-architecture.svg" alt="End-to-end HR1 architecture showing PeopleSoft, Banner, LMS, CRM, and Azure SQL connecting through API Management and Azure Functions to SharePoint, Microsoft Graph workflow, governed AI exception review, human approval, and reporting">
+            <div class="architecture-flow-map" role="group" aria-label="Five-stage HR1 architecture flow from source systems to accountable outcomes">
+              <article class="architecture-flow-step source"><span class="architecture-step-number">01</span><i data-lucide="database"></i><p>Authoritative data</p><h4>Source systems</h4><ul><li>SIS, LMS and CRM</li><li>Approved APIs only</li></ul></article>
+              <div class="architecture-flow-arrow" aria-hidden="true"><i data-lucide="arrow-right"></i></div>
+              <article class="architecture-flow-step integration"><span class="architecture-step-number">02</span><i data-lucide="waypoints"></i><p>Controlled entry</p><h4>API + orchestration</h4><ul><li>Authenticate and route</li><li>Validate and normalize</li></ul></article>
+              <div class="architecture-flow-arrow" aria-hidden="true"><i data-lucide="arrow-right"></i></div>
+              <article class="architecture-flow-step intelligence"><span class="architecture-step-number">03</span><i data-lucide="brain-circuit"></i><p>Bounded analysis</p><h4>Rules, then AI</h4><ul><li>Exact comparison first</li><li>Read-only AI tools</li></ul></article>
+              <div class="architecture-flow-arrow" aria-hidden="true"><i data-lucide="arrow-right"></i></div>
+              <article class="architecture-flow-step human"><span class="architecture-step-number">04</span><i data-lucide="user-check"></i><p>Accountable control</p><h4>Human decision</h4><ul><li>Accept, reject or escalate</li><li>Rationale required</li></ul></article>
+              <div class="architecture-flow-arrow" aria-hidden="true"><i data-lucide="arrow-right"></i></div>
+              <article class="architecture-flow-step outcome"><span class="architecture-step-number">05</span><i data-lucide="file-chart-column"></i><p>Governed outcome</p><h4>Audit + analytics</h4><ul><li>Decision history</li><li>Operational reporting</li></ul></article>
+            </div>
+            <div class="architecture-flow-rule" role="note"><i data-lucide="shield-check"></i><div><strong>One rule across every stage</strong><span>Source systems remain authoritative. AI can recommend, but only an authorized person can approve an outcome.</span></div></div>
             <figcaption>CIO view: value moves from fragmented evidence to an accountable outcome. CTO view: every boundary has an owner, supported interface, control, and audit path.</figcaption>
             <div class="architecture-integration-note" role="note"><strong>Prototype boundary:</strong><span><b>Live in HR1:</b> Microsoft Graph demo-tenant sign-in and GitHub REST delivery telemetry. Rafter is represented through a server-side status integration when configured.</span><span><b>Illustrative adapters:</b> PeopleSoft, Banner, LMS, CRM, Azure SQL, bookstore/payment, HR/applicant, EHR, payer, and clearinghouse systems require authorized institutional APIs before production use.</span><span><b>Structurizr views:</b> The downloadable DSL includes system landscape, system context, container, component, dynamic, and deployment views for CTO review.</span></div>
           </figure>
-          <figure class="architecture-diagram-card c4-views-card" aria-labelledby="c4ViewsTitle">
-            <div class="architecture-diagram-heading"><div><p class="eyebrow">C4 architecture views</p><h3 id="c4ViewsTitle">The same design at six levels of detail</h3></div><a class="button secondary compact" href="./assets/hr1-c4-architecture-views.svg" download="hr1-c4-architecture-views.svg"><i data-lucide="download"></i>Download C4 poster</a></div>
-            <img src="./assets/hr1-c4-architecture-views.svg" alt="C4-style architecture poster showing system landscape, system context, container, component, dynamic, and deployment diagrams for HR1">
-            <figcaption>Use the landscape and context views with executives, the container and component views with engineering, and the dynamic and deployment views to explain runtime behavior and operational ownership.</figcaption>
-          </figure>
           <section class="c4-gallery" aria-labelledby="c4GalleryTitle">
-            <div class="panel-heading tight"><div><p class="eyebrow">C4 view gallery</p><h3 id="c4GalleryTitle">Open each architecture view independently</h3></div><a class="button secondary compact" href="./architecture/hr1-workbench.dsl" download="hr1-workbench.dsl"><i data-lucide="file-code-2"></i>Download Structurizr DSL</a></div>
+            <div class="panel-heading tight"><div><p class="eyebrow">Architecture lenses</p><h3 id="c4GalleryTitle">Choose the right level of detail for the audience</h3></div><a class="button secondary compact" href="./architecture/hr1-workbench.dsl" download="hr1-workbench.dsl"><i data-lucide="file-code-2"></i>Download Structurizr DSL</a></div>
             <div class="c4-gallery-grid">
-              <a class="c4-gallery-card" href="./assets/hr1-c4-system-landscape.svg" target="_blank" rel="noopener"><img src="./assets/hr1-c4-system-landscape.svg" alt="C4 system landscape diagram"><span><strong>System Landscape</strong><small>People, source platforms, HR1, Microsoft services, and controls.</small></span></a>
-              <a class="c4-gallery-card" href="./assets/hr1-c4-system-context.svg" target="_blank" rel="noopener"><img src="./assets/hr1-c4-system-context.svg" alt="C4 system context diagram"><span><strong>System Context</strong><small>HR1 relationships with authoritative source systems and owners.</small></span></a>
-              <a class="c4-gallery-card" href="./assets/hr1-c4-container.svg" target="_blank" rel="noopener"><img src="./assets/hr1-c4-container.svg" alt="C4 container diagram"><span><strong>Container</strong><small>API boundary, orchestration, rules, AI, and workflow containers.</small></span></a>
-              <a class="c4-gallery-card" href="./assets/hr1-c4-component.svg" target="_blank" rel="noopener"><img src="./assets/hr1-c4-component.svg" alt="C4 component diagram"><span><strong>Component</strong><small>Adapters, validation, matching, evidence guard, and decision recording.</small></span></a>
-              <a class="c4-gallery-card" href="./assets/hr1-c4-dynamic.svg" target="_blank" rel="noopener"><img src="./assets/hr1-c4-dynamic.svg" alt="C4 dynamic diagram"><span><strong>Dynamic</strong><small>Numbered runtime steps, failure path, and human handoff.</small></span></a>
-              <a class="c4-gallery-card" href="./assets/hr1-c4-deployment.svg" target="_blank" rel="noopener"><img src="./assets/hr1-c4-deployment.svg" alt="C4 deployment diagram"><span><strong>Deployment</strong><small>Microsoft 365 tenant, Azure subscription, operations, and support.</small></span></a>
+              <article class="c4-gallery-card"><span class="c4-lens-icon"><i data-lucide="landmark"></i></span><span><small>Executive lens</small><strong>System landscape</strong><p>People, enterprise platforms, HR1, Microsoft services, and the control boundary.</p></span></article>
+              <article class="c4-gallery-card"><span class="c4-lens-icon"><i data-lucide="orbit"></i></span><span><small>Stakeholder lens</small><strong>System context</strong><p>Who exchanges evidence, who owns the data, and who makes the decision.</p></span></article>
+              <article class="c4-gallery-card"><span class="c4-lens-icon"><i data-lucide="boxes"></i></span><span><small>Engineering lens</small><strong>Containers</strong><p>Browser, API boundary, orchestration, rules, AI tools, and review workflow.</p></span></article>
+              <article class="c4-gallery-card"><span class="c4-lens-icon"><i data-lucide="component"></i></span><span><small>Developer lens</small><strong>Components</strong><p>Adapters, validators, deterministic comparison, evidence guard, and recorder.</p></span></article>
+              <article class="c4-gallery-card"><span class="c4-lens-icon"><i data-lucide="list-ordered"></i></span><span><small>Runtime lens</small><strong>Dynamic sequence</strong><p>Request, rules, bounded tools, validated recommendation, and human handoff.</p></span></article>
+              <article class="c4-gallery-card"><span class="c4-lens-icon"><i data-lucide="cloud-cog"></i></span><span><small>Operations lens</small><strong>Deployment</strong><p>Caddy static hosting, Azure Functions, identity, secrets, telemetry, and rollback.</p></span></article>
             </div>
+            <p class="c4-gallery-note"><i data-lucide="presentation"></i><span><strong>Interview tip:</strong> lead with the five-stage flow above. Use these lenses only when an interviewer asks for deeper architecture detail.</span></p>
           </section>
           <div class="architecture-shell" aria-label="Technical architecture">
             <div class="architecture-layers">

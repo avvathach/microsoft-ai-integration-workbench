@@ -16,7 +16,7 @@
     <rect x="555" y="90" width="250" height="100" class="hr1 box"/><text x="680" y="128" text-anchor="middle" class="text">HR1 Workbench</text><text x="680" y="150" text-anchor="middle" class="small">Validate, reconcile, govern</text><text x="680" y="171" text-anchor="middle" class="small">AI assists; humans decide</text>
     <rect x="860" y="105" width="220" height="70" class="ms box"/><text x="970" y="134" text-anchor="middle" class="text">Microsoft 365</text><text x="970" y="155" text-anchor="middle" class="small">SharePoint, Teams, Graph</text>
     <rect x="1135" y="105" width="180" height="70" class="control box"/><text x="1225" y="134" text-anchor="middle" class="text">Controls</text><text x="1225" y="155" text-anchor="middle" class="small">Entra, Key Vault, telemetry</text>
-    <path d="M235 140H290M500 140H555M805 140H860M1080 140H1135" class="arrow"/><text x="257" y="130" class="rel">evidence</text><text x="522" y="130" class="rel">approved APIs</text><text x="818" y="130" class="rel">workflow</text><text x="1090" y="130" class="rel">protects</text><text x="28" y="225" class="legend">Key: gray = external/source system | blue = HR1 boundary | green = Microsoft governed services | orange = accountable person</text>
+    <path d="M235 140H290M500 140H555M805 140H860M1080 140H1135" class="arrow"/><text x="28" y="225" class="legend">Flow: owner → approved source APIs → HR1 governance → Microsoft workflow → enterprise controls. Orange marks the accountable person.</text>
   </g>
 
   <g transform="translate(50 400)"><rect width="1500" height="250" class="panel"/><text x="28" y="34" class="section">2. SYSTEM CONTEXT</text><text x="28" y="60" class="sub">HR1 in context of source systems, Microsoft services, and the accountable owner</text>

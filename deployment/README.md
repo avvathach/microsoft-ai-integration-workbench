@@ -64,14 +64,21 @@ Required Azure Function settings are:
 - `ENTRA_TENANT_ID`
 - `ENTRA_API_AUDIENCE`
 - `SECURITY_ASSURANCE_ADMIN_ROLE`
+- `OPENAI_API_BASE_URL`
+- `OPENAI_API_KEY`
+- `OPENAI_MODEL`
 - `APPLICATIONINSIGHTS_CONNECTION_STRING`
 
 Set `RAFTER_API_KEY` as an Azure Key Vault reference, for example `@Microsoft.KeyVault(SecretUri=https://<vault>.vault.azure.net/secrets/<secret-name>/)`, and grant the Function managed identity permission to read that secret. Never add the key to GitHub secrets for frontend builds, static artifacts, browser storage, logs, or source control.
+
+Apply the same Key Vault-reference pattern to `OPENAI_API_KEY`. The interview demo uses synthetic records only, sends an allowlisted case through read-only tools, validates structured evidence references, and fails closed when a live model returns unsupported output. `OPENAI_MODEL` is intentionally explicit so model changes are reviewed rather than silently adopted.
 
 Routes:
 
 - `GET /api/security/status`: public sanitized status only.
 - `GET /api/security/csrf`: short-lived CSRF token for the administrator flow.
 - `POST /api/security/scan`: Entra-authenticated administrator endpoint; fixed HR1 project and security/DNS sections only.
+- `GET /api/interview/status`: public execution-mode and synthetic-case metadata.
+- `POST /api/interview/analyze`: public, rate-limited synthetic-case analysis with no write tools.
 
 The API emits safe scan lifecycle events to Application Insights. It does not log API keys, tokens, raw Rafter responses, or vulnerability details. The Teams or Power Automate critical-finding notification remains proposed until a Logic App or flow is separately approved and configured.

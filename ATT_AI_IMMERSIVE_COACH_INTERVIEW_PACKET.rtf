@@ -1,0 +1,425 @@
+{\rtf1\ansi\deff0
+{\fonttbl{\f0 Calibri;}{\f1 Consolas;}}
+\viewkind4\uc1\paperw12240\paperh15840\margl1080\margr1080\margt900\margb900
+\pard\sb240\sa100\b\f0\fs34 AT&T AI Immersive Coach - HR1 live demonstration interview packet\b0\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 This document is a truthful walkthrough of the repository as it exists. It does not attribute authorship, claim production integrations that are not configured, or use real HR/student data.\par
+\pard\sa70\par
+\pard\sb180\sa100\b\f0\fs27 Best presentation format: five acts\b0\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 Keep the whole conversation on one memorable spine:\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 1.\tab Outcome: \u8220?Reduce exception-handling time without surrendering human accountability.\u8221?\par
+\pard\li540\fi-300\sa55\f0\fs21 2.\tab Problem: Evidence is fragmented; manual reconciliation is slow and inconsistent.\par
+\pard\li540\fi-300\sa55\f0\fs21 3.\tab Design: Rules first, bounded AI second, human decision last.\par
+\pard\li540\fi-300\sa55\f0\fs21 4.\tab Proof: Run one case, inspect one code path, run the tests.\par
+\pard\li540\fi-300\sa55\f0\fs21 5.\tab Judgment: Name what is production-ready, what is a fixture, and what comes next.\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 Use dual-level narration throughout. Give the plain-English sentence first, then the technical proof:\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 \u8220?The AI cannot change a record. Technically, the model receives only three read-only function tools, the trace marks writeAccess: false, and no system-of-record write endpoint exists.\u8221?\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 This lets a nontechnical interviewer understand the point while giving the technical leader enough evidence to drill deeper.\par
+\pard\sa70\par
+\pard\sb180\sa100\b\f0\fs27 \u8220?Tell me about yourself\u8221? \u8212? 60 seconds\b0\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 Replace every bracket with a fact from your real resume. Do not invent tenure, employers, metrics, or ownership.\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 \u8220?I\u8217?m a [current role or professional identity] with [verified years or scope] focused on [two relevant strengths: for example software delivery, AI enablement, technical training, or enterprise integration]. My strength is translating between business outcomes and engineering execution. In [real example], I [specific action] so that [measurable or observable result]. I work by making the problem clear, building a small testable path, and helping people understand not only what to do but why the controls matter. This HR1 workbench reflects that approach: deterministic validation, bounded AI tools, automated tests, and a human decision boundary. I\u8217?m interested in the AI Immersive Coach role because it combines hands-on technical credibility with facilitation\u8212?helping teams move from curiosity to safe, repeatable use of AI.\u8221?\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 If you cannot support a metric, describe the observable outcome without a number. Say \u8220?I led,\u8221? \u8220?I contributed,\u8221? or \u8220?I extended\u8221? only when each is accurate.\par
+\pard\sa70\par
+\pard\sb180\sa100\b\f0\fs27 Trainer/facilitator communication pattern\b0\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 For every major concept, use Define \u8594? Show \u8594? Translate \u8594? Check:\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 1.\tab Define: \u8220?Agentic means the model can choose a tool and use its result in a later reasoning step.\u8221?\par
+\pard\li540\fi-300\sa55\f0\fs21 2.\tab Show: Open runLiveAgent and point to function tools, function_call_output, and the second response.\par
+\pard\li540\fi-300\sa55\f0\fs21 3.\tab Translate: \u8220?That helps with ambiguous exceptions, but the allowlist prevents open-ended access.\u8221?\par
+\pard\li540\fi-300\sa55\f0\fs21 4.\tab Check: \u8220?Would it help if I go deeper on the tool loop or on the governance boundary?\u8221?\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 If interrupted, answer in four sentences: direct answer, repository evidence, tradeoff, next step. Example:\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 \u8220?No, this prototype does not have a database. The current state is synthetic code fixtures and browser-local storage. That makes the demo safe and portable but not suitable for durable enterprise audit. My next step would be an authenticated append-only audit store with retention and access policies.\u8221?\par
+\pard\sa70\par
+\pard\sb180\sa100\b\f0\fs27 How to address the three interview perspectives\b0\par
+\pard\sa70\par
+\pard\li180\sa45\f0\fs18 Interviewer perspective    |    What they need to see    |    Evidence to show\par
+\pard\li180\sa45\f0\fs18 Technical leader    |    You can reason about architecture, APIs, security, testing, failure modes, and delivery    |    Architecture flow, runLiveAgent, validateAnalysis, negative tests, CI workflows\par
+\pard\li180\sa45\f0\fs18 AI coach 1    |    You can explain AI accurately without overwhelming learners    |    Define \u8594? Show \u8594? Translate \u8594? Check pattern; live-mode versus fixture labels\par
+\pard\li180\sa45\f0\fs18 AI coach 2    |    You can facilitate adoption and responsible behavior    |    Human-decision boundary, synthetic data, learner checks, fallback plan, gap matrix\par
+\pard\li180\sa45\f0\fs18 Entire panel    |    You communicate clearly, command the room, and remain honest    |    Business-first opening, ten-minute structure, direct answers, explicit IMPLEMENTED/PARTIAL/NOT FOUND/UNKNOWN language\par
+\pard\sa80\par
+\pard\sa80\sl276\slmult1\f0\fs21 Do not run three separate presentations. Tell one story and briefly change depth for the person asking the question.\par
+\pard\sa70\par
+\pard\sb180\sa100\b\f0\fs27 What to say first\b0\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 \u8220?I\u8217?ll demonstrate this as a governed AI integration workbench, not as an autonomous decision-maker. The business problem is fragmented evidence and slow exception handling. The engineering answer is deterministic validation first, bounded AI tools only for the residual ambiguity, strict output checks, and an authorized person making the final decision. I\u8217?ll show the architecture, run one synthetic case end to end, then prove the controls with tests.\u8221?\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 That opening serves both audiences: leaders hear the outcome and boundary; engineers hear the control strategy.\par
+\pard\sa70\par
+\pard\sb180\sa100\b\f0\fs27 Actual technology and status\b0\par
+\pard\sa70\par
+\pard\li180\sa45\f0\fs18 Area    |    Evidence    |    Status\par
+\pard\li180\sa45\f0\fs18 Frontend    |    Vanilla HTML, CSS, and JavaScript in index.html, styles.css, app.js    |    IMPLEMENTED\par
+\pard\li180\sa45\f0\fs18 Backend    |    Node.js CommonJS Azure Functions v4 registration in api/src/index.js    |    IMPLEMENTED\par
+\pard\li180\sa45\f0\fs18 Local backend    |    Loopback-only Node adapter in api/src/localServer.js    |    IMPLEMENTED\par
+\pard\li180\sa45\f0\fs18 AI path    |    OpenAI Responses API and function tools in runLiveAgent    |    IMPLEMENTED, configuration required\par
+\pard\li180\sa45\f0\fs18 Deterministic fallback    |    guidedAnalysis and server/browser labels    |    IMPLEMENTED\par
+\pard\li180\sa45\f0\fs18 Database    |    No database dependency or durable server-side store    |    NOT FOUND\par
+\pard\li180\sa45\f0\fs18 Demo state    |    Browser localStorage; synthetic catalog in code    |    IMPLEMENTED, demo-only\par
+\pard\li180\sa45\f0\fs18 Microsoft integration    |    Entra delegated sign-in plus Graph profile/OneDrive reads in connectMicrosoft and graphGet    |    PARTIAL\par
+\pard\li180\sa45\f0\fs18 Security scanner    |    Server-side Rafter proxy in createSecurityHandlers    |    IMPLEMENTED, external configuration UNKNOWN\par
+\pard\li180\sa45\f0\fs18 Enterprise source connectors/writeback    |    Architecture and illustrative adapters only    |    NOT FOUND\par
+\pard\li180\sa45\f0\fs18 Automated tests    |    14 API/security assertions in two Node test files    |    IMPLEMENTED\par
+\pard\li180\sa45\f0\fs18 Browser E2E tests    |    No Playwright/Cypress suite    |    NOT FOUND\par
+\pard\li180\sa45\f0\fs18 Deployment    |    Static Hetzner/Caddy workflow plus separate Azure Function workflow    |    IMPLEMENTED, current live state UNKNOWN\par
+\pard\sa80\par
+\pard\sb180\sa100\b\f0\fs27 Architecture you can draw on a whiteboard\b0\par
+\pard\sa70\par
+\pard\sa80\par
+\pard\li360\sa20\f1\fs18 User selects an allowlisted synthetic case\par
+\pard\li360\sa20\f1\fs18                  \u9474? caseId only\par
+\pard\li360\sa20\f1\fs18                  \u9660?\par
+\pard\li360\sa20\f1\fs18 Static browser UI (index.html + app.js)\par
+\pard\li360\sa20\f1\fs18                  \u9474? POST /api/interview/analyze\par
+\pard\li360\sa20\f1\fs18                  \u9660?\par
+\pard\li360\sa20\f1\fs18 Azure Function / local adapter\par
+\pard\li360\sa20\f1\fs18                  \u9474?\par
+\pard\li360\sa20\f1\fs18                  \u9500?\u9472?\u9472? deterministic comparison first\par
+\pard\li360\sa20\f1\fs18                  \u9474?\par
+\pard\li360\sa20\f1\fs18                  \u9500?\u9472?\u9472? guided fixture (no model configured)\par
+\pard\li360\sa20\f1\fs18                  \u9474?          or\par
+\pard\li360\sa20\f1\fs18                  \u9492?\u9472?\u9472? Responses API agent loop\par
+\pard\li360\sa20\f1\fs18                         \u9500?\u9472?\u9472? load_case_evidence [read only]\par
+\pard\li360\sa20\f1\fs18                         \u9500?\u9472?\u9472? compare_case_fields [read only]\par
+\pard\li360\sa20\f1\fs18                         \u9492?\u9472?\u9472? get_governance_policy [read only]\par
+\pard\li360\sa20\f1\fs18                                    \u9474?\par
+\pard\li360\sa20\f1\fs18                                    \u9660?\par
+\pard\li360\sa20\f1\fs18                      schema + evidence-ID validation\par
+\pard\li360\sa20\f1\fs18                                    \u9474? recommendation only\par
+\pard\li360\sa20\f1\fs18                                    \u9660?\par
+\pard\li360\sa20\f1\fs18                       Human rationale and decision\par
+\pard\li360\sa20\f1\fs18                                    \u9474?\par
+\pard\li360\sa20\f1\fs18                                    \u9660?\par
+\pard\li360\sa20\f1\fs18                          Browser-local audit record\par
+\pard\sa80\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 The production network path is browser \u8594? same-origin Caddy /api/* proxy \u8594? Azure Functions \u8594? model/tool or scanner provider. The system has no AI write tool.\par
+\pard\sa70\par
+\pard\sb180\sa100\b\f0\fs27 Two-minute architectural walkthrough\b0\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 Use this almost word for word:\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 \u8220?The frontend is a dependency-light static application: HTML for semantics, CSS for responsive presentation, and JavaScript for state and API orchestration. Its entry point is the DOMContentLoaded handler in app.js, which renders the workbench and checks the backend execution mode.\par
+\pard\sa80\sl276\slmult1\f0\fs21 \par
+\pard\sa80\sl276\slmult1\f0\fs21 \u8220?For this demo, the browser submits only an allowlisted synthetic case ID to POST /api/interview/analyze. The Node backend rejects arbitrary records, runs deterministic comparison first, and chooses a clearly labeled execution path. Without model configuration it uses a deterministic server fixture. With model configuration, runLiveAgent uses the Responses API and lets the model select only three read-only tools. Policy still forces every required check to run.\par
+\pard\sa80\sl276\slmult1\f0\fs21 \par
+\pard\sa80\sl276\slmult1\f0\fs21 \u8220?The second model response must satisfy a strict JSON schema. validateAnalysis rejects unsupported evidence IDs and requires the exact human-decision boundary. The frontend shows the tool trace and recommendation, but disables decision recording until a human adds rationale. The demo audit is intentionally browser-local; a production system would use an authenticated durable audit store.\par
+\pard\sa80\sl276\slmult1\f0\fs21 \par
+\pard\sa80\sl276\slmult1\f0\fs21 \u8220?Operationally, Caddy serves immutable static releases and proxies /api to Azure Functions. CI validates source, runs API tests, builds hashed assets, and validates the deployable artifact. The current repo has no enterprise database or live system-of-record writeback, and I state those gaps explicitly.\u8221?\par
+\pard\sa70\par
+\pard\sb180\sa100\b\f0\fs27 Ten-minute VS Code walkthrough\b0\par
+\pard\sa70\par
+\pard\sb180\sa100\b\f0\fs23 0:00\u8211?0:45 \u8212? Frame the outcome\b0\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 Open README.md and say:\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 \u8220?The problem is not \u8216?add a chatbot.\u8217? It is reduce manual reconciliation while keeping the system of record and human owner authoritative.\u8221?\par
+\pard\sa70\par
+\pard\sb180\sa100\b\f0\fs23 0:45\u8211?2:00 \u8212? Show the clean architecture\b0\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 Open the browser at http://localhost:5173, click Architecture, and use the primary diagram first. Keep the six architecture lenses collapsed into supporting detail unless someone asks. Point left to right:\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 1.\tab Authoritative source systems.\par
+\pard\li540\fi-300\sa55\f0\fs21 2.\tab API and orchestration boundary.\par
+\pard\li540\fi-300\sa55\f0\fs21 3.\tab Deterministic validation.\par
+\pard\li540\fi-300\sa55\f0\fs21 4.\tab Bounded AI for exceptions.\par
+\pard\li540\fi-300\sa55\f0\fs21 5.\tab Human approval, audit, and analytics.\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 Say:\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 \u8220?Notice the trust boundary: AI recommends; it does not independently write to SIS, HR, recruiting, or finance systems.\u8221?\par
+\pard\sa70\par
+\pard\sb180\sa100\b\f0\fs23 2:00\u8211?4:30 \u8212? Run the frontend scenario\b0\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 Click Governed AI demo.\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 1.\tab Point to the mode badge. Say exactly whether it is Server guided fixture, Live model + tools, or Browser guided fixture.\par
+\pard\li540\fi-300\sa55\f0\fs21 2.\tab Choose Payment exception; it gives a clear escalation story.\par
+\pard\li540\fi-300\sa55\f0\fs21 3.\tab Click Analyze synthetic exception.\par
+\pard\li540\fi-300\sa55\f0\fs21 4.\tab Narrate the visible trace: allowlist validation \u8594? rules \u8594? read-only tools \u8594? schema validation.\par
+\pard\li540\fi-300\sa55\f0\fs21 5.\tab Point to supporting/conflicting evidence and the human-decision boundary.\par
+\pard\li540\fi-300\sa55\f0\fs21 6.\tab Enter: Transaction type and reference conflict; route to Student Accounts for evidence review.\par
+\pard\li540\fi-300\sa55\f0\fs21 7.\tab Click Escalate and show the browser-local audit row.\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 Say:\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 \u8220?This is deliberately synthetic. The recommendation does not become an action until a person records a rationale.\u8221?\par
+\pard\sa70\par
+\pard\sb180\sa100\b\f0\fs23 4:30\u8211?6:45 \u8212? Trace the code\b0\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 Use VS Code symbol search (Ctrl+P, then type the file/function):\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 1.\tab app.js \u8594? runInterviewAnalysis: show the case-ID-only POST and frontend response-contract checks.\par
+\pard\li540\fi-300\sa55\f0\fs21 2.\tab api/src/index.js: show the five HTTP route registrations.\par
+\pard\li540\fi-300\sa55\f0\fs21 3.\tab api/src/interviewAssistant.js \u8594? createInterviewHandlers: show allowlisting, origin checks, rate limiting, request IDs, and safe errors.\par
+\pard\li540\fi-300\sa55\f0\fs21 4.\tab Same file \u8594? runLiveAgent: show the bounded tools and two-stage Responses API flow.\par
+\pard\li540\fi-300\sa55\f0\fs21 5.\tab Same file \u8594? validateAnalysis: show evidence citation and human-review enforcement.\par
+\pard\li540\fi-300\sa55\f0\fs21 6.\tab api/src/interviewCases.js \u8594? compareSyntheticCase: show deterministic logic before AI.\par
+\pard\sa70\par
+\pard\sb180\sa100\b\f0\fs23 6:45\u8211?8:15 \u8212? Prove it with tests\b0\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 Run:\par
+\pard\sa70\par
+\pard\sa80\par
+\pard\li360\sa20\f1\fs18 npm run test:security\par
+\pard\sa80\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 Open api/test/interviewAssistant.test.js. Highlight the injected fake model response; say:\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 \u8220?The live-model branch is tested without network calls or a real key. The tests prove tool bounds, strict output validation, origin rejection, unknown-case rejection, and fail-closed evidence handling.\u8221?\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 Then optionally run the Python black-box client:\par
+\pard\sa70\par
+\pard\sa80\par
+\pard\li360\sa20\f1\fs18 python3 scripts/demo_interview_api.py\par
+\pard\sa80\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 Say:\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 \u8220?Python is an auxiliary API contract client here; the production backend is Node because Azure Functions and the existing repository use JavaScript.\u8221?\par
+\pard\sa70\par
+\pard\sb180\sa100\b\f0\fs23 8:15\u8211?9:15 \u8212? Show delivery controls\b0\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 Open .github/workflows/deploy.yml, .github/workflows/deploy-security-api.yml, and deployment/Caddyfile.hr1.\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 \u8220?CI tests before building or deploying. Static releases are commit-addressed, activation is atomic, API deployment is separately gated, and the browser uses a same-origin proxy.\u8221?\par
+\pard\sa70\par
+\pard\sb180\sa100\b\f0\fs23 9:15\u8211?10:00 \u8212? Close with judgment\b0\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 \u8220?What is complete is the demonstrable governed vertical slice. What remains before enterprise production is durable audit storage, distributed rate limiting, real source authorization, browser E2E tests, formal model evaluation, and environment verification. I would not confuse a strong prototype with a completed production platform.\u8221?\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 Then stop. Invite questions.\par
+\pard\sa70\par
+\pard\sb180\sa100\b\f0\fs27 Day-of preflight checklist\b0\par
+\pard\sa70\par
+\pard\sb180\sa100\b\f0\fs23 Thirty minutes before\b0\par
+\pard\sa70\par
+\pard\li540\fi-240\sa55\f0\fs21 \u8226?\tab Connect power and disable sleep/automatic updates.\par
+\pard\li540\fi-240\sa55\f0\fs21 \u8226?\tab Close email, chat, password managers, cloud portals, and unrelated browser tabs.\par
+\pard\li540\fi-240\sa55\f0\fs21 \u8226?\tab Make sure no .env, local.settings.json, tokens, or private records are visible.\par
+\pard\li540\fi-240\sa55\f0\fs21 \u8226?\tab Set browser zoom to 90% or 100% and VS Code font large enough for screen sharing.\par
+\pard\li540\fi-240\sa55\f0\fs21 \u8226?\tab Build once, run the 14 tests, and start the unified demo server.\par
+\pard\li540\fi-240\sa55\f0\fs21 \u8226?\tab Forward only port 5173 if VS Code is remote.\par
+\pard\li540\fi-240\sa55\f0\fs21 \u8226?\tab Open three prepared tabs: the demo, api/src/interviewAssistant.js, and api/test/interviewAssistant.test.js.\par
+\pard\li540\fi-240\sa55\f0\fs21 \u8226?\tab Select the synthetic payment case but do not run it until the panel is watching.\par
+\pard\li540\fi-240\sa55\f0\fs21 \u8226?\tab Keep the Word packet open on a second screen or printed; do not read it word for word.\par
+\pard\sa70\par
+\pard\sb180\sa100\b\f0\fs23 Commands\b0\par
+\pard\sa70\par
+\pard\sa80\par
+\pard\li360\sa20\f1\fs18 cd /root/HR\par
+\pard\li360\sa20\f1\fs18 npm run check\par
+\pard\li360\sa20\f1\fs18 npm run test:security\par
+\pard\li360\sa20\f1\fs18 npm run build\par
+\pard\li360\sa20\f1\fs18 npm run start:demo\par
+\pard\sa80\par
+\pard\sa70\par
+\pard\sb180\sa100\b\f0\fs23 Your three recovery levels\b0\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 1.\tab Normal: server badge says Server guided fixture or Live model + tools; run the UI.\par
+\pard\li540\fi-300\sa55\f0\fs21 2.\tab API problem: badge says Browser guided fixture; explicitly name the fallback and continue.\par
+\pard\li540\fi-300\sa55\f0\fs21 3.\tab Browser problem: run python3 scripts/demo_interview_api.py, then show the passing unit tests and code path.\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 Never conceal the fallback. Explaining the designed failure path demonstrates stronger judgment than pretending everything is live.\par
+\pard\sa70\par
+\pard\sb180\sa100\b\f0\fs27 What success looks like to the panel\b0\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 By the end, they should be able to repeat five points:\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 1.\tab You start with a business and learner outcome, not a model.\par
+\pard\li540\fi-300\sa55\f0\fs21 2.\tab You understand the difference between deterministic software, an LLM call, and an agentic tool loop.\par
+\pard\li540\fi-300\sa55\f0\fs21 3.\tab You constrain AI with allowlists, read-only tools, schema checks, evidence validation, and human authority.\par
+\pard\li540\fi-300\sa55\f0\fs21 4.\tab You prove behavior with tests and understand CI/CD and operational gaps.\par
+\pard\li540\fi-300\sa55\f0\fs21 5.\tab You can teach the same concept at executive, beginner, and engineering depth.\par
+\pard\sa70\par
+\pard\sb180\sa100\b\f0\fs27 Commands to prepare and run\b0\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 Linux paths are case-sensitive. The repository is HR, not hr.\par
+\pard\sa70\par
+\pard\sb180\sa100\b\f0\fs23 One-time preparation\b0\par
+\pard\sa70\par
+\pard\sa80\par
+\pard\li360\sa20\f1\fs18 cd /root/HR\par
+\pard\li360\sa20\f1\fs18 code .\par
+\pard\li360\sa20\f1\fs18 npm ci --prefix api\par
+\pard\li360\sa20\f1\fs18 cp -n api/local.settings.example.json api/local.settings.json\par
+\pard\sa80\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 Leave model values empty for the reliable server-guided demonstration. Never paste or display a key during screen sharing.\par
+\pard\sa70\par
+\pard\sb180\sa100\b\f0\fs23 Terminal 1 \u8212? unified website and backend\b0\par
+\pard\sa70\par
+\pard\sa80\par
+\pard\li360\sa20\f1\fs18 cd /root/HR\par
+\pard\li360\sa20\f1\fs18 npm run build\par
+\pard\li360\sa20\f1\fs18 npm run start:demo\par
+\pard\sa80\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 Expected line: HR1 demo website + API listening on http://localhost:5173.\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 Open http://localhost:5173/#interview-demo.\par
+\pard\sa70\par
+\pard\sb180\sa100\b\f0\fs23 Terminal 2 \u8212? proof\b0\par
+\pard\sa70\par
+\pard\sa80\par
+\pard\li360\sa20\f1\fs18 cd /root/HR\par
+\pard\li360\sa20\f1\fs18 npm run check\par
+\pard\li360\sa20\f1\fs18 npm run test:security\par
+\pard\li360\sa20\f1\fs18 npm run check:dist\par
+\pard\li360\sa20\f1\fs18 python3 scripts/demo_interview_api.py\par
+\pard\sa80\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 If a port is busy:\par
+\pard\sa70\par
+\pard\sa80\par
+\pard\li360\sa20\f1\fs18 lsof -i :5173\par
+\pard\li360\sa20\f1\fs18 lsof -i :7071\par
+\pard\sa80\par
+\pard\sa70\par
+\pard\sb180\sa100\b\f0\fs27 30 likely technical questions and evidence-based answers\b0\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 1.\tab What is the frontend framework? No framework: semantic HTML, responsive CSS, and browser JavaScript. Evidence: index.html, styles.css, and the DOMContentLoaded entry in app.js.\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 2.\tab What is the backend? Node.js Azure Functions v4 using CommonJS. api/package.json points main to src/index.js; api/src/index.js registers the HTTP functions.\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 3.\tab Why no React? The prototype does not require component-runtime complexity. The dependency-light frontend reduces build and supply-chain surface. For a larger team/product, component reuse and browser tests could justify a framework.\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 4.\tab What database does it use? None. Synthetic cases are code fixtures; UI decisions use localStorage through saveState and renderInterviewAudit. Durable enterprise audit storage is not implemented.\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 5.\tab What are the API endpoints? security/status, security/csrf, security/scan, interview/status, and interview/analyze, registered in api/src/index.js under the Azure Functions /api prefix.\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 6.\tab Walk me through one AI request. runInterviewAnalysis posts an allowlisted ID. createInterviewHandlers.analyze validates origin/rate/case, runs deterministic tools, optionally calls runLiveAgent, validates output, and returns a request ID, trace, and recommendation.\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 7.\tab What makes this agentic? Only live-model mode: the model can choose among function tools, receive their outputs, and produce a subsequent structured response. That loop is in runLiveAgent. A single prompt/response and both guided fixtures are not described as agentic.\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 8.\tab Which tools can the model use? load_case_evidence, compare_case_fields, and get_governance_policy, defined by toolDefinitions and executed by executeTool in api/src/interviewAssistant.js.\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 9.\tab Can the agent mutate records? No. No write tool exists; trace entries report writeAccess: false; output requires human review. Enterprise writeback is not implemented.\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 10.\tab How is the loop bounded? MAX_MODEL_TOOL_CALLS is three, case IDs are enumerated, tools are strict, and the second model request sets tool_choice: "none".\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 11.\tab How do you control hallucinations? validateAnalysis permits only known recommendations, bounds confidence, validates arrays, rejects citations outside the computed evidence allowlist, and requires the exact decision boundary.\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 12.\tab Why deterministic rules before AI? Exact comparisons are cheaper, testable, and explainable. compareSyntheticCase produces matches, differences, critical differences, confidence, and a recommendation before the model is used.\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 13.\tab What happens without a model key? modelMode selects guided-fixture; the UI labels it Server guided fixture. If the API is absent, the UI labels Browser guided fixture. Neither is presented as model output.\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 14.\tab How are model secrets handled? configFromEnvironment reads server environment variables. OPENAI_API_KEY is absent from frontend artifacts and is checked by securityAssurance.test.js. The runbook recommends ignored local settings and Azure Key Vault references.\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 15.\tab How is authentication implemented? Admin security scans use Entra JWT verification through createTokenVerifier, remote JWKS, issuer/audience checks, and an application role. The synthetic interview analysis is public but tightly allowlisted and read-only.\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 16.\tab How is CSRF handled? The admin scan uses origin validation plus a double-submit token from security/csrf; createSecurityHandlers.scan compares the cookie and X-HR1-CSRF header.\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 17.\tab How is CORS handled? Production accepts the public origin; interview local origins are enabled only when NODE_ENV is development or test. See allowedOrigin in interviewAssistant.js.\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 18.\tab What prevents abuse? Case allowlisting, small request shape, 16 KB local adapter body cap, upstream timeouts, tool limit, no write tools, and in-memory per-IP rate limiting. Distributed rate limiting remains a production gap.\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 19.\tab How are upstream errors exposed? Handlers return generic codes such as analysis_unavailable or status_unavailable and log a request ID/category without raw provider responses or credentials.\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 20.\tab How is the AI branch tested without cost? interviewAssistant.test.js injects fetchImpl and returns fake Responses API payloads. Tests cover tool calls and the structured second response without network access.\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 21.\tab What other tests exist? securityAssurance.test.js covers status sanitization, documented response mapping, auth/role checks, CSRF, fixed scan payload, rate limiting, malformed results, upstream errors, and secret absence in static artifacts.\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 22.\tab What is not tested? There is no automated browser E2E/visual-regression suite, load test, model-quality evaluation set, or deployed-environment integration test.\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 23.\tab How does the build work? scripts/build.sh copies source/assets into dist and adds content hashes to CSS/JS URLs. scripts/verify.mjs checks required language and positioning.\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 24.\tab How is it deployed? .github/workflows/deploy.yml builds static assets and atomically switches a Hetzner release. .github/workflows/deploy-security-api.yml tests and deploys api/ to Azure Functions when enabled.\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 25.\tab How does routing work in production? deployment/Caddyfile.hr1 serves static files and reverse-proxies /api/* to Azure Functions, preserving same-origin browser requests.\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 26.\tab What Microsoft APIs are real? graphGet calls Microsoft Graph /me and /me/drive/root/children after delegated MSAL sign-in. Broader Teams, SharePoint, SIS, LMS, HR, and finance integrations are architecture/design unless configured elsewhere.\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 27.\tab How do you address privacy? Interview cases are explicitly synthetic, the browser sends only an allowlisted ID, no model tool can access arbitrary records, and outputs are not authoritative decisions. A real rollout would still require data classification, retention, legal review, and access audits.\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 28.\tab How do you observe a request? The API creates a UUID request ID and logs completion/failure category, case ID, mode, and duration. Full distributed tracing/dashboard verification is not present.\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 29.\tab What does Git history prove? It shows an incremental sequence of architecture and UI commits (git log --oneline). It establishes repository evolution, not who personally authored every line or whether every feature was production-operated.\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 30.\tab What would you build next? Durable authenticated audit storage, distributed throttling, browser E2E tests, formal AI evals, and one authorized read-only enterprise connector before any controlled writeback.\par
+\pard\sa70\par
+\pard\sb180\sa100\b\f0\fs27 10 likely coaching and behavioral questions\b0\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 Use your own real example wherever brackets appear.\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 1.\tab Why this AI Immersive Coach role? \u8220?It sits at the intersection where I add the most value: I can build and inspect the technology, explain it at the learner\u8217?s altitude, and turn responsible-AI principles into repeatable engineering behavior. This demo shows all three.\u8221?\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 2.\tab Why AT&T? \u8220?The role calls for both technical depth and the ability to help people adopt AI through practical experiences. I am attracted to work where scale makes clarity, safety, APIs, testing, and change management equally important.\u8221? Do not add unverified claims about AT&T strategy.\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 3.\tab How do you teach a mixed technical/nontechnical audience? \u8220?I use one shared business scenario, explain each concept in plain language, then offer technical depth as a second layer. I ask brief check questions and let advanced learners inspect code without losing beginners.\u8221?\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 4.\tab How would you explain agentic AI to a beginner? \u8220?A normal model call is question in, answer out. An agentic workflow can choose an approved tool, observe the result, and continue toward a goal. The important engineering work is limiting the tools, loop, data, and authority.\u8221?\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 5.\tab What do you do when a live demo fails? \u8220?I name the failure accurately, move to the designed fallback, and preserve the learning objective. Here the badge distinguishes live model, server fixture, and browser fixture; then I prove the contract with an automated test.\u8221?\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 6.\tab How do you handle a skeptical engineer? \u8220?I invite falsification. We inspect the boundary, run the negative tests, and review the exact gaps. I do not ask them to trust a slide when the code can prove or disprove the claim.\u8221?\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 7.\tab How do you keep learners engaged? \u8220?I alternate explanation with prediction and action: ask what should happen, run the case, inspect why it happened, then change one small behavior. That turns a passive demo into a coached engineering experience.\u8221?\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 8.\tab How do you measure coaching effectiveness? \u8220?I use behavior and outcome measures: can learners explain the boundary, complete the task without prompting, write a meaningful test, identify a risk, and transfer the pattern to a new use case? In a real program I would establish baseline and follow-up measures.\u8221?\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 9.\tab Tell us about influencing without authority. Use STAR: Situation [real cross-team constraint]; Task [shared outcome]; Action [how you listened, translated concerns, created evidence, and facilitated a decision]; Result [verified outcome]; Reflection [what you improved next time].\par
+\pard\sa70\par
+\pard\li540\fi-300\sa55\f0\fs21 10.\tab What would your first 30/60/90 days look like? \u8220?First 30: listen, learn the audience, governance, tooling, and success measures. By 60: co-facilitate and improve one hands-on module using learner evidence. By 90: independently lead an experience, publish reusable patterns, and report adoption, skill, and safety outcomes.\u8221?\par
+\pard\sa70\par
+\pard\sb180\sa100\b\f0\fs27 Risk and gap matrix\b0\par
+\pard\sa70\par
+\pard\li180\sa45\f0\fs18 Risk/gap    |    Status    |    Interview-safe statement    |    Next control\par
+\pard\li180\sa45\f0\fs18 Real model configuration    |    UNKNOWN    |    Code path and injected tests exist; runtime key/model are environment-owned    |    Key Vault reference and environment smoke test\par
+\pard\li180\sa45\f0\fs18 Durable audit    |    NOT FOUND    |    Current audit is browser-local and demonstrative    |    Authenticated append-only store with retention policy\par
+\pard\li180\sa45\f0\fs18 Distributed rate limiting    |    PARTIAL    |    Per-process limiter is implemented    |    API gateway/Redis-backed limit\par
+\pard\li180\sa45\f0\fs18 Browser E2E/visual regression    |    NOT FOUND    |    Responsive CSS and source checks exist    |    Playwright viewport/accessibility suite\par
+\pard\li180\sa45\f0\fs18 Model quality evaluation    |    NOT FOUND    |    Contract/safety behavior is tested, not recommendation quality    |    Versioned evaluation dataset and thresholds\par
+\pard\li180\sa45\f0\fs18 Enterprise connectors    |    PARTIAL    |    Graph read-only connector exists; other adapters are illustrative    |    One approved sandbox connector at a time\par
+\pard\li180\sa45\f0\fs18 System-of-record writeback    |    NOT FOUND    |    Intentionally absent from AI tools    |    Separate authorized workflow after human approval\par
+\pard\li180\sa45\f0\fs18 Admin scan authentication    |    IMPLEMENTED    |    Entra issuer/audience/role plus CSRF    |    Verify production app-role assignment\par
+\pard\li180\sa45\f0\fs18 Secret management    |    PARTIAL    |    Server env design and artifact checks exist    |    Confirm deployed Key Vault references/rotation\par
+\pard\li180\sa45\f0\fs18 Deployment state    |    UNKNOWN    |    Workflows and runbook exist    |    Validate environment, health, and rollback drill\par
+\pard\li180\sa45\f0\fs18 Database    |    NOT FOUND    |    Not required for the synthetic vertical slice    |    Add only for durable workflow/audit requirements\par
+\pard\sa80\par
+\pard\sb180\sa100\b\f0\fs27 Best small live Codex change\b0\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 Ask Codex to add a deterministic riskBand (low, medium, high) to compareSyntheticCase, return it in the API rule summary, display it in the recommendation metadata, and add one backend assertion. This is safe because it uses synthetic data, introduces no write access, and touches backend, frontend, and automated testing.\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 Suggested prompt:\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 \u8220?In the HR1 repository, add a deterministic riskBand to the synthetic interview workflow: high for any critical difference, medium for noncritical differences, low for no differences. Return it in ruleSummary, render it beside mode/request ID, and add tests. Do not change the model tools, authorization, or deployment. Run the relevant checks.\u8221?\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 Before the interview, practice the change once on a disposable branch. During the interview, narrate: inspect \u8594? state assumption \u8594? modify smallest surface \u8594? test \u8594? review diff.\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 Rollback only the demo change after reviewing the exact paths:\par
+\pard\sa70\par
+\pard\sa80\par
+\pard\li360\sa20\f1\fs18 git diff -- app.js api/src/interviewCases.js api/test/interviewAssistant.test.js\par
+\pard\li360\sa20\f1\fs18 git restore -- app.js api/src/interviewCases.js api/test/interviewAssistant.test.js\par
+\pard\sa80\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 Do not run that rollback if those files contain other uncommitted work. The safer interview setup is a clean temporary branch created specifically for the live change.\par
+\pard\sa70\par
+\pard\sb180\sa100\b\f0\fs27 How to command the room\b0\par
+\pard\sa70\par
+\pard\li540\fi-240\sa55\f0\fs21 \u8226?\tab Lead every technical detail with its business purpose: \u8220?To reduce manual review, I run rules first.\u8221?\par
+\pard\li540\fi-240\sa55\f0\fs21 \u8226?\tab Use precise status words: \u8220?implemented,\u8221? \u8220?configured,\u8221? \u8220?simulated,\u8221? and \u8220?proposed\u8221? are different.\par
+\pard\li540\fi-240\sa55\f0\fs21 \u8226?\tab Never apologize for a fixture. Say: \u8220?I designed a deterministic fallback so the demonstration is reliable, and I label it so there is no ambiguity.\u8221?\par
+\pard\li540\fi-240\sa55\f0\fs21 \u8226?\tab After showing code, translate it: \u8220?That allowlist means the browser cannot send arbitrary employee or applicant records.\u8221?\par
+\pard\li540\fi-240\sa55\f0\fs21 \u8226?\tab If interrupted, answer in this order: direct answer, evidence, tradeoff, next step.\par
+\pard\li540\fi-240\sa55\f0\fs21 \u8226?\tab If something fails, keep control: identify the mode badge, use the browser-guided fallback, run the unit test, and explain the failure boundary.\par
+\pard\li540\fi-240\sa55\f0\fs21 \u8226?\tab End answers cleanly. Do not fill silence after you have proven the point.\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 Final close:\par
+\pard\sa70\par
+\pard\sa80\sl276\slmult1\f0\fs21 \u8220?This demonstrates how I coach teams to use AI responsibly: make the business outcome explicit, constrain the model with software, prove the controls with tests, keep the human accountable, and be honest about what remains before production.\u8221?\par
+\pard\sa70\par
+}

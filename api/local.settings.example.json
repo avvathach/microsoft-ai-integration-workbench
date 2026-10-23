@@ -2,6 +2,7 @@
   "IsEncrypted": false,
   "Values": {
     "FUNCTIONS_WORKER_RUNTIME": "node",
+    "NODE_ENV": "development",
     "RAFTER_API_BASE_URL": "https://api.example-rafter.invalid",
     "RAFTER_API_KEY": "",
     "RAFTER_SITE_ID": "",
@@ -9,6 +10,9 @@
     "ENTRA_TENANT_ID": "",
     "ENTRA_API_AUDIENCE": "",
     "SECURITY_ASSURANCE_ADMIN_ROLE": "SecurityAssurance.Admin",
+    "OPENAI_API_BASE_URL": "https://api.openai.com/v1",
+    "OPENAI_API_KEY": "",
+    "OPENAI_MODEL": "",
     "APPLICATIONINSIGHTS_CONNECTION_STRING": ""
   }
 }

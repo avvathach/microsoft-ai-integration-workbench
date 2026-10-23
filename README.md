@@ -14,6 +14,7 @@ The included SIS Data Reconciliation scenario is illustrative. It does not asser
 - A browser-local audit trail with reviewer, rationale, timestamp, and CSV export.
 - An optional live Microsoft 365 connector using Entra delegated sign-in and Microsoft Graph read-only access to the signed-in profile and OneDrive metadata.
 - A Security Assurance module with a public sanitized scan summary and an administrator-only scan workflow backed by a server-side Azure Function proxy.
+- An interview-mode governed AI vertical slice using allowlisted synthetic cases, deterministic comparison, bounded read-only tools, structured output validation, human rationale, and a browser-local audit record.
 - A clear control boundary: the system of record remains authoritative and AI never independently changes institutional records.
 
 ## Run locally
@@ -23,10 +24,23 @@ The project has no runtime dependencies.
 ```bash
 npm run check
 npm run build
-python3 -m http.server 5173
+npm run start:demo
 ```
 
 Open `http://localhost:5173`.
+
+The interview-mode frontend remains demonstrable when the API is unavailable, but it labels that state as **Browser guided fixture**. With the Azure Function running, it reports either **Server guided fixture** or **Live model + tools**. It never presents fixture output as a model response.
+
+For the strongest local interview walkthrough, serve the generated frontend and the same API handlers together on one port:
+
+```bash
+cd /root/HR
+cp -n api/local.settings.example.json api/local.settings.json
+npm run build
+npm run start:demo
+```
+
+Keep `OPENAI_API_KEY` and `OPENAI_MODEL` empty for the reliable server-guided path, or configure them only in the ignored `api/local.settings.json` for the live model path. The unified demo serves both the frontend and `/api` from `localhost:5173`, so it also works through a single VS Code forwarded port. `npm start --prefix api` remains the Azure Functions Core Tools entry point.
 
 ## Project structure
 
@@ -69,7 +83,44 @@ Run the server-side tests with:
 npm run test:security
 ```
 
+For an optional Python black-box contract demonstration while the local API is running:
+
+```bash
+python3 scripts/demo_interview_api.py
+```
+
+See [`INTERVIEW_PREP.md`](INTERVIEW_PREP.md) for the timed walkthrough, 30 evidence-based questions, command sequence, gap matrix, and live-change rehearsal.
+
 The current production deployment is static Hetzner/Caddy hosting. The frontend module can deploy there, but the API requires a separately deployed Azure Function and Key Vault configuration before live Rafter status is available.
+
+## Governed AI interview demo
+
+The public `#interview-demo` route demonstrates one bounded end-to-end slice with synthetic evidence only:
+
+1. The browser submits an allowlisted case ID, never an arbitrary record or prompt.
+2. The API runs deterministic field comparison before AI assistance.
+3. A configured model may select from three read-only function tools: synthetic evidence, deterministic comparison, and governance policy.
+4. Policy-required checks run even if the model does not select them.
+5. The final recommendation must match a strict JSON schema and cite only allowlisted evidence identifiers.
+6. The assistant has no write tool, and `humanReviewRequired` must remain `true`.
+7. A reviewer must enter a rationale before recording accept, reject, or escalate in the browser-local demo audit.
+
+The model path uses the OpenAI Responses API only when both `OPENAI_API_KEY` and `OPENAI_MODEL` are configured server-side. Without them, the API returns a clearly labeled deterministic fixture so the presentation remains reliable. Required settings are:
+
+```text
+OPENAI_API_BASE_URL
+OPENAI_API_KEY
+OPENAI_MODEL
+```
+
+Keep the API key in the Function runtime as a Key Vault reference. Never place it in `app.js`, static artifacts, browser storage, logs, or GitHub frontend build settings.
+
+Interview API routes:
+
+- `GET /api/interview/status`: returns the active execution mode, public case descriptions, available read-only tools, and decision boundary.
+- `POST /api/interview/analyze`: accepts only `{ "caseId": "<allowlisted synthetic ID>" }` and returns the rule summary, tool trace, structured recommendation, mode, timing, and request ID.
+
+The same-origin Caddy proxy routes `/api/*` to the Azure Function. This keeps the Security Assurance CSRF cookie on the public HR1 origin and removes model/API hostnames from browser code.
 
 ## Data and technology notes
 

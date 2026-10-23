@@ -126,4 +126,6 @@ test("production client artifacts contain no Rafter credential material", () => 
   assert.equal(clientText.includes("server-only-test-key"), false);
   assert.equal(clientText.includes("Authorization: Bearer server-only-test-key"), false);
   assert.equal(clientText.includes("/api/static/sites/scan"), false);
+  assert.equal(clientText.includes("OPENAI_API_KEY"), false);
+  assert.equal(clientText.includes("/v1/responses"), false);
 });
